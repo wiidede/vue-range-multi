@@ -9,7 +9,9 @@ export default defineConfig({
       include: [/\.vue$/],
     }),
 
-    Unocss(),
+    Unocss({
+      mode: 'vue-scoped',
+    }),
   ],
   build: {
     lib: {
