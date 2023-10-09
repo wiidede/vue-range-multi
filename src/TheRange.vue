@@ -2,6 +2,7 @@
 import { computed, provide, ref, watch } from 'vue'
 import { theRangeContainerRefKey, theRangeTrackRefKey } from './TheRange'
 import type { TheRangeData, TheRangeRenderFn } from './type'
+import TheRangeThumb from './TheRangeThumb.vue'
 
 type TheRangeDataKey = TheRangeData<any>['key']
 

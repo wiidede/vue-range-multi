@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { inject, nextTick, ref } from 'vue'
 import { theRangeContainerRefKey, theRangeTrackRefKey } from './TheRange'
+import TheRender from './TheRender.vue'
 import type { TheRangeData, TheRangeRenderFn } from './type'
 
 const props = defineProps<{
