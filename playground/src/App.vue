@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { Range } from 'vue-range-multi'
 import { ref } from 'vue'
+import { Range } from '../../src'
 
 const model = ref<any[]>([])
 </script>
