@@ -2,6 +2,7 @@ import { resolve } from 'node:path'
 import { defineConfig } from 'vite'
 import Vue from '@vitejs/plugin-vue'
 import Unocss from 'unocss/vite'
+import dts from 'vite-plugin-dts'
 
 export default defineConfig({
   plugins: [
@@ -11,6 +12,10 @@ export default defineConfig({
 
     Unocss({
       mode: 'vue-scoped',
+    }),
+
+    dts({
+      rollupTypes: true,
     }),
   ],
   build: {
