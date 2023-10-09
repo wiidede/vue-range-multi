@@ -38,7 +38,7 @@
   ],
   "scripts": {
     "build": "vite build",
-    "dev": "vite",
+    "dev": "vite playground",
     "lint": "eslint .",
     "prepublishOnly": "nr build",
     "release": "bumpp && npm publish",
