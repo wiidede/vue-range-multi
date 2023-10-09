@@ -2,7 +2,7 @@
   "name": "vue-range-multi",
   "type": "module",
   "version": "0.0.0",
-  "packageManager": "pnpm@8.8.0",
+  "packageManager": "pnpm@8.9.0",
   "description": "A range vue component that support one or more thumb",
   "author": "wiidede <wiixdede@gmail.com>",
   "license": "MIT",
@@ -51,7 +51,7 @@
     "vue": "^3.0.0"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^1.0.0-beta.22",
+    "@antfu/eslint-config": "^1.0.0-beta.24",
     "@antfu/ni": "^0.21.8",
     "@antfu/utils": "^0.7.6",
     "@types/node": "^20.8.3",
@@ -60,7 +60,7 @@
     "eslint": "^8.51.0",
     "esno": "^0.17.0",
     "lint-staged": "^14.0.1",
-    "pnpm": "^8.8.0",
+    "pnpm": "^8.9.0",
     "rimraf": "^5.0.5",
     "simple-git-hooks": "^2.9.0",
     "typescript": "^5.2.2",
