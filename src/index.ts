@@ -1,2 +1,6 @@
-export const one = 1
-export const two = 2
+import Range from './TheRange.vue'
+import 'uno.css'
+
+export {
+  Range,
+}

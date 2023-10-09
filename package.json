@@ -18,12 +18,12 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.mjs",
-      "require": "./dist/index.cjs"
+      "import": "./dist/index.js",
+      "require": "./dist/index.umd.cjs"
     }
   },
-  "main": "./dist/index.mjs",
-  "module": "./dist/index.mjs",
+  "main": "./dist/index.umd.cjs",
+  "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "typesVersions": {
     "*": {
@@ -37,8 +37,8 @@
     "dist"
   ],
   "scripts": {
-    "build": "unbuild",
-    "dev": "unbuild --stub",
+    "build": "vite build",
+    "dev": "vite",
     "lint": "eslint .",
     "prepublishOnly": "nr build",
     "release": "bumpp && npm publish",
@@ -55,6 +55,7 @@
     "@antfu/ni": "^0.21.8",
     "@antfu/utils": "^0.7.6",
     "@types/node": "^20.8.3",
+    "@vitejs/plugin-vue": "^4.4.0",
     "bumpp": "^9.2.0",
     "eslint": "^8.51.0",
     "esno": "^0.17.0",
@@ -63,7 +64,7 @@
     "rimraf": "^5.0.5",
     "simple-git-hooks": "^2.9.0",
     "typescript": "^5.2.2",
-    "unbuild": "^2.0.0",
+    "unocss": "^0.56.5",
     "vite": "^4.4.11",
     "vitest": "^0.34.6"
   },
