@@ -1,10 +1,9 @@
 <script lang="ts" setup>
 import { computed, provide, ref, watch } from 'vue'
 import { RangeContainerRefKey, RangeTrackRefKey } from './Range'
-import type { RangeData, RangeRenderFn, RangeValue } from './type'
 import RangeThumb from './RangeThumb.vue'
-
-type RangeValueKey = RangeData['key']
+import type { RangeData, RangeRenderFn, RangeValue } from './type'
+import { percentage2value, swap, value2percentage } from './utils'
 
 const props = withDefaults(defineProps<{
   modelValue: RangeValue
@@ -41,17 +40,10 @@ const modelType = computed<'single' | 'numbers' | 'data'>(() => {
 const model = computed<RangeData[]>({
   get: () => {
     const value = props.modelValue
-    if (Array.isArray(value)) {
-      return value.map((item, idx) => {
-        if (typeof item === 'number')
-          return { key: idx, value: item }
-        else
-          return item
-      })
-    }
-    else {
+    if (Array.isArray(value))
+      return value.map(item => typeof item === 'number' ? { value: item } : item)
+    else
       return [{ key: 0, value }]
-    }
   },
   set: (value) => {
     if (modelType.value === 'single')
@@ -63,95 +55,67 @@ const model = computed<RangeData[]>({
   },
 })
 
-const modelMap = new Map<RangeValueKey, RangeData>()
-watch(model, (value) => {
-  value.forEach((item) => {
-    if (!modelMap.has(item.key))
-      modelMap.set(item.key, item)
-  })
-  const keys = Array.from(value.map(item => item.key))
-  modelMap.forEach((item, key) => {
-    if (!keys.includes(key))
-      modelMap.delete(key)
-  })
+const indexMap = ref<number[]>([])
+watch(model, (val) => {
+  if (val.length > indexMap.value.length) {
+    for (let i = indexMap.value.length; i < val.length; i++)
+      indexMap.value.push(i)
+  }
+  else if (val.length < indexMap.value.length) {
+    for (let i = indexMap.value.length - 1; i >= val.length; i--) {
+      const index = indexMap.value.indexOf(i)
+      index > -1 && indexMap.value.splice(index, 1)
+    }
+  }
 }, {
   immediate: true,
-  deep: true,
 })
 
 const trackRef = ref<HTMLElement>()
 const containerRef = ref<HTMLElement>()
 
 function getValue(percentage: number) {
-  const min = props.min
-  const max = props.max
-  const step = props.step
-  if (min === undefined || max === undefined || step === undefined)
-    return 0
-  if (percentage < 0)
-    return min
-  if (percentage > 100)
-    return max
-  const value = min + (max - min) * percentage / 100
-  return Math.round(value / step) * step
+  return percentage2value(percentage, props.min, props.max, props.step)
 }
 function getPercentage(value: number) {
-  const min = props.min
-  const max = props.max
-  const step = props.step / (max - min)
-  if (min === undefined || max === undefined || step === undefined)
-    return 0
-  if (value < min)
-    return 0
-  if (value > max)
-    return 100
-  const percentage = (value - min) / (max - min) * 100
-  return Math.round(percentage / step) * step
+  return value2percentage(value, props.min, props.max, props.step)
 }
 
-const position = computed(() => {
-  return model.value.reduce((map, item) => {
-    map.set(item.key, getPercentage(item.value))
-    return map
-  }, new Map<RangeValueKey, number>())
-})
+const position = computed(() => indexMap.value.map(idx => getPercentage(model.value[idx].value)))
 
-const current = ref<RangeValueKey>()
+const current = ref<number>(-1)
 function onUpdate(percentage: number) {
   const value = getValue(percentage)
-  let index = model.value.findIndex(item => item.key === current.value)
+  const modelValue = model.value
+  let index = indexMap.value.indexOf(current.value)
   if (index === -1)
     return
   if (index > 0) {
-    const prev = model.value[index - 1].value
+    const prev = modelValue[index - 1].value
     if (value === prev)
       return
     if (value < prev) {
-      [model.value[index], model.value[index - 1]] = [model.value[index - 1], model.value[index]]
-      current.value = model.value[index - 1].key
+      swap(modelValue, index, index - 1)
+      swap(indexMap.value, index, index - 1)
       index -= 1
     }
   }
-  if (index < model.value.length - 1) {
-    const next = model.value[index + 1].value
+  if (index < modelValue.length - 1) {
+    const next = modelValue[index + 1].value
     if (value === next)
       return
     if (value > next) {
-      [model.value[index], model.value[index + 1]] = [model.value[index + 1], model.value[index]]
-      current.value = model.value[index + 1].key
+      swap(modelValue, index, index + 1)
+      swap(indexMap.value, index, index + 1)
       index += 1
     }
   }
-  const modelValue = model.value
   modelValue[index].value = value
   model.value = modelValue
 }
 
 function onDelete() {
-  const index = model.value.findIndex(item => item.key === current.value)
-  if (index === -1)
-    return
-  model.value.splice(index, 1)
+  indexMap.value.splice(current.value, 1)
 }
 
 let allowAdd = false
@@ -188,18 +152,18 @@ provide(RangeContainerRefKey, containerRef)
         <div class="h-full bg-slate-4 rd-4" :style="{ width: `${progress || 0}%` }" />
       </div>
       <RangeThumb
-        v-for="thumb in modelMap.values()"
-        :key="thumb.key"
-        :position="position.get(thumb.key) || 0"
-        :active="current === thumb.key"
-        :disabled="thumb.disabled"
-        :data="thumb"
-        :render-top="thumb.renderTop || renderTop"
-        :render-bottom="thumb.renderBottom || renderBottom"
-        @move-done="current = undefined"
+        v-for="index, idx in indexMap"
+        :key="idx"
+        :position="position[idx] || 0"
+        :active="current === idx"
+        :disabled="model[index].disabled"
+        :data="model[index]"
+        :render-top="model[index].renderTop || renderTop"
+        :render-bottom="model[index].renderBottom || renderBottom"
+        @move-done="current = -1"
         @update="onUpdate"
         @delete="onDelete"
-        @pointerdown="!thumb.disabled && (current = thumb.key)"
+        @pointerdown="!model[index].disabled && (current = idx)"
       />
     </div>
   </div>
