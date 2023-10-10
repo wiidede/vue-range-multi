@@ -8,8 +8,10 @@
 
 A range vue component that support one or more thumb
 
-> **Note**:
-> Replace `vue-range-multi`, `A range vue component that support one or more thumb` and `wiidede` globally to use this template.
+## TODO
+
+- [ ] Type(number / number[] / data[])
+- [ ] style convenience(track height/thumb style)
 
 ## License
 
