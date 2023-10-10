@@ -75,7 +75,7 @@ function onPointerDown(e: PointerEvent) {
 <template>
   <div
     ref="thumbRef"
-    class="the-range-thumb absolute w3 bg-white rd-full cursor-move"
+    class="the-range-thumb absolute w3 bg-white rd-full cursor-move border border-blue"
     :class="{ 'z-1 thumb-active': active, 'op-20': deleting && active, 'cursor-not-allowed': disabled }"
     :style="{ left: `${position}%` }"
     @pointerdown="onPointerDown"
@@ -95,17 +95,18 @@ function onPointerDown(e: PointerEvent) {
 .the-range-thumb {
   transform: translateX(-50%);
   transform-origin: center;
-  border-color: rgb(var(--primary-5));
+  border-color: var(--c-primary);
   border-width: 0.1rem;
+  border-style: solid;
   top: -0.3rem;
   bottom: -0.3rem;
   transition: opacity 150ms ease-in-out, filter 150ms ease-in-out;
 }
 
 .thumb-active {
-  border-color: rgb(var(--primary-5));
-  background: rgb(var(--primary-2));
-  filter: drop-shadow(0.1rem 0.15rem 0.25rem rgb(var(--primary-5)));
+  border-color: var(--c-primary);
+  background: var(--c-primary);
+  filter: drop-shadow(0.1rem 0.15rem 0.25rem --c-primary);
 }
 
 .the-range-thumb-top  {

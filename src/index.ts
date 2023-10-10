@@ -1,5 +1,2 @@
-import Range from './TheRange.vue'
-
-export {
-  Range,
-}
+export { default as Range } from './TheRange.vue'
+export * from './type'

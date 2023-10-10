@@ -151,14 +151,14 @@ provide(theRangeContainerRefKey, containerRef)
   <div ref="containerRef" class="the-range-container min-h-1 h8 box-content">
     <div
       ref="trackRef"
-      class="the-range-track relative h-full bg-uno-3 select-none cursor-copy rd-4"
+      class="the-range-track relative h-full bg-slate-3 select-none cursor-copy rd-4"
       :class="{ '!cursor-initial': model.length >= maxThumb }"
       @pointerdown="allowAdd = true"
       @pointerleave="allowAdd = false"
       @pointerup.prevent="addThumb"
     >
       <div class="h-full w-full rd-4 overflow-hidden">
-        <div class="h-full bg-uno-4 rd-4" :style="{ width: `${progress || 0}%` }" />
+        <div class="h-full bg-slate-4 rd-4" :style="{ width: `${progress || 0}%` }" />
       </div>
       <TheRangeThumb
         v-for="thumb in modelMap.values()"
@@ -179,4 +179,7 @@ provide(theRangeContainerRefKey, containerRef)
 </template>
 
 <style scoped>
+.the-range-container {
+  --c-primary: #007aff;
+}
 </style>
