@@ -1,16 +1,16 @@
 <script lang="ts" setup>
 import { computed, provide, ref, watch } from 'vue'
-import { theRangeContainerRefKey, theRangeTrackRefKey } from './TheRange'
-import type { TheRangeData, TheRangeRenderFn } from './type'
-import TheRangeThumb from './TheRangeThumb.vue'
+import { RangeContainerRefKey, RangeTrackRefKey } from './Range'
+import type { RangeData, RangeRenderFn, RangeValue } from './type'
+import RangeThumb from './RangeThumb.vue'
 
-type TheRangeDataKey = TheRangeData<any>['key']
+type RangeValueKey = RangeData['key']
 
 const props = withDefaults(defineProps<{
-  modelValue: TheRangeData<any>[]
+  modelValue: RangeValue<any>
   progress?: number
-  renderTop?: TheRangeRenderFn<any>
-  renderBottom?: TheRangeRenderFn<any>
+  renderTop?: RangeRenderFn<any>
+  renderBottom?: RangeRenderFn<any>
   min?: number
   max?: number
   step?: number
@@ -29,16 +29,35 @@ const emits = defineEmits<{
   (e: 'addThumb', value: number): void
 }>()
 
-const model = computed({
+const model = computed<RangeData[]>({
   get: () => {
-    return props.modelValue
+    const value = props.modelValue
+    if (Array.isArray(value)) {
+      return value.map((item, idx) => {
+        if (typeof item === 'number') {
+          return {
+            key: idx,
+            value: item,
+          }
+        }
+        else {
+          return item
+        }
+      })
+    }
+    else {
+      return [{
+        key: 0,
+        value,
+      }]
+    }
   },
   set: (value) => {
     emits('update:modelValue', value)
   },
 })
 
-const modelMap = new Map<TheRangeDataKey, TheRangeData<any>>()
+const modelMap = new Map<RangeValueKey, RangeValue<any>>()
 watch(model, (value) => {
   value.forEach((item) => {
     if (!modelMap.has(item.key))
@@ -88,10 +107,10 @@ const position = computed(() => {
   return model.value.reduce((map, item) => {
     map.set(item.key, getPercentage(item.value))
     return map
-  }, new Map<TheRangeDataKey, number>())
+  }, new Map<RangeValueKey, number>())
 })
 
-const current = ref<TheRangeDataKey>()
+const current = ref<RangeValueKey>()
 function onUpdate(percentage: number) {
   const value = getValue(percentage)
   let index = model.value.findIndex(item => item.key === current.value)
@@ -143,8 +162,8 @@ function addThumb(e: MouseEvent) {
   emits('addThumb', value)
 }
 
-provide(theRangeTrackRefKey, trackRef)
-provide(theRangeContainerRefKey, containerRef)
+provide(RangeTrackRefKey, trackRef)
+provide(RangeContainerRefKey, containerRef)
 </script>
 
 <template>
@@ -160,7 +179,7 @@ provide(theRangeContainerRefKey, containerRef)
       <div class="h-full w-full rd-4 overflow-hidden">
         <div class="h-full bg-slate-4 rd-4" :style="{ width: `${progress || 0}%` }" />
       </div>
-      <TheRangeThumb
+      <RangeThumb
         v-for="thumb in modelMap.values()"
         :key="thumb.key"
         :position="position.get(thumb.key) || 0"

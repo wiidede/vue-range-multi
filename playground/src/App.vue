@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { Range } from '../../src'
-import type { TheRangeData } from '../../src'
+import type { RangeValue } from '../../src'
 
-const model = ref<TheRangeData[]>([])
+const model = ref<RangeValue[]>([])
 
 function handleAddThumb(value: number) {
   model.value.push({

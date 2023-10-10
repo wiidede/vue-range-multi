@@ -1,16 +1,16 @@
 <script lang="ts" setup>
 import { inject, nextTick, ref } from 'vue'
-import { theRangeContainerRefKey, theRangeTrackRefKey } from './TheRange'
-import TheRender from './TheRender.vue'
-import type { TheRangeData, TheRangeRenderFn } from './type'
+import { RangeContainerRefKey, RangeTrackRefKey } from './Range'
+import Render from './Render.vue'
+import type { RangeRenderFn, RangeValue } from './type'
 
 const props = defineProps<{
   position: number
-  data: TheRangeData<unknown>
+  data: RangeValue<unknown>
   active?: boolean
   disabled?: boolean
-  renderTop?: TheRangeRenderFn<unknown>
-  renderBottom?: TheRangeRenderFn<unknown>
+  renderTop?: RangeRenderFn<unknown>
+  renderBottom?: RangeRenderFn<unknown>
 }>()
 
 const emits = defineEmits<{
@@ -22,8 +22,8 @@ const emits = defineEmits<{
 }>()
 
 const thumbRef = ref<HTMLElement>()
-const trackRef = inject(theRangeTrackRefKey)
-const containerRef = inject(theRangeContainerRefKey)
+const trackRef = inject(RangeTrackRefKey)
+const containerRef = inject(RangeContainerRefKey)
 
 const deleting = ref(false)
 
@@ -83,10 +83,10 @@ function onPointerDown(e: PointerEvent) {
     @touchstart.prevent="() => {}"
   >
     <div class="the-range-thumb-top absolute">
-      <TheRender :render="() => renderTop?.(data)" />
+      <Render :render="() => renderTop?.(data)" />
     </div>
     <div class="the-range-thumb-bottom absolute">
-      <TheRender :render="() => renderBottom?.(data)" />
+      <Render :render="() => renderBottom?.(data)" />
     </div>
   </div>
 </template>
