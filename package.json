@@ -44,7 +44,7 @@
     "release": "bumpp && npm publish",
     "start": "esno src/index.ts",
     "test": "vitest",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "vue-tsc --noEmit",
     "prepare": "simple-git-hooks"
   },
   "peerDependencies": {
@@ -67,7 +67,8 @@
     "unocss": "^0.56.5",
     "vite": "^4.4.11",
     "vite-plugin-dts": "^3.6.0",
-    "vitest": "^0.34.6"
+    "vitest": "^0.34.6",
+    "vue-tsc": "^1.8.18"
   },
   "simple-git-hooks": {
     "pre-commit": "pnpm lint-staged"

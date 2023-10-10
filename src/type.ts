@@ -1,6 +1,6 @@
 import type { VNode } from 'vue'
 
-export type RangeRenderFn<T = unknown> = (data: RangeValue<T>) => VNode
+export type RangeRenderFn<T = unknown> = (data: RangeData<T>) => VNode
 export interface RangeData<T = unknown> {
   key: string | number | symbol
   value: number

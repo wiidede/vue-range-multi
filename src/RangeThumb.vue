@@ -2,15 +2,15 @@
 import { inject, nextTick, ref } from 'vue'
 import { RangeContainerRefKey, RangeTrackRefKey } from './Range'
 import Render from './Render.vue'
-import type { RangeRenderFn, RangeValue } from './type'
+import type { RangeData, RangeRenderFn } from './type'
 
 const props = defineProps<{
   position: number
-  data: RangeValue<unknown>
+  data: RangeData
   active?: boolean
   disabled?: boolean
-  renderTop?: RangeRenderFn<unknown>
-  renderBottom?: RangeRenderFn<unknown>
+  renderTop?: RangeRenderFn
+  renderBottom?: RangeRenderFn
 }>()
 
 const emits = defineEmits<{
@@ -80,7 +80,7 @@ function onPointerDown(e: PointerEvent) {
     :style="{ left: `${position}%` }"
     @pointerdown="onPointerDown"
     @mousedown.prevent="() => {}"
-    @touchstart.prevent="() => {}"
+    @touchstart.prevent.passive="() => {}"
   >
     <div class="the-range-thumb-top absolute">
       <Render :render="() => renderTop?.(data)" />

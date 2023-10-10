@@ -63,6 +63,9 @@ importers:
       vitest:
         specifier: ^0.34.6
         version: 0.34.6
+      vue-tsc:
+        specifier: ^1.8.18
+        version: 1.8.18(typescript@5.2.2)
 
   playground:
     dependencies:

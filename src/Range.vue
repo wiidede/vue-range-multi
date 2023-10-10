@@ -7,10 +7,10 @@ import RangeThumb from './RangeThumb.vue'
 type RangeValueKey = RangeData['key']
 
 const props = withDefaults(defineProps<{
-  modelValue: RangeValue<any>
+  modelValue: RangeValue
   progress?: number
-  renderTop?: RangeRenderFn<any>
-  renderBottom?: RangeRenderFn<any>
+  renderTop?: RangeRenderFn
+  renderBottom?: RangeRenderFn
   min?: number
   max?: number
   step?: number
@@ -29,35 +29,41 @@ const emits = defineEmits<{
   (e: 'addThumb', value: number): void
 }>()
 
+const modelType = computed<'single' | 'numbers' | 'data'>(() => {
+  const value = props.modelValue
+  if (Array.isArray(value) && typeof value[0] === 'number')
+    return 'numbers'
+  else if (Array.isArray(value))
+    return 'data'
+  else
+    return 'single'
+})
 const model = computed<RangeData[]>({
   get: () => {
     const value = props.modelValue
     if (Array.isArray(value)) {
       return value.map((item, idx) => {
-        if (typeof item === 'number') {
-          return {
-            key: idx,
-            value: item,
-          }
-        }
-        else {
+        if (typeof item === 'number')
+          return { key: idx, value: item }
+        else
           return item
-        }
       })
     }
     else {
-      return [{
-        key: 0,
-        value,
-      }]
+      return [{ key: 0, value }]
     }
   },
   set: (value) => {
-    emits('update:modelValue', value)
+    if (modelType.value === 'single')
+      emits('update:modelValue', value[0]?.value)
+    else if (modelType.value === 'numbers')
+      emits('update:modelValue', value.map(item => item.value))
+    else
+      emits('update:modelValue', value)
   },
 })
 
-const modelMap = new Map<RangeValueKey, RangeValue<any>>()
+const modelMap = new Map<RangeValueKey, RangeData>()
 watch(model, (value) => {
   value.forEach((item) => {
     if (!modelMap.has(item.key))
@@ -136,7 +142,9 @@ function onUpdate(percentage: number) {
       index += 1
     }
   }
-  model.value[index].value = value
+  const modelValue = model.value
+  modelValue[index].value = value
+  model.value = modelValue
 }
 
 function onDelete() {
@@ -189,8 +197,8 @@ provide(RangeContainerRefKey, containerRef)
         :render-top="thumb.renderTop || renderTop"
         :render-bottom="thumb.renderBottom || renderBottom"
         @move-done="current = undefined"
-        @update="onUpdate($event)"
-        @delete="onDelete()"
+        @update="onUpdate"
+        @delete="onDelete"
         @pointerdown="!thumb.disabled && (current = thumb.key)"
       />
     </div>
