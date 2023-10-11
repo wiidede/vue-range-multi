@@ -116,27 +116,28 @@ function onUpdate(percentage: number) {
   const value = getValue(percentage)
   const modelValue = model.value
   const values = modelValue.map(i => i.value)
-  let index = indexMap.value[current.value]
-  if (index === -1)
+  if (props.deduplicate && values.includes(value))
     return
-  if (index > 0) {
-    const prev = values[index - 1]
-    if (props.deduplicate && values.includes(value))
-      return
-    if (value < prev) {
-      swap(modelValue, index, index - 1)
-      swap(indexMap.value, indexMap.value.indexOf(index), indexMap.value.indexOf(index - 1))
-      index -= 1
+  let index = indexMap.value[current.value]
+  const oldValue = values[index]
+  if (oldValue - value > 0 && index > 0) {
+    for (let i = index; i > 0; i--) {
+      const prev = values[i - 1]
+      if (value < prev) {
+        swap(modelValue, i, i - 1)
+        swap(indexMap.value, indexMap.value.indexOf(i), indexMap.value.indexOf(i - 1))
+        index -= 1
+      }
     }
   }
-  if (index < modelValue.length - 1) {
-    const next = values[index + 1]
-    if (props.deduplicate && values.includes(value))
-      return
-    if (value > next) {
-      swap(modelValue, index, index + 1)
-      swap(indexMap.value, indexMap.value.indexOf(index), indexMap.value.indexOf(index + 1))
-      index += 1
+  if (oldValue - value < 0 && index < modelValue.length - 1) {
+    for (let i = index; i < modelValue.length - 1; i++) {
+      const next = values[i + 1]
+      if (value > next) {
+        swap(modelValue, i, i + 1)
+        swap(indexMap.value, indexMap.value.indexOf(i), indexMap.value.indexOf(i + 1))
+        index += 1
+      }
     }
   }
   modelValue[index].value = value
@@ -174,7 +175,6 @@ provide(RangeContainerRefKey, containerRef)
 
 <template>
   <div ref="containerRef" class="the-range-container min-h-1 h8 box-content">
-    {{ position }} | {{ indexMap }} | {{ current }}
     <div
       ref="trackRef"
       class="the-range-track relative h-full bg-slate-3 select-none rd-4"
