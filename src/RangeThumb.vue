@@ -1,4 +1,4 @@
-<script lang="ts" setup>
+<script lang="ts" setup generic="T">
 import { inject, nextTick, ref } from 'vue'
 import { RangeContainerRefKey, RangeTrackRefKey } from './Range'
 import Render from './Render.vue'
@@ -6,11 +6,11 @@ import type { RangeData, RangeRenderFn } from './type'
 
 const props = defineProps<{
   position: number
-  data: RangeData
+  data: RangeData<T>
   active?: boolean
   disabled?: boolean
-  renderTop?: RangeRenderFn
-  renderBottom?: RangeRenderFn
+  renderTop?: RangeRenderFn<T>
+  renderBottom?: RangeRenderFn<T>
 }>()
 
 const emits = defineEmits<{

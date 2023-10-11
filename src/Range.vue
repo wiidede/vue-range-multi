@@ -1,4 +1,4 @@
-<script lang="ts" setup>
+<script lang="ts" setup generic="T">
 import { computed, nextTick, provide, ref, watch } from 'vue'
 import { RangeContainerRefKey, RangeTrackRefKey } from './Range'
 import RangeThumb from './RangeThumb.vue'
@@ -6,7 +6,7 @@ import type { RangeData, RangeRenderFn, RangeValue } from './type'
 import { percentage2value, swap, value2percentage } from './utils'
 
 const props = withDefaults(defineProps<{
-  modelValue: RangeValue
+  modelValue: RangeValue<T>
   min?: number
   max?: number
   step?: number
@@ -15,8 +15,8 @@ const props = withDefaults(defineProps<{
   smooth?: boolean
   deduplicate?: boolean
   rangeHighlight?: boolean
-  renderTop?: RangeRenderFn
-  renderBottom?: RangeRenderFn
+  renderTop?: RangeRenderFn<T>
+  renderBottom?: RangeRenderFn<T>
 }>(), {
   modelValue: () => [],
   min: 0,
@@ -39,7 +39,7 @@ const modelType = computed<'single' | 'numbers' | 'data'>(() => {
   else
     return 'single'
 })
-const model = computed<RangeData[]>({
+const model = computed<RangeData<T>[]>({
   get: () => {
     const value = props.modelValue
     if (Array.isArray(value))
@@ -64,7 +64,7 @@ const allowAdd = computed(() =>
 )
 
 const indexMap = ref<number[]>([])
-function sort(val: RangeData[]) {
+function sort(val: RangeData<T>[]) {
   let changed = false
   for (let i = val.length; i > 0; i--) {
     for (let j = 0; j < i - 1; j++) {

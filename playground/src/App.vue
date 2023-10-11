@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { h, ref } from 'vue'
 import { Range } from '../../src'
 import type { RangeData } from '../../src'
 
@@ -12,9 +12,14 @@ function handleAddThumbNumbers(value: number) {
   modelNumbersAdd.value.push(value)
 }
 
-const modelData = ref<RangeData<string>[]>([])
+const modelData = ref<RangeData<string>[]>([
+  { data: '00:00', value: 10 },
+  { data: '59:59', value: 90 },
+])
 function handleAddThumbData(value: number) {
+  const date = new Date()
   modelData.value.push({
+    data: `${date.getMinutes()}:${date.getSeconds()}`,
     value,
   })
 }
@@ -46,6 +51,7 @@ function handleAddThumbData(value: number) {
     class="w-full pt16 pb8"
     add
     smooth
+    :render-top="(data) => h('div', data.value)"
     @add-thumb="handleAddThumbNumbers"
   />
   <h2>RangeData[]</h2>
@@ -57,6 +63,8 @@ function handleAddThumbData(value: number) {
     class="w-full pt16 pb8"
     add
     :limit="5"
+    :render-top="(data) => h('div', data.data)"
+    :render-bottom="(data) => h('div', data.value)"
     @add-thumb="handleAddThumbData"
   />
 </template>
