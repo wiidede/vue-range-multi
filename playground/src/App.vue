@@ -13,7 +13,6 @@ function handleAddThumbNumbers(value: number) {
 const modelData = ref<RangeData[]>([])
 function handleAddThumbData(value: number) {
   modelData.value.push({
-    key: Date.now(),
     value,
   })
 }
@@ -32,7 +31,8 @@ function handleAddThumbData(value: number) {
   <Range
     v-model="modelNumbers"
     class="w-full pt16 pb8"
-    :max-thumb="6"
+    add
+    smooth
     @add-thumb="handleAddThumbNumbers"
   />
   <h2>RangeData[]</h2>
@@ -40,7 +40,8 @@ function handleAddThumbData(value: number) {
   <Range
     v-model="modelData"
     class="w-full pt16 pb8"
-    :max-thumb="6"
+    add
+    :limit="5"
     @add-thumb="handleAddThumbData"
   />
 </template>

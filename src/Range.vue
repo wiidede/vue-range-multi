@@ -7,18 +7,21 @@ import { percentage2value, swap, value2percentage } from './utils'
 
 const props = withDefaults(defineProps<{
   modelValue: RangeValue
-  renderTop?: RangeRenderFn
-  renderBottom?: RangeRenderFn
   min?: number
   max?: number
   step?: number
-  maxThumb?: number
+  add?: boolean
+  limit?: number
+  smooth?: boolean
+  deduplicate?: boolean
+  renderTop?: RangeRenderFn
+  renderBottom?: RangeRenderFn
 }>(), {
   modelValue: () => [],
   min: 0,
   max: 100,
   step: 1,
-  maxThumb: 10,
+  deduplicate: true,
 })
 
 const emits = defineEmits<{
@@ -52,6 +55,8 @@ const model = computed<RangeData[]>({
       emits('update:modelValue', value)
   },
 })
+
+const allowAdd = computed(() => props.add && (!props.limit || model.value.length < props.limit))
 
 const indexMap = ref<number[]>([])
 function sort(val: RangeData[]) {
@@ -110,13 +115,13 @@ function onUpdate(percentage: number) {
   setCurrentPercentage(percentage)
   const value = getValue(percentage)
   const modelValue = model.value
-  // let index = indexMap.value.indexOf(current.value)
+  const values = modelValue.map(i => i.value)
   let index = indexMap.value[current.value]
   if (index === -1)
     return
   if (index > 0) {
-    const prev = modelValue[index - 1].value
-    if (value === prev)
+    const prev = values[index - 1]
+    if (props.deduplicate && values.includes(value))
       return
     if (value < prev) {
       swap(modelValue, index, index - 1)
@@ -125,8 +130,8 @@ function onUpdate(percentage: number) {
     }
   }
   if (index < modelValue.length - 1) {
-    const next = modelValue[index + 1].value
-    if (value === next)
+    const next = values[index + 1]
+    if (props.deduplicate && values.includes(value))
       return
     if (value > next) {
       swap(modelValue, index, index + 1)
@@ -147,12 +152,12 @@ function onDelete() {
   indexMap.value = indexMap.value.map(idx => idx >= valueIndex ? idx - 1 : idx)
 }
 
-let allowAdd = false
+let addTiming = false
 function addThumb(e: MouseEvent) {
-  if (!allowAdd)
+  if (!addTiming)
     return
-  allowAdd = false
-  if (!trackRef?.value || model.value.length >= props.maxThumb)
+  addTiming = false
+  if (!trackRef?.value || !allowAdd.value)
     return
   const trackRect = trackRef.value.getBoundingClientRect()
   const offset = e.clientX - trackRect.left
@@ -172,10 +177,10 @@ provide(RangeContainerRefKey, containerRef)
     {{ position }} | {{ indexMap }} | {{ current }}
     <div
       ref="trackRef"
-      class="the-range-track relative h-full bg-slate-3 select-none cursor-copy rd-4"
-      :class="{ '!cursor-initial': model.length >= maxThumb }"
-      @pointerdown="allowAdd = true"
-      @pointerleave="allowAdd = false"
+      class="the-range-track relative h-full bg-slate-3 select-none rd-4"
+      :class="{ 'cursor-copy': allowAdd }"
+      @pointerdown="addTiming = true"
+      @pointerleave="addTiming = false"
       @pointerup.prevent="addThumb"
     >
       <div v-show="model.length === 2" class="h-full w-full rd-4 overflow-hidden">
@@ -184,7 +189,7 @@ provide(RangeContainerRefKey, containerRef)
       <RangeThumb
         v-for="index, idx in indexMap"
         :key="idx"
-        :position="(current === idx && currentPercentage > -1) ? currentPercentage : position[idx] || 0"
+        :position="(smooth && current === idx && currentPercentage > -1) ? currentPercentage : position[idx] || 0"
         :active="current === idx"
         :disabled="model[index].disabled"
         :data="model[index]"
