@@ -8,9 +8,68 @@
 
 A range vue component that support one or more thumb
 
+## Demo
+
+[Demo](https://range.wiidede.space/)
+
+## Quick Start
+
+1. Install
+
+```bash
+pnpm add vue-range-multi
+```
+
+2. Use in Vue
+
+```vue
+<script setup lang="ts">
+import { ref } from 'vue'
+import { Range } from 'vue-range-multi'
+
+const model = ref<number>(0)
+</script>
+
+<template>
+  <Range
+    v-model="model"
+  />
+</template>
+```
+
+## Props
+
+| Name | Type | Description | Default | Required |
+| --- | --- | --- | --- | --- |
+| modelValue | number \| number[] \| RangeData<T>[] | model value. It will auto detect the type of model and show different thumb(s) | [] | true |
+| min | number | minimum value | 0 | |
+| max | number | maximum value | 100 | |
+| step | number | step | 1 | |
+| add | boolean | can add data. This will emit 'addThumb' | false | |
+| limit | number | the limit can be add | 0 | |
+| smooth | boolean | with smooth off, the thumb will only show on the stop point | false | |
+| deduplicate | boolean | can the thumb be duplicated | true | |
+| rangeHighlight | boolean | highlight range between min and max. This will only effect while modelValue is array and length is 2 | false | |
+| showStops | boolean \| number | whether to show dots on the track | false | 12 |
+| renderTop | Function | render function on the top of thumb | undefined | |
+| renderBottom | Function | render bottom function on the bottom of thumb | undefined | |
+
+type:
+
+```ts
+export type RangeRenderFn<T = unknown> = (data: RangeData<T>) => VNode
+export interface RangeData<T = unknown> {
+  value: number
+  data?: T
+  disabled?: boolean
+  renderTop?: RangeRenderFn<T>
+  renderBottom?: RangeRenderFn<T>
+}
+export type RangeValue<T = unknown> = number | number[] | RangeData<T>[]
+```
+
 ## TODO
 
-- [ ] Type(number / number[] / data[])
 - [ ] style convenience(track height/thumb style)
 
 ## License
