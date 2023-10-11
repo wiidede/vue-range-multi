@@ -56,7 +56,11 @@ const model = computed<RangeData[]>({
   },
 })
 
-const allowAdd = computed(() => props.add && (!props.limit || model.value.length < props.limit))
+const allowAdd = computed(() =>
+  props.add
+  && (!props.limit || model.value.length < props.limit)
+  && modelType.value !== 'single',
+)
 
 const indexMap = ref<number[]>([])
 function sort(val: RangeData[]) {
