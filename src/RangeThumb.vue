@@ -10,6 +10,8 @@ const props = defineProps<{
   active?: boolean
   disabled?: boolean
   addable?: boolean
+  thumb?: 'circle' | 'emptyCircle' | 'square' | 'emptySquare' | 'rect'
+  thumbSize?: 'small' | 'medium' | 'large'
   renderTop?: RangeRenderFn<T>
   renderBottom?: RangeRenderFn<T>
 }>()

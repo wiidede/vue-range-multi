@@ -16,6 +16,9 @@ const props = withDefaults(defineProps<{
   deduplicate?: boolean
   rangeHighlight?: boolean
   showStops?: boolean | number
+  size?: 'small' | 'medium' | 'large'
+  thumb?: 'circle' | 'emptyCircle' | 'square' | 'emptySquare' | 'rect'
+  thumbSize?: 'small' | 'medium' | 'large'
   renderTop?: RangeRenderFn<T>
   renderBottom?: RangeRenderFn<T>
 }>(), {
@@ -25,6 +28,9 @@ const props = withDefaults(defineProps<{
   step: 1,
   deduplicate: true,
   showStops: 12,
+  size: 'small',
+  thumb: 'circle',
+  thumbSize: 'medium',
 })
 
 const emits = defineEmits<{
@@ -194,7 +200,10 @@ provide(RangeContainerRefKey, containerRef)
 </script>
 
 <template>
-  <div ref="containerRef" class="the-range-container min-h-1 h8 box-content">
+  <div
+    ref="containerRef" class="the-range-container min-h-1 box-content"
+    :class="{ small: 'h2', medium: 'h4', large: 'h8' }[size]"
+  >
     <div
       ref="trackRef"
       class="the-range-track relative h-full bg-slate-3 select-none rd-4"
@@ -222,6 +231,8 @@ provide(RangeContainerRefKey, containerRef)
         :render-top="model[index].renderTop || renderTop"
         :render-bottom="model[index].renderBottom || renderBottom"
         :addable="addable"
+        :thumb="thumb"
+        :thumb-size="thumbSize"
         @move-done="current = -1"
         @update="onUpdate"
         @delete="onDelete"

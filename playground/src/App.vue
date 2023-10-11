@@ -54,6 +54,7 @@ function handleAddData(value: number) {
     addable
     smooth
     show-stops
+    size="large"
     :render-top="(data) => h('div', data.value)"
     @add="handleAddNumbers"
   />
@@ -65,6 +66,7 @@ function handleAddData(value: number) {
     v-model="modelData"
     class="w-full pt16 pb8"
     addable
+    size="large"
     :limit="5"
     :render-top="(data) => h('div', data.data)"
     :render-bottom="(data) => h('div', data.value)"
