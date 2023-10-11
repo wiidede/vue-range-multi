@@ -32,6 +32,8 @@ function handleAddThumbData(value: number) {
   <Range
     v-model="modelSingle"
     class="w-full pt16 pb8"
+    :min="0"
+    :max="10"
   />
   <h2>number[]</h2>
   range-highlight
@@ -43,7 +45,7 @@ function handleAddThumbData(value: number) {
     range-highlight
   />
   <h2>number[]</h2>
-  add smooth
+  add smooth show-stops
   <br>
   {{ modelNumbersAdd }}
   <Range
@@ -51,6 +53,7 @@ function handleAddThumbData(value: number) {
     class="w-full pt16 pb8"
     add
     smooth
+    show-stops
     :render-top="(data) => h('div', data.value)"
     @add-thumb="handleAddThumbNumbers"
   />

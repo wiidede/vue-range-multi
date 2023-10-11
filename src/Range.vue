@@ -15,6 +15,7 @@ const props = withDefaults(defineProps<{
   smooth?: boolean
   deduplicate?: boolean
   rangeHighlight?: boolean
+  showStops?: boolean | number
   renderTop?: RangeRenderFn<T>
   renderBottom?: RangeRenderFn<T>
 }>(), {
@@ -62,6 +63,15 @@ const allowAdd = computed(() =>
   && (!props.limit || model.value.length < props.limit)
   && modelType.value !== 'single',
 )
+const stops = computed(() => {
+  const stops = Math.floor((props.max - props.min) / props.step) + 1
+  if (props.showStops === true)
+    return stops
+  else if (typeof props.showStops === 'number')
+    return stops > props.showStops ? -1 : stops
+  else
+    return stops > 12 ? -1 : stops
+})
 
 const indexMap = ref<number[]>([])
 function sort(val: RangeData<T>[]) {
@@ -197,6 +207,9 @@ provide(RangeContainerRefKey, containerRef)
           class="h-full bg-slate-4 absolute rd-1px"
           :style="{ left: `${Math.min(...position)}%`, right: `${100 - Math.max(...position)}%` }"
         />
+      </div>
+      <div v-if="stops > 0" class="the-range-points absolute h-full rd-full left--3px right--3px rd-3px flex justify-between items-center overflow-hidden">
+        <div v-for="index in stops" :key="index" class="w-6px h-6px rd-3px op50 bg-white" />
       </div>
       <RangeThumb
         v-for="index, idx in indexMap"
