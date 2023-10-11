@@ -14,6 +14,7 @@ const props = withDefaults(defineProps<{
   limit?: number
   smooth?: boolean
   deduplicate?: boolean
+  rangeHighlight?: boolean
   renderTop?: RangeRenderFn
   renderBottom?: RangeRenderFn
 }>(), {
@@ -103,8 +104,6 @@ function getPercentage(value: number) {
   return value2percentage(value, props.min, props.max, props.step)
 }
 
-const position = computed(() => indexMap.value.map(idx => getPercentage(model.value[idx].value)))
-
 const current = ref<number>(-1)
 const currentPercentage = ref<number>(-1)
 let currentPercentageTimer: number
@@ -115,6 +114,12 @@ function setCurrentPercentage(val: number) {
     currentPercentage.value = -1
   }, 300)
 }
+const position = computed(() => indexMap.value.map(
+  (index, idx) => (props.smooth && current.value === idx && currentPercentage.value > -1)
+    ? currentPercentage.value
+    : getPercentage(model.value[index].value),
+))
+
 function onUpdate(percentage: number) {
   setCurrentPercentage(percentage)
   const value = getValue(percentage)
@@ -187,13 +192,16 @@ provide(RangeContainerRefKey, containerRef)
       @pointerleave="addTiming = false"
       @pointerup.prevent="addThumb"
     >
-      <div v-show="model.length === 2" class="h-full w-full rd-4 overflow-hidden">
-        <div class="h-full bg-slate-4 rd-4 absolute" :style="{ left: `${position[0]}%`, right: `${100 - position[1]}%` }" />
+      <div v-show="rangeHighlight && model.length === 2" class="h-full w-full rd-4 overflow-hidden">
+        <div
+          class="h-full bg-slate-4 absolute rd-1px"
+          :style="{ left: `${Math.min(...position)}%`, right: `${100 - Math.max(...position)}%` }"
+        />
       </div>
       <RangeThumb
         v-for="index, idx in indexMap"
         :key="idx"
-        :position="(smooth && current === idx && currentPercentage > -1) ? currentPercentage : position[idx] || 0"
+        :position="position[idx] || 0"
         :active="current === idx"
         :disabled="model[index].disabled"
         :data="model[index]"
