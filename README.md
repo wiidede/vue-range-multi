@@ -50,7 +50,7 @@ const model = ref<number>(0)
 | smooth | boolean | with smooth off, the thumb will only show on the stop point | false | |
 | deduplicate | boolean | can the thumb be duplicated | true | |
 | rangeHighlight | boolean | highlight range between min and max. This will only effect while modelValue is array and length is 2 | false | |
-| showStops | boolean \| number | whether to show dots on the track | false | 12 |
+| showStops | boolean \| number | whether to show dots on the track | 12 | |
 | renderTop | Function | render function on the top of thumb | undefined | |
 | renderBottom | Function | render bottom function on the bottom of thumb | undefined | |
 
