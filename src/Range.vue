@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { computed, provide, ref, watch } from 'vue'
+import { computed, nextTick, provide, ref, watch } from 'vue'
 import { RangeContainerRefKey, RangeTrackRefKey } from './Range'
 import RangeThumb from './RangeThumb.vue'
 import type { RangeData, RangeRenderFn, RangeValue } from './type'
@@ -7,7 +7,6 @@ import { percentage2value, swap, value2percentage } from './utils'
 
 const props = withDefaults(defineProps<{
   modelValue: RangeValue
-  progress?: number
   renderTop?: RangeRenderFn
   renderBottom?: RangeRenderFn
   min?: number
@@ -16,7 +15,6 @@ const props = withDefaults(defineProps<{
   maxThumb?: number
 }>(), {
   modelValue: () => [],
-  progress: 0,
   min: 0,
   max: 100,
   step: 1,
@@ -56,16 +54,31 @@ const model = computed<RangeData[]>({
 })
 
 const indexMap = ref<number[]>([])
+function sort(val: RangeData[]) {
+  let changed = false
+  for (let i = val.length; i > 0; i--) {
+    for (let j = 0; j < i - 1; j++) {
+      if (val[j].value > val[j + 1].value) {
+        swap(val, j, j + 1)
+        swap(indexMap.value, j, j + 1)
+        changed = true
+      }
+    }
+  }
+  changed && nextTick(() => model.value = val)
+}
 watch(model, (val) => {
   if (val.length > indexMap.value.length) {
     for (let i = indexMap.value.length; i < val.length; i++)
       indexMap.value.push(i)
+    sort(val)
   }
   else if (val.length < indexMap.value.length) {
     for (let i = indexMap.value.length - 1; i >= val.length; i--) {
       const index = indexMap.value.indexOf(i)
       index > -1 && indexMap.value.splice(index, 1)
     }
+    sort(val)
   }
 }, {
   immediate: true,
@@ -84,10 +97,21 @@ function getPercentage(value: number) {
 const position = computed(() => indexMap.value.map(idx => getPercentage(model.value[idx].value)))
 
 const current = ref<number>(-1)
+const currentPercentage = ref<number>(-1)
+let currentPercentageTimer: number
+function setCurrentPercentage(val: number) {
+  currentPercentage.value = val
+  clearTimeout(currentPercentageTimer)
+  currentPercentageTimer = window.setTimeout(() => {
+    currentPercentage.value = -1
+  }, 300)
+}
 function onUpdate(percentage: number) {
+  setCurrentPercentage(percentage)
   const value = getValue(percentage)
   const modelValue = model.value
-  let index = indexMap.value.indexOf(current.value)
+  // let index = indexMap.value.indexOf(current.value)
+  let index = indexMap.value[current.value]
   if (index === -1)
     return
   if (index > 0) {
@@ -96,7 +120,7 @@ function onUpdate(percentage: number) {
       return
     if (value < prev) {
       swap(modelValue, index, index - 1)
-      swap(indexMap.value, index, index - 1)
+      swap(indexMap.value, indexMap.value.indexOf(index), indexMap.value.indexOf(index - 1))
       index -= 1
     }
   }
@@ -106,7 +130,7 @@ function onUpdate(percentage: number) {
       return
     if (value > next) {
       swap(modelValue, index, index + 1)
-      swap(indexMap.value, index, index + 1)
+      swap(indexMap.value, indexMap.value.indexOf(index), indexMap.value.indexOf(index + 1))
       index += 1
     }
   }
@@ -115,7 +139,12 @@ function onUpdate(percentage: number) {
 }
 
 function onDelete() {
+  const valueIndex = indexMap.value[current.value]
+  const modelValue = model.value
+  modelValue.splice(valueIndex, 1)
+  model.value = modelValue
   indexMap.value.splice(current.value, 1)
+  indexMap.value = indexMap.value.map(idx => idx >= valueIndex ? idx - 1 : idx)
 }
 
 let allowAdd = false
@@ -140,6 +169,7 @@ provide(RangeContainerRefKey, containerRef)
 
 <template>
   <div ref="containerRef" class="the-range-container min-h-1 h8 box-content">
+    {{ position }} | {{ indexMap }} | {{ current }}
     <div
       ref="trackRef"
       class="the-range-track relative h-full bg-slate-3 select-none cursor-copy rd-4"
@@ -148,13 +178,13 @@ provide(RangeContainerRefKey, containerRef)
       @pointerleave="allowAdd = false"
       @pointerup.prevent="addThumb"
     >
-      <div class="h-full w-full rd-4 overflow-hidden">
-        <div class="h-full bg-slate-4 rd-4" :style="{ width: `${progress || 0}%` }" />
+      <div v-show="model.length === 2" class="h-full w-full rd-4 overflow-hidden">
+        <div class="h-full bg-slate-4 rd-4 absolute" :style="{ left: `${position[0]}%`, right: `${100 - position[1]}%` }" />
       </div>
       <RangeThumb
         v-for="index, idx in indexMap"
         :key="idx"
-        :position="position[idx] || 0"
+        :position="(current === idx && currentPercentage > -1) ? currentPercentage : position[idx] || 0"
         :active="current === idx"
         :disabled="model[index].disabled"
         :data="model[index]"
