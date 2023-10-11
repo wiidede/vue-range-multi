@@ -3,12 +3,12 @@ import { h, ref } from 'vue'
 import { Range } from '../../src'
 import type { RangeData } from '../../src'
 
-const modelSingle = ref<number>(0)
+const modelSingle = ref<number>(3)
 
 const modelNumbers = ref<number[]>([10, 20])
 
-const modelNumbersAdd = ref<number[]>([])
-function handleAddThumbNumbers(value: number) {
+const modelNumbersAdd = ref<number[]>([10, 20, 30, 40, 50, 60, 70, 80, 90])
+function handleAddNumbers(value: number) {
   modelNumbersAdd.value.push(value)
 }
 
@@ -16,7 +16,7 @@ const modelData = ref<RangeData<string>[]>([
   { data: '00:00', value: 10 },
   { data: '59:59', value: 90 },
 ])
-function handleAddThumbData(value: number) {
+function handleAddData(value: number) {
   const date = new Date()
   modelData.value.push({
     data: `${date.getMinutes()}:${date.getSeconds()}`,
@@ -45,30 +45,30 @@ function handleAddThumbData(value: number) {
     range-highlight
   />
   <h2>number[]</h2>
-  add smooth show-stops
+  addable smooth show-stops
   <br>
   {{ modelNumbersAdd }}
   <Range
     v-model="modelNumbersAdd"
     class="w-full pt16 pb8"
-    add
+    addable
     smooth
     show-stops
     :render-top="(data) => h('div', data.value)"
-    @add-thumb="handleAddThumbNumbers"
+    @add="handleAddNumbers"
   />
   <h2>RangeData[]</h2>
-  add limit
+  addable limit
   <br>
   {{ modelData }}
   <Range
     v-model="modelData"
     class="w-full pt16 pb8"
-    add
+    addable
     :limit="5"
     :render-top="(data) => h('div', data.data)"
     :render-bottom="(data) => h('div', data.value)"
-    @add-thumb="handleAddThumbData"
+    @add="handleAddData"
   />
 </template>
 

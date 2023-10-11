@@ -41,11 +41,11 @@ const model = ref<number>(0)
 
 | Name | Type | Description | Default | Required |
 | --- | --- | --- | --- | --- |
-| modelValue | number \| number[] \| RangeData<T>[] | model value. It will auto detect the type of model and show different thumb(s) | [] | true |
+| v-model:modelValue | number \| number[] \| RangeData<T>[] | model value. It will auto detect the type of model and show different thumb(s) | [] | true |
 | min | number | minimum value | 0 | |
 | max | number | maximum value | 100 | |
 | step | number | step | 1 | |
-| add | boolean | can add data. This will emit 'addThumb' | false | |
+| addable | boolean | can add data. This will emit 'addThumb' | false | |
 | limit | number | the limit can be add | 0 | |
 | smooth | boolean | with smooth off, the thumb will only show on the stop point | false | |
 | deduplicate | boolean | can the thumb be duplicated | true | |
@@ -54,7 +54,13 @@ const model = ref<number>(0)
 | renderTop | Function | render function on the top of thumb | undefined | |
 | renderBottom | Function | render bottom function on the bottom of thumb | undefined | |
 
-type:
+## events
+
+| Name | Description |
+| --- | --- |
+| add | add a thumb |
+
+## types
 
 ```ts
 export type RangeRenderFn<T = unknown> = (data: RangeData<T>) => VNode

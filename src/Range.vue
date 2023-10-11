@@ -10,7 +10,7 @@ const props = withDefaults(defineProps<{
   min?: number
   max?: number
   step?: number
-  add?: boolean
+  addable?: boolean
   limit?: number
   smooth?: boolean
   deduplicate?: boolean
@@ -24,11 +24,12 @@ const props = withDefaults(defineProps<{
   max: 100,
   step: 1,
   deduplicate: true,
+  showStops: 12,
 })
 
 const emits = defineEmits<{
   (e: 'update:modelValue', modelValue: typeof props.modelValue): void
-  (e: 'addThumb', value: number): void
+  (e: 'add', value: number): void
 }>()
 
 const modelType = computed<'single' | 'numbers' | 'data'>(() => {
@@ -59,7 +60,7 @@ const model = computed<RangeData<T>[]>({
 })
 
 const allowAdd = computed(() =>
-  props.add
+  props.addable
   && (!props.limit || model.value.length < props.limit)
   && modelType.value !== 'single',
 )
@@ -70,7 +71,7 @@ const stops = computed(() => {
   else if (typeof props.showStops === 'number')
     return stops > props.showStops ? -1 : stops
   else
-    return stops > 12 ? -1 : stops
+    return -1
 })
 
 const indexMap = ref<number[]>([])
@@ -185,7 +186,7 @@ function addThumb(e: MouseEvent) {
   const value = getValue(percent)
   if (model.value.some(item => item.value === value))
     return
-  emits('addThumb', value)
+  emits('add', value)
 }
 
 provide(RangeTrackRefKey, trackRef)
@@ -220,6 +221,7 @@ provide(RangeContainerRefKey, containerRef)
         :data="model[index]"
         :render-top="model[index].renderTop || renderTop"
         :render-bottom="model[index].renderBottom || renderBottom"
+        :addable="addable"
         @move-done="current = -1"
         @update="onUpdate"
         @delete="onDelete"

@@ -9,6 +9,7 @@ const props = defineProps<{
   data: RangeData<T>
   active?: boolean
   disabled?: boolean
+  addable?: boolean
   renderTop?: RangeRenderFn<T>
   renderBottom?: RangeRenderFn<T>
 }>()
@@ -55,7 +56,7 @@ async function onPointerUp(e: PointerEvent) {
   const containerRect = containerRef.value.getBoundingClientRect()
   if (e.clientY - containerRect.top < 0 || e.clientY - containerRect.bottom > 0) {
     deleting.value = false
-    emits('delete')
+    props.addable && emits('delete')
   }
   await nextTick()
   emits('moveDone')
@@ -76,7 +77,7 @@ function onPointerDown(e: PointerEvent) {
   <div
     ref="thumbRef"
     class="the-range-thumb absolute w3 bg-white rd-full cursor-move border border-blue"
-    :class="{ 'z-1 thumb-active': active, 'op-20': deleting && active, 'cursor-not-allowed': disabled }"
+    :class="{ 'z-1 thumb-active': active, 'op-20': addable && deleting && active, 'cursor-not-allowed': disabled }"
     :style="{ left: `${position}%` }"
     @pointerdown="onPointerDown"
     @mousedown.prevent="() => {}"
