@@ -78,49 +78,21 @@ function onPointerDown(e: PointerEvent) {
 <template>
   <div
     ref="thumbRef"
-    class="the-range-thumb absolute w3 bg-white rd-full cursor-move border border-blue"
-    :class="{ 'z-1 thumb-active': active, 'op-20': addable && deleting && active, 'cursor-not-allowed': disabled }"
+    class="m-range-thumb m-range-thumb-rect"
+    :class="{ 'm-range-thumb-active': active, 'op-20': addable && deleting && active, 'cursor-not-allowed': disabled }"
     :style="{ left: `${position}%` }"
     @pointerdown="onPointerDown"
     @mousedown.prevent="() => {}"
     @touchstart.prevent.passive="() => {}"
   >
-    <div class="the-range-thumb-top absolute">
+    <div class="m-range-thumb-top-container ">
       <Render :render="() => renderTop?.(data)" />
     </div>
-    <div class="the-range-thumb-bottom absolute">
+    <div class="m-range-thumb-bottom-container">
       <Render :render="() => renderBottom?.(data)" />
     </div>
   </div>
 </template>
 
 <style scoped>
-.the-range-thumb {
-  transform: translateX(-50%);
-  transform-origin: center;
-  border-color: var(--c-primary);
-  border-width: 0.1rem;
-  border-style: solid;
-  top: -0.3rem;
-  bottom: -0.3rem;
-  transition: opacity 150ms ease-in-out, filter 150ms ease-in-out;
-}
-
-.thumb-active {
-  border-color: var(--c-primary);
-  background: var(--c-primary);
-  filter: drop-shadow(0.1rem 0.15rem 0.25rem --c-primary);
-}
-
-.the-range-thumb-top  {
-  left: 50%;
-  top: 0;
-  transform: translate(-50%, -110%);
-}
-
-.the-range-thumb-bottom {
-  left: 50%;
-  bottom: 0;
-  transform: translate(-50%, 110%);
-}
 </style>

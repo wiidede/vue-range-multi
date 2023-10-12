@@ -200,26 +200,23 @@ provide(RangeContainerRefKey, containerRef)
 </script>
 
 <template>
-  <div
-    ref="containerRef" class="the-range-container min-h-1 box-content"
-    :class="{ small: 'h2', medium: 'h4', large: 'h8' }[size]"
-  >
+  <div ref="containerRef" class="m-range" :class="{ small: 'h2', medium: 'h4', large: 'h8' }[size]">
     <div
       ref="trackRef"
-      class="the-range-track relative h-full bg-slate-3 select-none rd-4"
+      class="m-range-track"
       :class="{ 'cursor-copy': allowAdd }"
       @pointerdown="addTiming = true"
       @pointerleave="addTiming = false"
       @pointerup.prevent="addThumb"
     >
-      <div v-show="rangeHighlight && model.length === 2" class="h-full w-full rd-4 overflow-hidden">
+      <div v-show="rangeHighlight && model.length === 2" class="m-range-highlight-container">
         <div
-          class="h-full bg-slate-4 absolute rd-1px"
+          class="m-range-highlight"
           :style="{ left: `${Math.min(...position)}%`, right: `${100 - Math.max(...position)}%` }"
         />
       </div>
-      <div v-if="stops > 0" class="the-range-points absolute h-full rd-full left--3px right--3px rd-3px flex justify-between items-center overflow-hidden">
-        <div v-for="index in stops" :key="index" class="w-6px h-6px rd-3px op50 bg-white" />
+      <div v-if="stops > 0" class="m-range-points-container">
+        <div v-for="index in stops" :key="index" class="m-range-points" />
       </div>
       <RangeThumb
         v-for="index, idx in indexMap"
@@ -243,7 +240,4 @@ provide(RangeContainerRefKey, containerRef)
 </template>
 
 <style scoped>
-.the-range-container {
-  --c-primary: #007aff;
-}
 </style>
