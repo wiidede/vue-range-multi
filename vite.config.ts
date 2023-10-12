@@ -10,9 +10,7 @@ export default defineConfig({
       include: [/\.vue$/],
     }),
 
-    Unocss({
-      mode: 'vue-scoped',
-    }),
+    Unocss(),
 
     dts({
       rollupTypes: true,
