@@ -57,6 +57,7 @@
     "@antfu/ni": "^0.21.8",
     "@antfu/utils": "^0.7.6",
     "@types/node": "^20.8.3",
+    "@unocss/eslint-config": "^0.56.5",
     "@vitejs/plugin-vue": "^4.4.0",
     "bumpp": "^9.2.0",
     "eslint": "^8.51.0",

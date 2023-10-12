@@ -77,6 +77,7 @@ export type RangeValue<T = unknown> = number | number[] | RangeData<T>[]
 ## TODO
 
 - [ ] style convenience(track height/thumb style)
+- [ ] only render on active
 
 ## License
 

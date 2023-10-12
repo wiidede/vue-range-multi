@@ -215,8 +215,10 @@ provide(RangeContainerRefKey, containerRef)
           :style="{ left: `${Math.min(...position)}%`, right: `${100 - Math.max(...position)}%` }"
         />
       </div>
-      <div v-if="stops > 0" class="m-range-points-container">
-        <div v-for="index in stops" :key="index" class="m-range-points" />
+      <div v-if="stops > 0" class="m-range-points-area">
+        <div class="m-range-points-container">
+          <div v-for="index in stops" :key="index" class="m-range-points" />
+        </div>
       </div>
       <RangeThumb
         v-for="index, idx in indexMap"
