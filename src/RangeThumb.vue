@@ -42,11 +42,13 @@ function onPointerMove(e: PointerEvent) {
     emits('update', 100)
   else if (!Number.isNaN(percent))
     emits('update', percent)
-  const containerRect = containerRef.value.getBoundingClientRect()
-  if (e.clientY - containerRect.top < 0 || e.clientY - containerRect.bottom > 0)
-    deleting.value = true
-  else
-    deleting.value = false
+  if (props.addable) {
+    const containerRect = containerRef.value.getBoundingClientRect()
+    if (e.clientY - containerRect.top < 0 || e.clientY - containerRect.bottom > 0)
+      deleting.value = true
+    else
+      deleting.value = false
+  }
 }
 
 async function onPointerUp(e: PointerEvent) {
@@ -56,11 +58,13 @@ async function onPointerUp(e: PointerEvent) {
   if (!containerRef?.value)
     return
   const containerRect = containerRef.value.getBoundingClientRect()
-  if (e.clientY - containerRect.top < 0 || e.clientY - containerRect.bottom > 0) {
-    deleting.value = false
-    props.addable && emits('delete')
+  if (props.addable) {
+    if (e.clientY - containerRect.top < 0 || e.clientY - containerRect.bottom > 0) {
+      deleting.value = false
+      emits('delete')
+    }
+    await nextTick()
   }
-  await nextTick()
   emits('moveDone')
 }
 
