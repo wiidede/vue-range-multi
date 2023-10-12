@@ -26,7 +26,7 @@ function handleAddData(value: number) {
 </script>
 
 <template>
-  <main class="m-auto max-w-65ch">
+  <main class="m-auto prose">
     <h1 class="text-4xl font-serif text-zinc-900">
       Vue Range Multi Demo
     </h1>
@@ -36,8 +36,10 @@ function handleAddData(value: number) {
           number
         </h2>
         <br>
-        modelValue:
-        <pre class="value">{{ modelSingle }}</pre>
+        <div class="flex items-baseline">
+          <span class="label">modelValue</span>
+          <pre class="value">{{ modelSingle }}</pre>
+        </div>
         <Range
           v-model="modelSingle"
           class="w-full py1"
@@ -52,8 +54,10 @@ function handleAddData(value: number) {
           </h2>
           <span class="tag">range-highlight</span>
         </div>
-        modelValue:
-        <pre class="value">{{ JSON.stringify(modelNumbers) }}</pre>
+        <div class="flex items-baseline">
+          <span class="label">modelValue</span>
+          <pre class="value">{{ JSON.stringify(modelNumbers) }}</pre>
+        </div>
         <Range
           v-model="modelNumbers"
           class="w-full py1"
@@ -69,8 +73,10 @@ function handleAddData(value: number) {
           <span class="tag">smooth</span>
           <span class="tag">show-stops</span>
         </div>
-        modelValue:
-        <pre class="value">{{ JSON.stringify(modelNumbersAdd) }}</pre>
+        <div class="flex items-baseline">
+          <span class="label">modelValue</span>
+          <pre class="value">{{ JSON.stringify(modelNumbersAdd) }}</pre>
+        </div>
         <Range
           v-model="modelNumbersAdd"
           class="add-range [--c-fill-stop:#DFF8A7] [--c-fill:#EFFBD0] [--c-primary:#B1E457] w-full pb1 pt8"
@@ -91,8 +97,10 @@ function handleAddData(value: number) {
           <span class="tag">addable</span>
           <span class="tag">limit</span>
         </div>
-        modelValue:
-        <pre class="value">{{ JSON.stringify(modelData) }}</pre>
+        <div class="flex items-baseline">
+          <span class="label">modelValue</span>
+          <pre class="value">{{ JSON.stringify(modelData) }}</pre>
+        </div>
         <Range
           v-model="modelData"
           class="w-full py8"
@@ -106,7 +114,7 @@ function handleAddData(value: number) {
       </div>
     </div>
   </main>
-  <footer class="m-auto mt8 max-w-65ch">
+  <footer class="m-auto mt8 prose">
     <div class="flex gap4">
       <a href="https://github.com/wiidede/vue-range-multi" target="_blank">GitHub</a>
       <a href="https://github.com/wiidede/vue-range-multi/blob/main/playground/src/App.vue" target="_blank">Demo Source</a>
