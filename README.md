@@ -8,6 +8,15 @@
 
 A range vue component that support one or more thumb
 
+- ✨ Support for one or more thumbs.
+- 🔄 Auto-detect the type of model and display the corresponding thumb(s).
+- 🔀 Automatically sort the model values without sorting the DOM.
+- ➕ Ability to add or remove thumbs dynamically.
+- 🚫 Avoid duplicate thumbs by rejecting them.
+- 🏃 Smooth movement or jump movement over the stops.
+- 🎨 Customizable style and theme.
+- 📝 Render content above or below the thumb.
+
 ## Demo
 
 [Demo](https://range.wiidede.space/)
@@ -39,9 +48,11 @@ const model = ref<number>(0)
 
 ## Props
 
+generic="T"
+
 | Name | Type | Description | Default | Required |
 | --- | --- | --- | --- | --- |
-| v-model:modelValue | number \| number[] \| RangeData<T>[] | model value. It will auto detect the type of model and show different thumb(s) | [] | true |
+| v-model:modelValue | number \| number[] \| RangeData\<T>[] | model value. It will auto detect the type of model and show different thumb(s) | [] | true |
 | min | number | minimum value | 0 | |
 | max | number | maximum value | 100 | |
 | step | number | step | 1 | |
@@ -54,9 +65,9 @@ const model = ref<number>(0)
 | size | 'small' \| 'medium' \| 'large' | track size | 'small' | |
 | thumbType | 'circle' \| 'square' \| 'rect' | thumb type(default 'rect' while size is 'large', otherwise 'small') | 'circle' \| 'rect' | |
 | thumbSize | 'small' \| 'medium' \| 'large' | thumb size | 'medium' | |
-| renderTop | Function | render function on the top of thumb | undefined | |
+| renderTop | (data: RangeData\<T>) => VNode | render function on the top of thumb | undefined | |
 | renderTopOnActive | boolean | only render top function on the active thumb | false | |
-| renderBottom | Function | render bottom function on the bottom of thumb | undefined | |
+| renderBottom | (data: RangeData\<T>) => VNode | render bottom function on the bottom of thumb | undefined | |
 | renderBottomOnActive | boolean | only render bottom function on the active thumb | false | |
 
 ## events
