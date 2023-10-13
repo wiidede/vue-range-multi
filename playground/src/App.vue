@@ -48,7 +48,7 @@ function handleAddData(value: number) {
         />
       </div>
       <div>
-        <div class="flex items-center gap2">
+        <div class="flex flex-wrap items-center gap2">
           <h2 class="type-title m0">
             number[]
           </h2>
@@ -67,7 +67,7 @@ function handleAddData(value: number) {
         />
       </div>
       <div>
-        <div class="flex items-center gap2">
+        <div class="flex flex-wrap items-center gap2">
           <h2 class="type-title m0">
             number[]
           </h2>
@@ -95,13 +95,14 @@ function handleAddData(value: number) {
         />
       </div>
       <div>
-        <div class="flex items-center gap2">
+        <div class="flex flex-wrap items-center gap2">
           <h2 class="type-title m0">
             RangeData[]
           </h2>
           <span class="tag">addable</span>
-          <span class="tag">limit</span>
+          <span class="tag">limit:5</span>
           <span class="tag">thumb-type:rect</span>
+          <span class="tag">render-bottom-on-active</span>
         </div>
         <div class="flex items-baseline">
           <span class="label">modelValue</span>
@@ -113,6 +114,7 @@ function handleAddData(value: number) {
           addable
           size="large"
           thumb-type="rect"
+          render-bottom-on-active
           :limit="5"
           :render-top="(data) => h('div', data.data)"
           :render-bottom="(data) => h('div', data.value)"

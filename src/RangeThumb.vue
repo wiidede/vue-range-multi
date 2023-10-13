@@ -13,7 +13,9 @@ const props = defineProps<{
   thumbType?: 'circle' | 'square' | 'rect'
   thumbSize?: 'small' | 'medium' | 'large'
   renderTop?: RangeRenderFn<T>
+  renderTopOnActive?: boolean
   renderBottom?: RangeRenderFn<T>
+  renderBottomOnActive?: boolean
 }>()
 
 const emits = defineEmits<{
@@ -93,10 +95,10 @@ function onPointerDown(e: PointerEvent) {
     @mousedown.prevent="() => {}"
     @touchstart.prevent.passive="() => {}"
   >
-    <div class="m-range-thumb-top-container">
+    <div v-if="!renderTopOnActive || active" class="m-range-thumb-top-container">
       <Render :render="() => renderTop?.(data)" />
     </div>
-    <div class="m-range-thumb-bottom-container">
+    <div v-if="!renderBottomOnActive || active" class="m-range-thumb-bottom-container">
       <Render :render="() => renderBottom?.(data)" />
     </div>
   </div>

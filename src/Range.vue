@@ -20,7 +20,9 @@ const props = withDefaults(defineProps<{
   thumbType?: 'circle' | 'square' | 'rect'
   thumbSize?: 'small' | 'medium' | 'large'
   renderTop?: RangeRenderFn<T>
+  renderTopOnActive?: boolean
   renderBottom?: RangeRenderFn<T>
+  renderBottomOnActive?: boolean
 }>(), {
   modelValue: () => [],
   min: 0,
@@ -228,7 +230,9 @@ provide(RangeContainerRefKey, containerRef)
         :disabled="model[index].disabled"
         :data="model[index]"
         :render-top="model[index].renderTop || renderTop"
+        :render-top-on-active="renderTopOnActive"
         :render-bottom="model[index].renderBottom || renderBottom"
+        :render-bottom-on-active="renderBottomOnActive"
         :addable="addable"
         :thumb-type="thumbType"
         :thumb-size="thumbSize"
