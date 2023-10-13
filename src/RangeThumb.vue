@@ -10,7 +10,7 @@ const props = defineProps<{
   active?: boolean
   disabled?: boolean
   addable?: boolean
-  thumb?: 'circle' | 'emptyCircle' | 'square' | 'emptySquare' | 'rect'
+  thumbType?: 'circle' | 'square' | 'rect'
   thumbSize?: 'small' | 'medium' | 'large'
   renderTop?: RangeRenderFn<T>
   renderBottom?: RangeRenderFn<T>
@@ -82,14 +82,18 @@ function onPointerDown(e: PointerEvent) {
 <template>
   <div
     ref="thumbRef"
-    class="m-range-thumb m-range-thumb-rect"
-    :class="{ 'm-range-thumb-active': active, 'op-20': addable && deleting && active, 'cursor-not-allowed': disabled }"
+    class="m-range-thumb"
+    :class="[{
+      'm-range-thumb-active': active,
+      'op-20': addable && deleting && active,
+      'cursor-not-allowed': disabled,
+    }, `m-range-thumb-${thumbType}`, `m-range-thumb-${thumbSize}`]"
     :style="{ left: `${position}%` }"
     @pointerdown="onPointerDown"
     @mousedown.prevent="() => {}"
     @touchstart.prevent.passive="() => {}"
   >
-    <div class="m-range-thumb-top-container ">
+    <div class="m-range-thumb-top-container">
       <Render :render="() => renderTop?.(data)" />
     </div>
     <div class="m-range-thumb-bottom-container">

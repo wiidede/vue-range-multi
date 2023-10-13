@@ -17,7 +17,7 @@ const props = withDefaults(defineProps<{
   rangeHighlight?: boolean
   showStops?: boolean | number
   size?: 'small' | 'medium' | 'large'
-  thumb?: 'circle' | 'emptyCircle' | 'square' | 'emptySquare' | 'rect'
+  thumbType?: 'circle' | 'square' | 'rect'
   thumbSize?: 'small' | 'medium' | 'large'
   renderTop?: RangeRenderFn<T>
   renderBottom?: RangeRenderFn<T>
@@ -29,7 +29,7 @@ const props = withDefaults(defineProps<{
   deduplicate: true,
   showStops: 12,
   size: 'small',
-  thumb: 'circle',
+  thumbType: 'circle',
   thumbSize: 'medium',
 })
 
@@ -200,7 +200,7 @@ provide(RangeContainerRefKey, containerRef)
 </script>
 
 <template>
-  <div ref="containerRef" class="m-range" :class="{ small: 'h2', medium: 'h4', large: 'h8' }[size]">
+  <div ref="containerRef" class="m-range" :class="`m-range-${size}`">
     <div
       ref="trackRef"
       class="m-range-track"
@@ -230,7 +230,7 @@ provide(RangeContainerRefKey, containerRef)
         :render-top="model[index].renderTop || renderTop"
         :render-bottom="model[index].renderBottom || renderBottom"
         :addable="addable"
-        :thumb="thumb"
+        :thumb-type="thumbType"
         :thumb-size="thumbSize"
         @move-done="current = -1"
         @update="onUpdate"
