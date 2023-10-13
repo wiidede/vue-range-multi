@@ -46,19 +46,24 @@ const model = ref<number>(0)
 | max | number | maximum value | 100 | |
 | step | number | step | 1 | |
 | addable | boolean | can add data. This will emit 'addThumb' | false | |
-| limit | number | the limit can be add | 0 | |
+| limit | number | the limit can be add | undefined | |
 | smooth | boolean | with smooth off, the thumb will only show on the stop point | false | |
 | deduplicate | boolean | can the thumb be duplicated | true | |
 | rangeHighlight | boolean | highlight range between min and max. This will only effect while modelValue is array and length is 2 | false | |
-| showStops | boolean \| number | whether to show dots on the track | 12 | |
+| showStops | boolean \| number | whether to show dots on the track. When set to number, will only show dots while stops less than the value | 12 | |
+| size | 'small' \| 'medium' \| 'large' | track size | 'small' | |
+| thumbType | 'circle' \| 'square' \| 'rect' | thumb type(default 'rect' while size is 'large', otherwise 'small') | 'circle' \| 'rect' | |
+| thumbSize | 'small' \| 'medium' \| 'large' | thumb size | 'medium' | |
 | renderTop | Function | render function on the top of thumb | undefined | |
+| renderTopOnActive | boolean | only render top function on the active thumb | false | |
 | renderBottom | Function | render bottom function on the bottom of thumb | undefined | |
+| renderBottomOnActive | boolean | only render bottom function on the active thumb | false | |
 
 ## events
 
-| Name | Description |
-| --- | --- |
-| add | add a thumb |
+| Name | Type| Description |
+| --- | --- | --- |
+| add | (value: number): void | add event while click the track |
 
 ## types
 
@@ -73,11 +78,6 @@ export interface RangeData<T = unknown> {
 }
 export type RangeValue<T = unknown> = number | number[] | RangeData<T>[]
 ```
-
-## TODO
-
-- [ ] style convenience(track height/thumb style)
-- [ ] only render on active
 
 ## License
 

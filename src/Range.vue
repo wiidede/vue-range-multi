@@ -31,7 +31,6 @@ const props = withDefaults(defineProps<{
   deduplicate: true,
   showStops: 12,
   size: 'small',
-  thumbType: 'circle',
   thumbSize: 'medium',
 })
 
@@ -234,7 +233,7 @@ provide(RangeContainerRefKey, containerRef)
         :render-bottom="model[index].renderBottom || renderBottom"
         :render-bottom-on-active="renderBottomOnActive"
         :addable="addable"
-        :thumb-type="thumbType"
+        :thumb-type="thumbType || (size === 'large' ? 'rect' : 'circle')"
         :thumb-size="thumbSize"
         @move-done="current = -1"
         @update="onUpdate"
