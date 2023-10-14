@@ -23,7 +23,7 @@ export default defineConfig({
     ['m-range-points-area', 'absolute h-full w-full rd-inherit overflow-hidden'],
     ['m-range-points-container', 'absolute h-full left--3px right--3px flex justify-between items-center'],
     ['m-range-points', 'w-6px h-6px rd-3px bg-fill-stop'],
-    ['m-range-thumb', 'm-range-border absolute bg-fill-thumb cursor-move translate-x--50% transform-origin-center transition transition-property-[opacity,transform]'],
+    ['m-range-thumb', 'm-range-border absolute bg-fill-thumb translate-x--50% transform-origin-center transition transition-property-[opacity,transform]'],
     ['m-range-thumb-circle', 'w-[calc(var(--m-range-h)_+_var(--m-range-thumb-h))] rd-full'],
     ['m-range-thumb-square', 'w-[calc(var(--m-range-h)_+_var(--m-range-thumb-h))]'],
     ['m-range-thumb-rect', 'w3 rd-full'],

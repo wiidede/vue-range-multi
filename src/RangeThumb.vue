@@ -85,11 +85,15 @@ function onPointerDown(e: PointerEvent) {
   <div
     ref="thumbRef"
     class="m-range-thumb"
-    :class="[{
-      'm-range-thumb-active': active,
-      'op-20': addable && deleting && active,
-      'cursor-not-allowed': disabled,
-    }, `m-range-thumb-${thumbType}`, `m-range-thumb-${thumbSize}`]"
+    :class="[
+      {
+        'm-range-thumb-active': active,
+        'op-20': addable && deleting && active,
+      },
+      disabled ? 'cursor-not-allowed' : addable ? 'cursor-move' : 'cursor-ew-resize',
+      `m-range-thumb-${thumbType}`,
+      `m-range-thumb-${thumbSize}`,
+    ]"
     :style="{ left: `${position}%` }"
     @pointerdown="onPointerDown"
     @mousedown.prevent="() => {}"

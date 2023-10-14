@@ -106,7 +106,6 @@ export type RangeValue<T = unknown> = number | number[] | RangeData<T>[]
 
 - [ ] dark mode
 - [ ] test
-- [ ] cursor
 
 ## License
 

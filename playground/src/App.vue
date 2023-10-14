@@ -14,7 +14,7 @@ function handleAddNumbers(value: number) {
 }
 
 const modelData = ref<RangeData<string>[]>([
-  { data: '00:00', value: 10 },
+  { data: '00:00', value: 10, disabled: true },
   { data: '59:59', value: 90 },
 ])
 function handleAddData(value: number) {
