@@ -15,6 +15,7 @@ A range vue component that support one or more thumb
 - 🚫 Avoid duplicate thumbs by rejecting them.
 - 🍡 Smooth movement or jump movement over the stops.
 - 🎨 Customizable style and theme.
+- 🌓 Supports dark mode.
 - 📍 Render content above or below the thumb.
 
 ## Demo
@@ -46,6 +47,8 @@ const model = ref<number>(0)
   />
 </template>
 ```
+
+Or you can import it globally in main.ts.
 
 ## Props
 
@@ -93,12 +96,14 @@ export type RangeValue<T = unknown> = number | number[] | RangeData<T>[]
 
 ## theme
 
+If you want to customize the theme, just use css variables to override the default theme.
+
 ```css
 .m-range-theme {
-  --c-primary: #409EFF;
-  --c-fill: #E4E7ED;
-  --c-fill-stop: #F5F5F5;
-  --c-fill-thumb: #fff;
+  --c-primary: #409EFF; /* primary color */
+  --c-fill: #E4E7ED; /* track's fill color */
+  --c-fill-stop: #F5F5F5; /* stop's fill color */
+  --c-fill-thumb: #fff;  /* thumb's fill color */
 }
 ```
 
