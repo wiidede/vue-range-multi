@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { h, ref } from 'vue'
-import { Range } from '../../src'
-import type { RangeData } from '../../src'
+import { Range } from 'vue-range-multi'
+import type { RangeData } from 'vue-range-multi'
+import 'vue-range-multi/style.css'
 
 const modelSingle = ref<number>(3)
 

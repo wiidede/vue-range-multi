@@ -20,7 +20,9 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
       "require": "./dist/index.umd.cjs"
-    }
+    },
+    "./style.css": "./dist/style.css",
+    "./dist/style.css": "./dist/style.css"
   },
   "main": "./dist/index.umd.cjs",
   "module": "./dist/index.js",
@@ -39,6 +41,7 @@
   "scripts": {
     "build": "vite build",
     "dev": "vite playground",
+    "dev:pkg": "vite playground --mode pkg",
     "preview": "vite preview playground",
     "build:play": "vite build playground",
     "lint": "eslint .",
@@ -70,6 +73,7 @@
     "unocss": "^0.56.5",
     "vite": "^4.4.11",
     "vite-plugin-dts": "^3.6.0",
+    "vite-plugin-inspect": "^0.7.40",
     "vitest": "^0.34.6",
     "vue-tsc": "^1.8.18"
   },
