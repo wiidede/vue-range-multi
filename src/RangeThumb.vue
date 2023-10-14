@@ -95,14 +95,41 @@ function onPointerDown(e: PointerEvent) {
     @mousedown.prevent="() => {}"
     @touchstart.prevent.passive="() => {}"
   >
-    <div v-if="!renderTopOnActive || active" class="m-range-thumb-top-container">
-      <Render :render="() => renderTop?.(data)" />
-    </div>
-    <div v-if="!renderBottomOnActive || active" class="m-range-thumb-bottom-container">
-      <Render :render="() => renderBottom?.(data)" />
-    </div>
+    <Transition name="fade">
+      <div v-if="!renderTopOnActive || active" class="m-range-transition-container">
+        <div class="m-range-thumb-top-container">
+          <Render :render="() => renderTop?.(data)" />
+        </div>
+      </div>
+    </Transition>
+    <Transition name="fade">
+      <div v-if="!renderBottomOnActive || active" class="m-range-transition-container">
+        <div class="m-range-thumb-bottom-container">
+          <Render :render="() => renderBottom?.(data)" />
+        </div>
+      </div>
+    </Transition>
   </div>
 </template>
 
 <style scoped>
+.fade-enter-active {
+  animation: fade 0.3s;
+}
+
+.fade-leave-active {
+  animation: fade 0.3s reverse;
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
 </style>

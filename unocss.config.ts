@@ -31,6 +31,7 @@ export default defineConfig({
     ['m-range-thumb-medium', 'top--1 bottom--1 [--m-range-thumb-h:0.5rem]'],
     ['m-range-thumb-large', 'top--2 bottom--2 [--m-range-thumb-h:1rem]'],
     ['m-range-thumb-active', 'z-1  drop-shadow-[0.1rem_0.15rem_0.25rem_var(--c-primary)]'],
+    ['m-range-transition-container', 'absolute h-full w-full'],
     ['m-range-thumb-top-container', 'absolute left-50% top-0 translate-x--50% translate-y--110%'],
     ['m-range-thumb-bottom-container', 'absolute left-50% bottom-0 translate-x--50% translate-y-110%'],
   ],
