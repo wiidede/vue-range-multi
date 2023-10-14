@@ -13,9 +13,9 @@ A range vue component that support one or more thumb
 - 🔀 Automatically sort the model values without sorting the DOM.
 - ➕ Ability to add or remove thumbs dynamically.
 - 🚫 Avoid duplicate thumbs by rejecting them.
-- 🏃 Smooth movement or jump movement over the stops.
+- 🍡 Smooth movement or jump movement over the stops.
 - 🎨 Customizable style and theme.
-- 📝 Render content above or below the thumb.
+- 📍 Render content above or below the thumb.
 
 ## Demo
 
@@ -35,6 +35,7 @@ pnpm add vue-range-multi
 <script setup lang="ts">
 import { ref } from 'vue'
 import { Range } from 'vue-range-multi'
+import 'vue-range-multi/style.css'
 
 const model = ref<number>(0)
 </script>
@@ -52,11 +53,11 @@ generic="T"
 
 | Name | Type | Description | Default | Required |
 | --- | --- | --- | --- | --- |
-| v-model:modelValue | number \| number[] \| RangeData\<T>[] | model value. It will auto detect the type of model and show different thumb(s) | [] | true |
+| v-model:modelValue | number \| number[] \| RangeData\<T>[] | model value. It will auto detect the type of model and show the corresponding thumb(s) | [] | true |
 | min | number | minimum value | 0 | |
 | max | number | maximum value | 100 | |
 | step | number | step | 1 | |
-| addable | boolean | can add data. This will emit 'addThumb' | false | |
+| addable | boolean | can add data. This will emit event 'addThumb' | false | |
 | limit | number | the limit can be add | undefined | |
 | smooth | boolean | with smooth off, the thumb will only show on the stop point | false | |
 | deduplicate | boolean | can the thumb be duplicated | true | |
@@ -89,6 +90,24 @@ export interface RangeData<T = unknown> {
 }
 export type RangeValue<T = unknown> = number | number[] | RangeData<T>[]
 ```
+
+## theme
+
+```css
+.m-range-theme {
+  --c-primary: #409EFF;
+  --c-fill: #E4E7ED;
+  --c-fill-stop: #F5F5F5;
+  --c-fill-thumb: #fff;
+}
+```
+
+## TODO
+
+- [ ] dark mode
+- [ ] test
+- [ ] animation
+- [ ] cursor
 
 ## License
 
