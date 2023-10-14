@@ -14,6 +14,7 @@ export default defineConfig({
     ['m-range-border', 'border-2 border-primary border-solid'],
     // classes
     ['m-range', 'min-h-1 box-content'],
+    ['m-range-theme', '[--c-primary:#409EFF] [--c-fill:#E4E7ED] [--c-fill-stop:#F5F5F5] [--c-fill-thumb:#fff]'],
     ['m-range-small', 'h2 [--m-range-h:0.5rem]'],
     ['m-range-medium', 'h4 [--m-range-h:1rem]'],
     ['m-range-large', 'h8 [--m-range-h:2rem]'],
@@ -38,11 +39,11 @@ export default defineConfig({
   theme: {
     colors: {
       fill: {
-        DEFAULT: 'var(--c-fill, #E4E7ED)',
-        stop: 'var(--c-fill-stop, #F5F5F5)',
-        thumb: 'var(--c-fill-thumb, #fff)',
+        DEFAULT: 'var(--c-fill)',
+        stop: 'var(--c-fill-stop)',
+        thumb: 'var(--c-fill-thumb)',
       },
-      primary: 'var(--c-primary, #409EFF)',
+      primary: 'var(--c-primary)',
     },
   },
   safelist: [
