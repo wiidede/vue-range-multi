@@ -15,6 +15,7 @@ export default defineConfig({
     // classes
     ['m-range', 'min-h-1 box-content'],
     ['m-range-theme', '[--c-primary:#409EFF] [--c-fill:#E4E7ED] [--c-fill-stop:#F5F5F5] [--c-fill-thumb:#fff]'],
+    ['m-range-theme-dark', '[--c-primary:#3070ED] [--c-fill:#444] [--c-fill-stop:#555] [--c-fill-thumb:#333]'],
     ['m-range-small', 'h2 [--m-range-h:0.5rem]'],
     ['m-range-medium', 'h4 [--m-range-h:1rem]'],
     ['m-range-large', 'h8 [--m-range-h:2rem]'],

@@ -201,7 +201,7 @@ provide(RangeContainerRefKey, containerRef)
 </script>
 
 <template>
-  <div ref="containerRef" class="m-range-theme m-range" :class="`m-range-${size}`">
+  <div ref="containerRef" class="dark:m-range-theme-dark m-range-theme m-range" :class="`m-range-${size}`">
     <div
       ref="trackRef"
       class="m-range-track"

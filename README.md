@@ -104,7 +104,6 @@ export type RangeValue<T = unknown> = number | number[] | RangeData<T>[]
 
 ## TODO
 
-- [ ] dark mode
 - [ ] test
 
 ## License

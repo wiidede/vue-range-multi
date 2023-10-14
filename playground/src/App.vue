@@ -3,6 +3,7 @@ import { h, ref } from 'vue'
 import { Range } from 'vue-range-multi'
 import type { RangeData } from 'vue-range-multi'
 import 'vue-range-multi/style.css'
+import { useDark, useToggle } from '@vueuse/core'
 
 const modelSingle = ref<number>(3)
 
@@ -24,11 +25,14 @@ function handleAddData(value: number) {
     value,
   })
 }
+
+const isDark = useDark()
+const toggleDark = useToggle(isDark)
 </script>
 
 <template>
   <main class="m-auto prose">
-    <h1 class="text-4xl font-serif text-zinc-900">
+    <h1 class="text-4xl font-serif dark:text-zinc-50">
       Vue Range Multi Demo
     </h1>
     <div class="flex flex-col gap-12">
@@ -83,7 +87,7 @@ function handleAddData(value: number) {
         </div>
         <Range
           v-model="modelNumbersAdd"
-          class="[--c-fill-stop:#F7FEE7] [--c-fill:#DFF8A7] [--c-primary:#B1E457] w-full pb1 pt8"
+          class="add-range w-full pb1 pt8"
           :step="5"
           addable
           smooth
@@ -91,7 +95,7 @@ function handleAddData(value: number) {
           size="medium"
           thumb-type="square"
           thumb-size="large"
-          :render-top="(data) => h('div', data.value)"
+          :render-top="(data) => h('div', { class: 'color-[--c-primary]' }, data.value)"
           @add="handleAddNumbers"
         />
       </div>
@@ -125,6 +129,9 @@ function handleAddData(value: number) {
     </div>
   </main>
   <footer class="m-auto mt8 prose">
+    <button icon-btn title="toggle dark mode" @click="toggleDark()">
+      <div i="carbon-sun dark:carbon-moon" />
+    </button>
     <div class="flex gap4">
       <a href="https://github.com/wiidede/vue-range-multi" target="_blank">GitHub</a>
       <a href="https://github.com/wiidede/vue-range-multi/blob/main/playground/src/App.vue" target="_blank">Demo Source</a>
@@ -136,11 +143,25 @@ function handleAddData(value: number) {
 </template>
 
 <style scoped>
+.add-range {
+  --c-fill-stop: #F7FEE7;
+  --c-fill-thumb: #F7FEE7;
+  --c-fill: #DFF8A7;
+  --c-primary: #B1E457;
+}
+
+.dark .add-range {
+  --c-fill-stop: #73A132;
+  --c-fill-thumb: #73A132;
+  --c-fill: #B1E457;
+  --c-primary: #94CA42;
+}
+
 .data-range :deep(.m-range-track) {
   border-radius: 6px;
 }
 
 a {
-  --at-apply: underline decoration-zinc-300 after:content-['↗'] after:text-0.8em after:op67;
+  --at-apply: underline decoration-zinc-400/50 after:content-['↗'] after:text-0.8em after:op67;
 }
 </style>
