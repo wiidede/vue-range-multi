@@ -4,7 +4,9 @@ export function swap<T>(arr: T[], i: number, j: number): void {
 
 export function percentage2value(percentage: number, min: number, max: number, step: number) {
   if (min === undefined || max === undefined || step === undefined)
-    return 0
+    return Number.NaN
+  if (max <= min)
+    return Number.NaN
   if (percentage < 0)
     return min
   if (percentage > 100)
@@ -15,7 +17,9 @@ export function percentage2value(percentage: number, min: number, max: number, s
 
 export function value2percentage(value: number, min: number, max: number, step: number) {
   if (min === undefined || max === undefined || step === undefined)
-    return 0
+    return Number.NaN
+  if (max <= min)
+    return Number.NaN
   if (value < min)
     return 0
   if (value > max)
