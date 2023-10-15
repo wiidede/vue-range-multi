@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { h, ref } from 'vue'
-import { Range } from 'vue-range-multi'
 import type { RangeData } from 'vue-range-multi'
-import 'vue-range-multi/style.css'
 import { useDark, useToggle } from '@vueuse/core'
 
 const modelSingle = ref<number>(3)

@@ -66,7 +66,24 @@ declare module 'vue' {
 }
 ```
 
-Or you can import it globally in main.ts.
+unplugin-vue-components
+
+```ts
+import { VueRangeMultiResolver } from 'vue-range-multi'
+
+// and then add `VueRangeMultiResolver()` into resolvers
+```
+
+```ts
+interface VueRangeMultiResolverOptions {
+  /**
+   * The name of the component. It should be camelCase
+   *
+   * @default 'MRange'
+   */
+  name?: string
+}
+```
 
 ## Props
 
