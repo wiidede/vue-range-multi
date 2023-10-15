@@ -32,6 +32,8 @@ pnpm add vue-range-multi
 
 2. Use in Vue
 
+in SFC
+
 ```vue
 <script setup lang="ts">
 import { ref } from 'vue'
@@ -42,10 +44,26 @@ const model = ref<number>(0)
 </script>
 
 <template>
-  <Range
-    v-model="model"
-  />
+  <Range v-model="model" />
 </template>
+```
+
+install globally
+
+```ts
+// main.ts
+import { Range } from 'vue-range-multi'
+import 'vue-range-multi/style.css'
+
+app.component('MRange', Range)
+```
+
+```ts
+declare module 'vue' {
+  export interface GlobalComponents {
+    MRange: typeof import('vue-range-multi')['Range']
+  }
+}
 ```
 
 Or you can import it globally in main.ts.
