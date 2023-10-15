@@ -72,25 +72,25 @@ Or you can import it globally in main.ts.
 
 generic="T"
 
-| Name | Type | Description | Default | Required |
-| --- | --- | --- | --- | --- |
-| v-model:modelValue | number \| number[] \| RangeData\<T>[] | model value. It will auto detect the type of model and show the corresponding thumb(s) | [] | true |
-| min | number | minimum value | 0 | |
-| max | number | maximum value | 100 | |
-| step | number | step | 1 | |
-| addable | boolean | can add data. This will emit event 'addThumb' | false | |
-| limit | number | the limit can be add | undefined | |
-| smooth | boolean | with smooth off, the thumb will only show on the stop point | false | |
-| deduplicate | boolean | can the thumb be duplicated | true | |
-| rangeHighlight | boolean | highlight range between min and max. This will only effect while modelValue is array and length is 2 | false | |
-| showStops | boolean \| number | whether to show dots on the track. When set to number, will only show dots while stops less than the value | 12 | |
-| size | 'small' \| 'medium' \| 'large' | track size | 'small' | |
-| thumbType | 'circle' \| 'square' \| 'rect' | thumb type(default 'rect' while size is 'large', otherwise 'small') | 'circle' \| 'rect' | |
-| thumbSize | 'small' \| 'medium' \| 'large' | thumb size | 'medium' | |
-| renderTop | (data: RangeData\<T>) => VNode | render function on the top of thumb | undefined | |
-| renderTopOnActive | boolean | only render top function on the active thumb | false | |
-| renderBottom | (data: RangeData\<T>) => VNode | render bottom function on the bottom of thumb | undefined | |
-| renderBottomOnActive | boolean | only render bottom function on the active thumb | false | |
+| Name | Type | Description | Default |
+| --- | --- | --- | --- |
+| v-model:modelValue* | number \| number[] \| RangeData\<T>[] | Model value. It will automatically detect the type of model and show the corresponding thumb(s) | [] |
+| min | number | The minimum value allowed | 0 |
+| max | number | The maximum value allowed | 100 |
+| step | number | Step | 1 |
+| addable | boolean | Determines if new data can be added/deleted. This will emit event 'addThumb' | false |
+| limit | number | the limit can be add | undefined |
+| smooth | boolean | Determines if the thumb(s) should only be displayed on the stop points or not | false |
+| deduplicate | boolean | Determines if the thumb(s) can be duplicated | true |
+| rangeHighlight | boolean | Determines if the range between the minimum and maximum values should be highlighted. This only has an effect when the modelValue is an array with a length of 2 | false |
+| showStops | boolean \| number | Determines if dots should be displayed on the track. When set to a number, dots will only be displayed if the number of stops is less than the specified value | 12 |
+| size | 'small' \| 'medium' \| 'large' | Track size | 'small' |
+| thumbType | 'circle' \| 'square' \| 'rect' | Thumb type(default 'rect' while size is 'large', otherwise 'small') | 'circle' \| 'rect' |
+| thumbSize | 'small' \| 'medium' \| 'large' | Thumb size | 'medium' |
+| renderTop | (data: RangeData\<T>) => VNode | A render function for displaying content above the thumb | undefined |
+| renderTopOnActive | boolean | Specifies whether to render only while the thumb is active | false |
+| renderBottom | (data: RangeData\<T>) => VNode | A render function for displaying content below the thumb | undefined |
+| renderBottomOnActive | boolean | Specifies whether to render only while the thumb is active | false |
 
 ## events
 
@@ -102,8 +102,8 @@ generic="T"
 
 | Name | Type | Description |
 | --- | --- | --- |
-| top | { data: RangeData\<T> } | render on the top of thumb, only effect while renderTop is undefined |
-| bottom | { data: RangeData\<T> } | render on the bottom of thumb, only effect while renderBottom is undefined |
+| top | { data: RangeData\<T> } | render above the thumb, only effect while renderTop is undefined |
+| bottom | { data: RangeData\<T> } | render below the thumb, only effect while renderBottom is undefined |
 
 ## types
 
