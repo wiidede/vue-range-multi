@@ -95,9 +95,14 @@ const toggleDark = useToggle(isDark)
           size="medium"
           thumb-type="square"
           thumb-size="large"
-          :render-top="(data) => h('div', { class: 'color-[--c-primary]' }, data.value)"
           @add="handleAddNumbers"
-        />
+        >
+          <template #top="{ data }">
+            <div class="c-primary">
+              {{ data.value }}
+            </div>
+          </template>
+        </Range>
       </div>
       <div>
         <div class="flex flex-wrap items-center gap2">

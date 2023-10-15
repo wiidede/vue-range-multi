@@ -98,6 +98,13 @@ generic="T"
 | --- | --- | --- |
 | add | (value: number): void | add event while click the track |
 
+## slots
+
+| Name | Type | Description |
+| --- | --- | --- |
+| top | { data: RangeData\<T> } | render on the top of thumb, only effect while renderTop is undefined |
+| bottom | { data: RangeData\<T> } | render on the bottom of thumb, only effect while renderBottom is undefined |
+
 ## types
 
 ```ts

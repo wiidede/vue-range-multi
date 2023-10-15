@@ -26,6 +26,11 @@ const emits = defineEmits<{
   (e: 'moveDone'): void
 }>()
 
+defineSlots<{
+  top(props: { data: RangeData<T> }): any
+  bottom(props: { data: RangeData<T> }): any
+}>()
+
 const thumbRef = ref<HTMLElement>()
 const trackRef = inject(RangeTrackRefKey)
 const containerRef = inject(RangeContainerRefKey)
@@ -102,14 +107,16 @@ function onPointerDown(e: PointerEvent) {
     <Transition name="fade">
       <div v-if="!renderTopOnActive || active" class="m-range-transition-container">
         <div class="m-range-thumb-top-container">
-          <Render :render="() => renderTop?.(data)" />
+          <Render v-if="renderTop" :render="() => renderTop?.(data)" />
+          <slot v-else name="top" :data="data" />
         </div>
       </div>
     </Transition>
     <Transition name="fade">
       <div v-if="!renderBottomOnActive || active" class="m-range-transition-container">
         <div class="m-range-thumb-bottom-container">
-          <Render :render="() => renderBottom?.(data)" />
+          <Render v-if="renderBottom" :render="() => renderBottom?.(data)" />
+          <slot v-else name="bottom" :data="data" />
         </div>
       </div>
     </Transition>

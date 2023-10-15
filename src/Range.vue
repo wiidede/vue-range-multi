@@ -39,6 +39,11 @@ const emits = defineEmits<{
   (e: 'add', value: number): void
 }>()
 
+defineSlots<{
+  top(props: { data: RangeData<T> }): any
+  bottom(props: { data: RangeData<T> }): any
+}>()
+
 const modelType = computed<'single' | 'numbers' | 'data'>(() => {
   const value = props.modelValue
   if (Array.isArray(value) && typeof value[0] === 'number')
@@ -239,7 +244,14 @@ provide(RangeContainerRefKey, containerRef)
         @update="onUpdate"
         @delete="onDelete"
         @pointerdown="!model[index].disabled && (current = idx)"
-      />
+      >
+        <template #top="{ data }">
+          <slot name="top" :data="data" />
+        </template>
+        <template #bottom="{ data }">
+          <slot name="bottom" :data="data" />
+        </template>
+      </RangeThumb>
     </div>
   </div>
 </template>
