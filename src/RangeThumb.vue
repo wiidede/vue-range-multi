@@ -38,7 +38,7 @@ const containerRef = inject(RangeContainerRefKey)
 const deleting = ref(false)
 
 function onPointerMove(e: PointerEvent) {
-  if (!thumbRef.value || !trackRef?.value || !containerRef?.value)
+  if (!thumbRef.value || !trackRef?.value || !containerRef?.value || props.disabled)
     return
   const trackRect = trackRef.value.getBoundingClientRect()
   const offset = e.clientX - trackRect.left
@@ -62,8 +62,10 @@ async function onPointerUp(e: PointerEvent) {
   window.removeEventListener('pointermove', onPointerMove)
   window.removeEventListener('pointerup', onPointerUp)
   window.removeEventListener('pointercancel', onPointerUp)
-  if (!containerRef?.value)
+  if (!containerRef?.value || props.disabled) {
+    emits('moveDone')
     return
+  }
   const containerRect = containerRef.value.getBoundingClientRect()
   if (props.addable) {
     if (e.clientY - containerRect.top < 0 || e.clientY - containerRect.bottom > 0) {
@@ -78,8 +80,6 @@ async function onPointerUp(e: PointerEvent) {
 function onPointerDown(e: PointerEvent) {
   e.preventDefault()
   e.stopPropagation()
-  if (props.disabled)
-    return
   window.addEventListener('pointermove', onPointerMove)
   window.addEventListener('pointerup', onPointerUp)
   window.addEventListener('pointercancel', onPointerUp)

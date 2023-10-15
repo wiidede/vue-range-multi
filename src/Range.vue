@@ -243,7 +243,7 @@ provide(RangeContainerRefKey, containerRef)
         @move-done="current = -1"
         @update="onUpdate"
         @delete="onDelete"
-        @pointerdown="!model[index].disabled && (current = idx)"
+        @pointerdown="current = idx"
       >
         <template #top="{ data }">
           <slot name="top" :data="data" />
