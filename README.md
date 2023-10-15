@@ -1,4 +1,6 @@
-# vue-range-multi(WIP)
+# Vue Range Multi
+
+<img src="./playground/public/favicon.svg" width="100px" height="100px"></div>
 
 [![npm version][npm-version-src]][npm-version-href]
 [![npm downloads][npm-downloads-src]][npm-downloads-href]
