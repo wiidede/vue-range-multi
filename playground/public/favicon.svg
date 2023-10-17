@@ -1,12 +1,12 @@
 <svg width="192" height="192" viewBox="0 0 192 192" fill="none" xmlns="http://www.w3.org/2000/svg">
-<rect x="9" y="32" width="172" height="128" rx="12" fill="white"/>
-<rect x="13" y="78" width="164" height="36" rx="8" fill="#E4F7B0"/>
+<rect x="9" y="32" width="172" height="128" rx="12" fill="white" fill-opacity="0.5"/>
+<rect x="13" y="78" width="164" height="36" rx="8" fill="#E4F7B0" fill-opacity="0.5"/>
 <rect x="70" y="78" width="50" height="36" fill="#BBE36C"/>
 <circle cx="120" cy="96" r="16" fill="white" stroke="#BBE36C" stroke-width="4"/>
 <circle cx="72" cy="96" r="16" fill="white" stroke="#BBE36C" stroke-width="4"/>
-<rect x="13" y="36" width="164" height="24" rx="8" fill="#E5E7EC"/>
+<rect x="13" y="36" width="164" height="24" rx="8" fill="#E5E7EC" fill-opacity="0.5"/>
 <circle cx="95" cy="48" r="14" fill="white" stroke="#5A9CF8" stroke-width="4"/>
-<path d="M13 140C13 135.582 16.5817 132 21 132H169C173.418 132 177 135.582 177 140V148C177 152.418 173.418 156 169 156H21C16.5817 156 13 152.418 13 148V140Z" fill="#E5E7EC"/>
+<path d="M13 140C13 135.582 16.5817 132 21 132H169C173.418 132 177 135.582 177 140V148C177 152.418 173.418 156 169 156H21C16.5817 156 13 152.418 13 148V140Z" fill="#E5E7EC" fill-opacity="0.5"/>
 <circle cx="95" cy="144" r="14" fill="white" stroke="#5A9CF8" stroke-width="4"/>
 <circle cx="48" cy="144" r="14" fill="white" stroke="#5A9CF8" stroke-width="4"/>
 <circle cx="144" cy="144" r="14" fill="white" stroke="#5A9CF8" stroke-width="4"/>

@@ -1,12 +1,12 @@
 # Vue Range Multi
 
-<a href="https://range.wiidede.space/" target="_blank" ><img src="./playground/public/favicon.svg" width="100px" height="100px"></div></a>
-
 [![npm version][npm-version-src]][npm-version-href]
 [![npm downloads][npm-downloads-src]][npm-downloads-href]
 [![bundle][bundle-src]][bundle-href]
 [![JSDocs][jsdocs-src]][jsdocs-href]
 [![License][license-src]][license-href]
+
+<a href="https://range.wiidede.space/" target="_blank" ><img src="./playground/public/favicon.svg" width="100px" height="100px"></div></a>
 
 A range vue component that support one or more thumb
 
