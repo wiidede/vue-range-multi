@@ -1,12 +1,12 @@
-<script lang="ts" setup generic="T">
+<script lang="ts" setup generic="T = any, U = RangeValueType<T>">
 import { computed, nextTick, provide, ref, watch } from 'vue'
 import { RangeContainerRefKey, RangeTrackRefKey } from './Range'
 import RangeThumb from './RangeThumb.vue'
-import type { RangeData, RangeRenderFn, RangeValue } from './type'
+import type { RangeData, RangeRenderFn, RangeValue, RangeValueType } from './type'
 import { percentage2value, swap, value2percentage } from './utils'
 
 const props = withDefaults(defineProps<{
-  modelValue: RangeValue<T>
+  modelValue: RangeValue<T, U>
   min?: number
   max?: number
   step?: number
@@ -19,9 +19,9 @@ const props = withDefaults(defineProps<{
   size?: 'small' | 'medium' | 'large'
   thumbType?: 'circle' | 'square' | 'rect'
   thumbSize?: 'small' | 'medium' | 'large'
-  renderTop?: RangeRenderFn<T>
+  renderTop?: RangeRenderFn<T, U>
   renderTopOnActive?: boolean
-  renderBottom?: RangeRenderFn<T>
+  renderBottom?: RangeRenderFn<T, U>
   renderBottomOnActive?: boolean
 }>(), {
   modelValue: () => [],
@@ -40,41 +40,47 @@ const emits = defineEmits<{
 }>()
 
 defineSlots<{
-  top(props: { data: RangeData<T> }): any
-  bottom(props: { data: RangeData<T> }): any
+  top(props: { data: U }): any
+  bottom(props: { data: U }): any
 }>()
 
-const modelType = computed<'single' | 'numbers' | 'data'>(() => {
+const modelType = computed<'number' | 'data' | 'numberList' | 'dataList'>(() => {
   const value = props.modelValue
   if (Array.isArray(value) && typeof value[0] === 'number')
-    return 'numbers'
+    return 'numberList'
   else if (Array.isArray(value))
-    return 'data'
+    return 'dataList'
+  else if (typeof value === 'number')
+    return 'number'
   else
-    return 'single'
+    return 'data'
 })
-const model = computed<RangeData<T>[]>({
+const model = computed<RangeData<T, U>[]>({
   get: () => {
     const value = props.modelValue
     if (Array.isArray(value))
-      return value.map(item => typeof item === 'number' ? { value: item } : item)
+      return value.map(item => typeof item === 'number' ? { value: (item as number) } : (item as RangeData<T, U>))
     else
-      return [{ key: 0, value }]
+      return [typeof value === 'number' ? { value: (value as number) } : (value as RangeData<T, U>)]
   },
   set: (value) => {
-    if (modelType.value === 'single')
-      emits('update:modelValue', value[0]?.value)
-    else if (modelType.value === 'numbers')
-      emits('update:modelValue', value.map(item => item.value))
+    let res: any
+    if (modelType.value === 'number')
+      res = value[0].value
+    else if (modelType.value === 'data')
+      res = value[0]
+    else if (modelType.value === 'numberList')
+      res = value.map(item => (item.value))
     else
-      emits('update:modelValue', value)
+      res = value
+    emits('update:modelValue', res)
   },
 })
 
 const allowAdd = computed(() =>
   props.addable
   && (!props.limit || model.value.length < props.limit)
-  && modelType.value !== 'single',
+  && !['data', 'number'].includes(modelType.value),
 )
 const stops = computed(() => {
   const stops = Math.floor((props.max - props.min) / props.step) + 1
@@ -87,7 +93,7 @@ const stops = computed(() => {
 })
 
 const indexMap = ref<number[]>([])
-function sort(val: RangeData<T>[]) {
+function sort(val: RangeData<T, U>[]) {
   let changed = false
   for (let i = val.length; i > 0; i--) {
     for (let j = 0; j < i - 1; j++) {
@@ -233,6 +239,7 @@ provide(RangeContainerRefKey, containerRef)
         :active="current === idx"
         :disabled="model[index].disabled"
         :data="model[index]"
+        :model-type="modelType"
         :render-top="model[index].renderTop || renderTop"
         :render-top-on-active="renderTopOnActive"
         :render-bottom="model[index].renderBottom || renderBottom"

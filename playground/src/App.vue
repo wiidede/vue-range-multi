@@ -3,22 +3,22 @@ import { h, ref } from 'vue'
 import type { RangeData } from 'vue-range-multi'
 import { useDark, useToggle } from '@vueuse/core'
 
-const modelSingle = ref<number>(3)
+const modelNumber = ref<number>(3)
 
-const modelNumbers = ref<number[]>([10, 20])
+const modelNumberList = ref<number[]>([10, 20])
 
-const modelNumbersAdd = ref<number[]>([10, 20, 30, 40, 50, 60, 70, 80, 90])
+const modelNumberListAdd = ref<number[]>([10, 20, 30, 40, 50, 60, 70, 80, 90])
 function handleAddNumbers(value: number) {
-  modelNumbersAdd.value.push(value)
+  modelNumberListAdd.value.push(value)
 }
 
-const modelData = ref<RangeData<string>[]>([
+const modelDataList = ref<RangeData<string>[]>([
   { data: '00:00', value: 10, disabled: true },
   { data: '59:59', value: 90 },
 ])
 function handleAddData(value: number) {
   const date = new Date()
-  modelData.value.push({
+  modelDataList.value.push({
     data: `${date.getMinutes()}:${date.getSeconds()}`,
     value,
   })
@@ -41,10 +41,10 @@ const toggleDark = useToggle(isDark)
         <br>
         <div class="flex items-baseline">
           <span class="label">modelValue</span>
-          <pre class="value">{{ modelSingle }}</pre>
+          <pre class="value">{{ modelNumber }}</pre>
         </div>
         <Range
-          v-model="modelSingle"
+          v-model="modelNumber"
           class="w-full py1"
           :min="0"
           :max="10"
@@ -59,10 +59,10 @@ const toggleDark = useToggle(isDark)
         </div>
         <div class="flex items-baseline">
           <span class="label">modelValue</span>
-          <pre class="value">{{ JSON.stringify(modelNumbers) }}</pre>
+          <pre class="value">{{ JSON.stringify(modelNumberList) }}</pre>
         </div>
         <Range
-          v-model="modelNumbers"
+          v-model="modelNumberList"
           class="w-full py1"
           range-highlight
           size="medium"
@@ -81,10 +81,10 @@ const toggleDark = useToggle(isDark)
         </div>
         <div class="flex items-baseline">
           <span class="label">modelValue</span>
-          <pre class="value">{{ JSON.stringify(modelNumbersAdd) }}</pre>
+          <pre class="value">{{ JSON.stringify(modelNumberListAdd) }}</pre>
         </div>
         <Range
-          v-model="modelNumbersAdd"
+          v-model="modelNumberListAdd"
           class="add-range w-full pb1 pt8"
           :step="5"
           addable
@@ -97,7 +97,7 @@ const toggleDark = useToggle(isDark)
         >
           <template #top="{ data }">
             <div class="c-primary">
-              {{ data.value }}
+              {{ data }}
             </div>
           </template>
         </Range>
@@ -114,10 +114,10 @@ const toggleDark = useToggle(isDark)
         </div>
         <div class="flex items-baseline">
           <span class="label">modelValue</span>
-          <pre class="value">{{ JSON.stringify(modelData) }}</pre>
+          <pre class="value">{{ JSON.stringify(modelDataList) }}</pre>
         </div>
         <Range
-          v-model="modelData"
+          v-model="modelDataList"
           class="data-range w-full py8"
           addable
           size="large"

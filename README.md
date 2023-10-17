@@ -89,11 +89,11 @@ interface VueRangeMultiResolverOptions {
 
 ## Props
 
-generic="T"
+generic="T = any, U = number | RangeData\<T>"
 
 | Name | Type | Description | Default |
 | --- | --- | --- | --- |
-| v-model:modelValue* | number \| number[] \| RangeData\<T>[] | Model value. It will automatically detect the type of model and show the corresponding thumb(s) | [] |
+| v-model:modelValue* | U | U[] | Model value. It will automatically detect the type of model and show the corresponding thumb(s) | [] |
 | min | number | The minimum value allowed | 0 |
 | max | number | The maximum value allowed | 100 |
 | step | number | Step | 1 |
@@ -106,9 +106,9 @@ generic="T"
 | size | 'small' \| 'medium' \| 'large' | Track size | 'small' |
 | thumbType | 'circle' \| 'square' \| 'rect' | Thumb type(default 'rect' while size is 'large', otherwise 'small') | 'circle' \| 'rect' |
 | thumbSize | 'small' \| 'medium' \| 'large' | Thumb size | 'medium' |
-| renderTop | (data: RangeData\<T>) => VNode | A render function for displaying content above the thumb | undefined |
+| renderTop | (data: U) => VNode | A render function for displaying content above the thumb | undefined |
 | renderTopOnActive | boolean | Specifies whether to render only while the thumb is active | false |
-| renderBottom | (data: RangeData\<T>) => VNode | A render function for displaying content below the thumb | undefined |
+| renderBottom | (data: U) => VNode | A render function for displaying content below the thumb | undefined |
 | renderBottomOnActive | boolean | Specifies whether to render only while the thumb is active | false |
 
 ## events
@@ -121,21 +121,22 @@ generic="T"
 
 | Name | Type | Description |
 | --- | --- | --- |
-| top | { data: RangeData\<T> } | render above the thumb, only effect while renderTop is undefined |
-| bottom | { data: RangeData\<T> } | render below the thumb, only effect while renderBottom is undefined |
+| top | { data: U } | render above the thumb, only effect while renderTop is undefined |
+| bottom | { data: U } | render below the thumb, only effect while renderBottom is undefined |
 
 ## types
 
 ```ts
-export type RangeRenderFn<T = unknown> = (data: RangeData<T>) => VNode
-export interface RangeData<T = unknown> {
+export type RangeValueType<T> = number | RangeData<T>
+export interface RangeData<T, U = RangeValueType<T>> {
   value: number
   data?: T
   disabled?: boolean
-  renderTop?: RangeRenderFn<T>
-  renderBottom?: RangeRenderFn<T>
+  renderTop?: RangeRenderFn<T, U>
+  renderBottom?: RangeRenderFn<T, U>
 }
-export type RangeValue<T = unknown> = number | number[] | RangeData<T>[]
+export type RangeRenderFn<T, U = RangeValueType<T>> = (data: U) => VNode
+export type RangeValue<T, U = RangeValueType<T>> = U | U[]
 ```
 
 ## theme

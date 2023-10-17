@@ -1,20 +1,21 @@
-<script lang="ts" setup generic="T">
+<script lang="ts" setup generic="T = any, U = RangeValueType<T>">
 import { inject, nextTick, ref } from 'vue'
 import { RangeContainerRefKey, RangeTrackRefKey } from './Range'
 import Render from './Render.vue'
-import type { RangeData, RangeRenderFn } from './type'
+import type { RangeData, RangeRenderFn, RangeValueType } from './type'
 
 const props = defineProps<{
   position: number
-  data: RangeData<T>
+  data: RangeData<T, U>
+  modelType: 'number' | 'data' | 'numberList' | 'dataList'
   active?: boolean
   disabled?: boolean
   addable?: boolean
   thumbType?: 'circle' | 'square' | 'rect'
   thumbSize?: 'small' | 'medium' | 'large'
-  renderTop?: RangeRenderFn<T>
+  renderTop?: RangeRenderFn<T, U>
   renderTopOnActive?: boolean
-  renderBottom?: RangeRenderFn<T>
+  renderBottom?: RangeRenderFn<T, U>
   renderBottomOnActive?: boolean
 }>()
 
@@ -27,8 +28,8 @@ const emits = defineEmits<{
 }>()
 
 defineSlots<{
-  top(props: { data: RangeData<T> }): any
-  bottom(props: { data: RangeData<T> }): any
+  top(props: { data: U }): any
+  bottom(props: { data: U }): any
 }>()
 
 const thumbRef = ref<HTMLElement>()
@@ -107,16 +108,16 @@ function onPointerDown(e: PointerEvent) {
     <Transition name="fade">
       <div v-if="!renderTopOnActive || active" class="m-range-transition-container">
         <div class="m-range-thumb-top-container">
-          <Render v-if="renderTop" :render="() => renderTop?.(data)" />
-          <slot v-else name="top" :data="data" />
+          <Render v-if="renderTop" :render="() => renderTop?.((['data', 'dataList'].includes(modelType) ? data : data.value) as U)" />
+          <slot v-else name="top" :data="(['data', 'dataList'].includes(modelType) ? data : data.value) as U" />
         </div>
       </div>
     </Transition>
     <Transition name="fade">
       <div v-if="!renderBottomOnActive || active" class="m-range-transition-container">
         <div class="m-range-thumb-bottom-container">
-          <Render v-if="renderBottom" :render="() => renderBottom?.(data)" />
-          <slot v-else name="bottom" :data="data" />
+          <Render v-if="renderBottom" :render="() => renderBottom?.((['data', 'dataList'].includes(modelType) ? data : data.value) as U)" />
+          <slot v-else name="bottom" :data="(['data', 'dataList'].includes(modelType) ? data : data.value) as U" />
         </div>
       </div>
     </Transition>

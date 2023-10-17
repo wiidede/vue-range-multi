@@ -1,11 +1,12 @@
 import type { VNode } from 'vue'
 
-export type RangeRenderFn<T = unknown> = (data: RangeData<T>) => VNode
-export interface RangeData<T = unknown> {
+export type RangeValueType<T> = number | RangeData<T>
+export interface RangeData<T, U = RangeValueType<T>> {
   value: number
   data?: T
   disabled?: boolean
-  renderTop?: RangeRenderFn<T>
-  renderBottom?: RangeRenderFn<T>
+  renderTop?: RangeRenderFn<T, U>
+  renderBottom?: RangeRenderFn<T, U>
 }
-export type RangeValue<T = unknown> = number | number[] | RangeData<T>[]
+export type RangeRenderFn<T, U = RangeValueType<T>> = (data: U) => VNode
+export type RangeValue<T, U = RangeValueType<T>> = U | U[]
