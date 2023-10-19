@@ -103,7 +103,7 @@ function onPointerDown(e: PointerEvent) {
     :style="{ left: `${position}%` }"
     @pointerdown="onPointerDown"
     @mousedown.prevent="() => {}"
-    @touchstart.prevent.passive="() => {}"
+    @touchstart.prevent="() => {}"
   >
     <Transition name="fade">
       <div v-if="!renderTopOnActive || active" class="m-range-transition-container">
