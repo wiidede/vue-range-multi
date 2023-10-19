@@ -62,7 +62,7 @@ function onPointerMove(e: PointerEvent) {
 async function onPointerUp(e: PointerEvent) {
   window.removeEventListener('pointermove', onPointerMove)
   window.removeEventListener('pointerup', onPointerUp)
-  window.removeEventListener('pointercancel', onPointerUp)
+  // window.removeEventListener('pointercancel', onPointerUp)
   if (!containerRef?.value || props.disabled) {
     emits('moveDone')
     return
@@ -83,7 +83,7 @@ function onPointerDown(e: PointerEvent) {
   e.stopPropagation()
   window.addEventListener('pointermove', onPointerMove)
   window.addEventListener('pointerup', onPointerUp)
-  window.addEventListener('pointercancel', onPointerUp)
+  // window.addEventListener('pointercancel', onPointerUp)
 }
 </script>
 
