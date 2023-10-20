@@ -83,7 +83,7 @@ function onPointerMove(e: PointerEvent) {
     deleting.value = shouldDelete(props.vertical ? e.clientX : e.clientY)
 }
 
-async function onPointerUp(e: PointerEvent) {
+function onPointerUp(e: PointerEvent) {
   window.removeEventListener('pointermove', onPointerMove)
   window.removeEventListener('pointerup', onPointerUp)
   window.removeEventListener('pointercancel', onPointerUp)
@@ -97,7 +97,6 @@ async function onPointerUp(e: PointerEvent) {
       deleting.value = false
       emits('delete')
     }
-    await nextTick()
   }
   emits('moveDone')
 }
