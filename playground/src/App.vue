@@ -1,34 +1,7 @@
 <script setup lang="ts">
-import { h, ref } from 'vue'
-import type { RangeData, RangeMarks } from 'vue-range-multi'
 import { useDark, useToggle } from '@vueuse/core'
 
-const modelNumber = ref<number>(3)
-
-const modelNumberList = ref<number[]>([10, 20])
-
-const modelNumberListAdd = ref<number[]>([10, 20, 30, 40, 50, 60, 70, 80, 90])
-function handleAddNumbers(value: number) {
-  modelNumberListAdd.value.push(value)
-}
-const marks: RangeMarks = {
-  15: '15%',
-  25: { label: '25%', class: 'c-zinc-400' },
-  50: { label: 'center', class: 'c-primary' },
-}
-
-const modelDataList = ref<RangeData<string>[]>([
-  { data: '00:00', value: 10, disabled: true },
-  { data: '20:00', value: 40 },
-  { data: '59:59', value: 90, unremovable: true },
-])
-function handleAddData(value: number) {
-  const date = new Date()
-  modelDataList.value.push({
-    data: `${date.getMinutes()}:${date.getSeconds()}`,
-    value,
-  })
-}
+const ranges = import.meta.glob('./ranges/*.vue', { eager: true, import: 'default' })
 
 const isDark = useDark()
 const toggleDark = useToggle(isDark)
@@ -40,102 +13,7 @@ const toggleDark = useToggle(isDark)
       Vue Range Multi Demo
     </h1>
     <div class="flex flex-col gap-12">
-      <div>
-        <h2 class="type-title m0">
-          number
-        </h2>
-        <br>
-        <div class="flex items-baseline">
-          <span class="label">modelValue</span>
-          <pre class="value">{{ modelNumber }}</pre>
-        </div>
-        <Range
-          v-model="modelNumber"
-          class="w-full py1"
-          :min="0"
-          :max="10"
-        />
-      </div>
-      <div>
-        <div class="flex flex-wrap items-center gap2">
-          <h2 class="type-title m0">
-            number[]
-          </h2>
-          <span class="tag">range-highlight</span>
-        </div>
-        <div class="flex items-baseline">
-          <span class="label">modelValue</span>
-          <pre class="value">{{ JSON.stringify(modelNumberList) }}</pre>
-        </div>
-        <Range
-          v-model="modelNumberList"
-          class="w-full py1"
-          range-highlight
-          size="medium"
-          thumb-size="small"
-        />
-      </div>
-      <div>
-        <div class="flex flex-wrap items-center gap2">
-          <h2 class="type-title m0">
-            number[]
-          </h2>
-          <span class="tag">addable</span>
-          <span class="tag">smooth</span>
-          <span class="tag">show-stops</span>
-          <span class="tag">thumb-type:square</span>
-        </div>
-        <div class="flex items-baseline">
-          <span class="label">modelValue</span>
-          <pre class="value">{{ JSON.stringify(modelNumberListAdd) }}</pre>
-        </div>
-        <Range
-          v-model="modelNumberListAdd"
-          class="add-range w-full pb1 pt8"
-          :step="5"
-          addable
-          smooth
-          show-stops
-          size="medium"
-          thumb-type="square"
-          thumb-size="large"
-          :marks="marks"
-          @add="handleAddNumbers"
-        >
-          <template #top="{ data }">
-            <div class="c-primary">
-              {{ data }}
-            </div>
-          </template>
-        </Range>
-      </div>
-      <div>
-        <div class="flex flex-wrap items-center gap2">
-          <h2 class="type-title m0">
-            RangeData[]
-          </h2>
-          <span class="tag">addable</span>
-          <span class="tag">limit:5</span>
-          <span class="tag">thumb-type:rect</span>
-          <span class="tag">render-bottom-on-active</span>
-        </div>
-        <div class="flex items-baseline">
-          <span class="label">modelValue</span>
-          <pre class="value">{{ JSON.stringify(modelDataList) }}</pre>
-        </div>
-        <Range
-          v-model="modelDataList"
-          class="data-range w-full py8"
-          addable
-          size="large"
-          thumb-type="rect"
-          render-bottom-on-active
-          :limit="5"
-          :render-top="(data) => h('div', data.data)"
-          :render-bottom="(data) => h('div', data.value)"
-          @add="handleAddData"
-        />
-      </div>
+      <component :is="range" v-for="range in ranges" :key="range" />
     </div>
   </main>
   <footer class="m-auto mt8 prose">
@@ -153,24 +31,6 @@ const toggleDark = useToggle(isDark)
 </template>
 
 <style scoped>
-.add-range {
-  --c-fill-stop: #F7FEE7;
-  --c-fill-thumb: #F7FEE7;
-  --c-fill: #DFF8A7;
-  --c-primary: #B1E457;
-}
-
-.dark .add-range {
-  --c-fill-stop: #73A132;
-  --c-fill-thumb: #73A132;
-  --c-fill: #B1E457;
-  --c-primary: #94CA42;
-}
-
-.data-range :deep(.m-range-track) {
-  border-radius: 6px;
-}
-
 a {
   --at-apply: underline decoration-zinc-400/50 after:content-['↗'] after:text-0.8em after:op67;
 }

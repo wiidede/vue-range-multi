@@ -1,0 +1,53 @@
+<script setup lang="ts">
+import { h, ref } from 'vue'
+import type { RangeData } from 'vue-range-multi'
+
+const modelDataList = ref<RangeData<string>[]>([
+  { data: '00:00', value: 10, disabled: true },
+  { data: '20:00', value: 40 },
+  { data: '59:59', value: 90, unremovable: true },
+])
+function handleAddData(value: number) {
+  const date = new Date()
+  modelDataList.value.push({
+    data: `${date.getMinutes()}:${date.getSeconds()}`,
+    value,
+  })
+}
+</script>
+
+<template>
+  <div>
+    <div class="flex flex-wrap items-center gap2">
+      <h2 class="type-title m0">
+        RangeData[]
+      </h2>
+      <span class="tag">addable</span>
+      <span class="tag">limit:5</span>
+      <span class="tag">thumb-type:rect</span>
+      <span class="tag">render-bottom-on-active</span>
+    </div>
+    <div class="flex items-baseline">
+      <span class="label">modelValue</span>
+      <pre class="value">{{ JSON.stringify(modelDataList) }}</pre>
+    </div>
+    <Range
+      v-model="modelDataList"
+      class="w-full py8"
+      addable
+      size="large"
+      thumb-type="rect"
+      render-bottom-on-active
+      :limit="5"
+      :render-top="(data) => h('div', data.data)"
+      :render-bottom="(data) => h('div', data.value)"
+      @add="handleAddData"
+    />
+  </div>
+</template>
+
+<style scoped>
+.m-range :deep(.m-range-track) {
+  border-radius: 6px;
+}
+</style>
