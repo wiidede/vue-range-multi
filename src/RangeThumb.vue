@@ -62,7 +62,9 @@ function onPointerMove(e: PointerEvent) {
 async function onPointerUp(e: PointerEvent) {
   window.removeEventListener('pointermove', onPointerMove)
   window.removeEventListener('pointerup', onPointerUp)
-  // window.removeEventListener('pointercancel', onPointerUp)
+  window.removeEventListener('pointercancel', onPointerUp)
+  if (e.type === 'pointercancel')
+    return
   if (!containerRef?.value || props.disabled) {
     emits('moveDone')
     return
@@ -81,9 +83,9 @@ async function onPointerUp(e: PointerEvent) {
 function onPointerDown(e: PointerEvent) {
   e.preventDefault()
   e.stopPropagation()
-  window.addEventListener('pointermove', onPointerMove)
+  window.addEventListener('pointermove', onPointerMove, { passive: false })
   window.addEventListener('pointerup', onPointerUp)
-  // window.addEventListener('pointercancel', onPointerUp)
+  window.addEventListener('pointercancel', onPointerUp)
 }
 </script>
 
@@ -103,7 +105,7 @@ function onPointerDown(e: PointerEvent) {
     :style="{ left: `${position}%` }"
     @pointerdown="onPointerDown"
     @mousedown.prevent="() => {}"
-    @touchstart.prevent="() => {}"
+    @touchstart="(e) => { e.cancelable === true && e.preventDefault() }"
   >
     <Transition name="fade">
       <div v-if="!renderTopOnActive || active" class="m-range-transition-container">
