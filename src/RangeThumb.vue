@@ -1,5 +1,5 @@
 <script lang="ts" setup generic="T = any, U = RangeValueType<T>">
-import { inject, nextTick, ref } from 'vue'
+import { computed, inject, nextTick, ref } from 'vue'
 import { RangeContainerRefKey, RangeTrackRefKey } from './Range'
 import Render from './Render.vue'
 import type { RangeData, RangeRenderFn, RangeValueType } from './type'
@@ -10,6 +10,7 @@ const props = defineProps<{
   modelType: 'number' | 'data' | 'numberList' | 'dataList'
   active?: boolean
   disabled?: boolean
+  unremovable?: boolean
   addable?: boolean
   thumbType?: 'circle' | 'square' | 'rect'
   thumbSize?: 'small' | 'medium' | 'large'
@@ -36,6 +37,8 @@ const thumbRef = ref<HTMLElement>()
 const trackRef = inject(RangeTrackRefKey)
 const containerRef = inject(RangeContainerRefKey)
 
+const removable = computed(() => props.addable && !props.unremovable)
+
 const deleting = ref(false)
 
 function shouldDelete(clientY: number) {
@@ -60,7 +63,7 @@ function onPointerMove(e: PointerEvent) {
     emits('update', 100)
   else if (!Number.isNaN(percent))
     emits('update', percent)
-  if (props.addable)
+  if (removable.value)
     deleting.value = shouldDelete(e.clientY)
 }
 
@@ -72,7 +75,7 @@ async function onPointerUp(e: PointerEvent) {
     emits('moveDone')
     return
   }
-  if (props.addable) {
+  if (removable.value) {
     if (shouldDelete(e.clientY)) {
       deleting.value = false
       emits('delete')
@@ -98,9 +101,9 @@ function onPointerDown(e: PointerEvent) {
     :class="[
       {
         'm-range-thumb-active': active,
-        'op-20': addable && deleting && active,
+        'op-20': removable && deleting && active,
       },
-      disabled ? 'cursor-not-allowed' : addable ? 'cursor-move' : 'cursor-ew-resize',
+      disabled ? 'cursor-not-allowed' : removable ? 'cursor-move' : 'cursor-ew-resize',
       `m-range-thumb-${thumbType}`,
       `m-range-thumb-${thumbSize}`,
     ]"

@@ -253,6 +253,7 @@ provide(RangeContainerRefKey, containerRef)
         :position="position[idx] || 0"
         :active="current === idx"
         :disabled="model[index].disabled"
+        :unremovable="model[index].unremovable"
         :data="model[index]"
         :model-type="modelType"
         :render-top="model[index].renderTop || renderTop"

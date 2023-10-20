@@ -19,7 +19,8 @@ const marks: RangeMarks = {
 
 const modelDataList = ref<RangeData<string>[]>([
   { data: '00:00', value: 10, disabled: true },
-  { data: '59:59', value: 90 },
+  { data: '20:00', value: 40 },
+  { data: '59:59', value: 90, unremovable: true },
 ])
 function handleAddData(value: number) {
   const date = new Date()
