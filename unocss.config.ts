@@ -50,8 +50,8 @@ export default defineConfig({
     ['m-range-thumb-large', 'top--2 bottom--2 [--m-range-thumb-h:0.5rem]'],
     ['m-range-thumb-active', 'z-1  drop-shadow-[0.1rem_0.15rem_0.25rem_var(--c-primary)]'],
     ['m-range-transition-container', 'absolute h-full w0 left-50%'],
-    ['m-range-thumb-top-container', 'absolute left-50% top-0 translate-x--50% translate-y-[calc(-100%_-_var(--m-range-thumb-h))]'],
-    ['m-range-thumb-bottom-container', 'absolute left-50% bottom-0 translate-x--50% translate-y-[calc(100%_+_var(--m-range-thumb-h))]'],
+    ['m-range-thumb-top-container', 'absolute left-50% top-0 translate-x--50% translate-y-[calc(-100%_-_4px)]'],
+    ['m-range-thumb-bottom-container', 'absolute left-50% bottom-0 translate-x--50% translate-y-[calc(100%_+_4px)]'],
     ['m-range-v-thumb', 'm-range-border absolute bg-fill-thumb translate-y--50% transform-origin-center transition transition-property-[opacity,transform]'],
     ['m-range-v-thumb-circle', 'h-[calc(var(--m-range-w)_+_var(--m-range-thumb-w)_*_2)] rd-full'],
     ['m-range-v-thumb-square', 'h-[calc(var(--m-range-w)_+_var(--m-range-thumb-w)_*_2)]'],
@@ -60,8 +60,8 @@ export default defineConfig({
     ['m-range-v-thumb-medium', 'left--1 right--1 [--m-range-thumb-w:0.25rem]'],
     ['m-range-v-thumb-large', 'left--2 right--2 [--m-range-thumb-w:0.5rem]'],
     ['m-range-v-transition-container', 'absolute w-full h0 top-50%'],
-    ['m-range-v-thumb-top-container', 'absolute top-50% left-0 translate-y--50% translate-x-[calc(-100%_-_var(--m-range-thumb-w))]'],
-    ['m-range-v-thumb-bottom-container', 'absolute top-50% right-0 translate-y--50% translate-x-[calc(100%_+_var(--m-range-thumb-w))]'],
+    ['m-range-v-thumb-top-container', 'absolute top-50% left-0 translate-y--50% translate-x-[calc(-100%_-_4px)]'],
+    ['m-range-v-thumb-bottom-container', 'absolute top-50% right-0 translate-y--50% translate-x-[calc(100%_+_4px)]'],
   ],
   theme: {
     colors: {
