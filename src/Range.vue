@@ -2,7 +2,7 @@
 import { computed, nextTick, provide, ref, watch } from 'vue'
 import { RangeContainerRefKey, RangeTrackRefKey } from './Range'
 import RangeThumb from './RangeThumb.vue'
-import type { RangeData, RangeRenderFn, RangeValue, RangeValueType } from './type'
+import type { RangeData, RangeMarks, RangeRenderFn, RangeValue, RangeValueType } from './type'
 import { percentage2value, swap, value2percentage } from './utils'
 
 const props = withDefaults(defineProps<{
@@ -23,6 +23,7 @@ const props = withDefaults(defineProps<{
   renderTopOnActive?: boolean
   renderBottom?: RangeRenderFn<T, U>
   renderBottomOnActive?: boolean
+  marks?: RangeMarks
 }>(), {
   modelValue: () => [],
   min: 0,
@@ -212,7 +213,11 @@ provide(RangeContainerRefKey, containerRef)
 </script>
 
 <template>
-  <div ref="containerRef" class="dark:m-range-theme-dark m-range-theme m-range" :class="`m-range-${size}`">
+  <div
+    ref="containerRef"
+    class="dark:m-range-theme-dark m-range-theme m-range"
+    :class="[`m-range-${size}`, `m-range-thumb-${thumbSize}`]"
+  >
     <div
       ref="trackRef"
       class="m-range-track"
@@ -231,6 +236,16 @@ provide(RangeContainerRefKey, containerRef)
         <div class="m-range-points-container">
           <div v-for="index in stops" :key="index" class="m-range-points" />
         </div>
+      </div>
+      <div v-if="marks" class="m-range-marks">
+        <template v-for="mark, key in marks" :key="key">
+          <div v-if="(typeof mark === 'string')" class="m-range-mark-item" :style="{ left: `${key}%` }">
+            {{ mark }}
+          </div>
+          <div v-else class="m-range-mark-item" :class="mark.class" :style="{ left: `${key}%`, ...mark.style }">
+            {{ mark.label }}
+          </div>
+        </template>
       </div>
       <RangeThumb
         v-for="index, idx in indexMap"

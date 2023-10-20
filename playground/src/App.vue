@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { h, ref } from 'vue'
-import type { RangeData } from 'vue-range-multi'
+import type { RangeData, RangeMarks } from 'vue-range-multi'
 import { useDark, useToggle } from '@vueuse/core'
 
 const modelNumber = ref<number>(3)
@@ -10,6 +10,11 @@ const modelNumberList = ref<number[]>([10, 20])
 const modelNumberListAdd = ref<number[]>([10, 20, 30, 40, 50, 60, 70, 80, 90])
 function handleAddNumbers(value: number) {
   modelNumberListAdd.value.push(value)
+}
+const marks: RangeMarks = {
+  15: '15%',
+  25: { label: '25%', class: 'c-zinc-400' },
+  50: { label: 'center', class: 'c-primary' },
 }
 
 const modelDataList = ref<RangeData<string>[]>([
@@ -93,6 +98,7 @@ const toggleDark = useToggle(isDark)
           size="medium"
           thumb-type="square"
           thumb-size="large"
+          :marks="marks"
           @add="handleAddNumbers"
         >
           <template #top="{ data }">
