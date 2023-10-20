@@ -10,6 +10,7 @@ const props = withDefaults(defineProps<{
   min?: number
   max?: number
   step?: number
+  vertical?: boolean
   addable?: boolean
   limit?: number
   smooth?: boolean
@@ -200,8 +201,8 @@ function addThumb(e: MouseEvent) {
   if (!trackRef?.value || !allowAdd.value)
     return
   const trackRect = trackRef.value.getBoundingClientRect()
-  const offset = e.clientX - trackRect.left
-  const percent = offset / trackRect.width * 100
+  const offset = props.vertical ? e.clientY - trackRect.top : e.clientX - trackRect.left
+  const percent = offset / (props.vertical ? trackRect.height : trackRect.width) * 100
   const value = getValue(percent)
   if (model.value.some(item => item.value === value))
     return
@@ -216,33 +217,42 @@ provide(RangeContainerRefKey, containerRef)
   <div
     ref="containerRef"
     class="dark:m-range-theme-dark m-range-theme m-range"
-    :class="[`m-range-${size}`, `m-range-thumb-${thumbSize}`]"
+    :class="[`m-range-${vertical ? 'v-' : ''}${size}`, `m-range-${vertical ? 'v-' : ''}thumb-${thumbSize}`]"
   >
     <div
       ref="trackRef"
-      class="m-range-track"
-      :class="{ 'cursor-copy': allowAdd }"
+      :class="[vertical ? 'm-range-v-track' : 'm-range-track', { 'cursor-copy': allowAdd }]"
       @pointerdown="addTiming = true"
       @pointerleave="addTiming = false"
       @pointerup.prevent="addThumb"
     >
       <div v-show="rangeHighlight && model.length === 2" class="m-range-highlight-container">
         <div
-          class="m-range-highlight"
-          :style="{ left: `${Math.min(...position)}%`, right: `${100 - Math.max(...position)}%` }"
+          :class="vertical ? 'm-range-v-highlight' : 'm-range-highlight'"
+          :style="vertical
+            ? { top: `${Math.min(...position)}%`, bottom: `${100 - Math.max(...position)}%` }
+            : { left: `${Math.min(...position)}%`, right: `${100 - Math.max(...position)}%` }"
         />
       </div>
       <div v-if="stops > 0" class="m-range-points-area">
-        <div class="m-range-points-container">
+        <div :class="vertical ? 'm-range-v-points-container' : 'm-range-points-container'">
           <div v-for="index in stops" :key="index" class="m-range-points" />
         </div>
       </div>
-      <div v-if="marks" class="m-range-marks">
+      <div v-if="marks" :class="vertical ? 'm-range-v-marks' : 'm-range-marks'">
         <template v-for="mark, key in marks" :key="key">
-          <div v-if="(typeof mark === 'string')" class="m-range-mark-item" :style="{ left: `${key}%` }">
+          <div
+            v-if="(typeof mark === 'string')"
+            :class="vertical ? 'm-range-v-mark-item' : 'm-range-mark-item'"
+            :style="vertical ? { top: `${key}%` } : { left: `${key}%` }"
+          >
             {{ mark }}
           </div>
-          <div v-else class="m-range-mark-item" :class="mark.class" :style="{ left: `${key}%`, ...mark.style }">
+          <div
+            v-else
+            :class="[vertical ? 'm-range-v-mark-item' : 'm-range-mark-item', mark.class]"
+            :style="vertical ? { top: `${key}%` } : { left: `${key}%`, ...mark.style }"
+          >
             {{ mark.label }}
           </div>
         </template>
@@ -260,6 +270,7 @@ provide(RangeContainerRefKey, containerRef)
         :render-top-on-active="renderTopOnActive"
         :render-bottom="model[index].renderBottom || renderBottom"
         :render-bottom-on-active="renderBottomOnActive"
+        :vertical="vertical"
         :addable="addable"
         :thumb-type="thumbType || (size === 'large' ? 'rect' : 'circle')"
         :thumb-size="thumbSize"

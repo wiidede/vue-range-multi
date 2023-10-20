@@ -11,6 +11,7 @@ const props = defineProps<{
   active?: boolean
   disabled?: boolean
   unremovable?: boolean
+  vertical?: boolean
   addable?: boolean
   thumbType?: 'circle' | 'square' | 'rect'
   thumbSize?: 'small' | 'medium' | 'large'
@@ -41,22 +42,29 @@ const removable = computed(() => props.addable && !props.unremovable)
 
 const deleting = ref(false)
 
-function shouldDelete(clientY: number) {
+function shouldDelete(offset: number) {
   if (!containerRef?.value || !trackRef?.value)
     return false
   const containerRect = containerRef.value.getBoundingClientRect()
   const trackRect = trackRef.value.getBoundingClientRect()
-  const top = Math.min(containerRect.top, trackRect.top - 32)
-  const bottom = Math.max(containerRect.bottom, trackRect.bottom + 32)
-  return clientY < top || clientY > bottom
+  if (props.vertical) {
+    const left = Math.min(containerRect.left, trackRect.left - 32)
+    const right = Math.max(containerRect.right, trackRect.right + 32)
+    return offset < left || offset > right
+  }
+  else {
+    const top = Math.min(containerRect.top, trackRect.top - 32)
+    const bottom = Math.max(containerRect.bottom, trackRect.bottom + 32)
+    return offset < top || offset > bottom
+  }
 }
 
 function onPointerMove(e: PointerEvent) {
   if (!thumbRef.value || !trackRef?.value || props.disabled)
     return
   const trackRect = trackRef.value.getBoundingClientRect()
-  const offset = e.clientX - trackRect.left
-  const percent = offset / trackRect.width * 100
+  const offset = props.vertical ? e.clientY - trackRect.top : e.clientX - trackRect.left
+  const percent = offset / (props.vertical ? trackRect.height : trackRect.width) * 100
   if (percent < 0)
     emits('update', 0)
   else if (percent > 100)
@@ -64,7 +72,7 @@ function onPointerMove(e: PointerEvent) {
   else if (!Number.isNaN(percent))
     emits('update', percent)
   if (removable.value)
-    deleting.value = shouldDelete(e.clientY)
+    deleting.value = shouldDelete(props.vertical ? e.clientX : e.clientY)
 }
 
 async function onPointerUp(e: PointerEvent) {
@@ -76,7 +84,7 @@ async function onPointerUp(e: PointerEvent) {
     return
   }
   if (removable.value) {
-    if (shouldDelete(e.clientY)) {
+    if (shouldDelete(props.vertical ? e.clientX : e.clientY)) {
       deleting.value = false
       emits('delete')
     }
@@ -97,24 +105,24 @@ function onPointerDown(e: PointerEvent) {
 <template>
   <div
     ref="thumbRef"
-    class="m-range-thumb"
     :class="[
+      vertical ? 'm-range-v-thumb' : 'm-range-thumb',
       {
         'm-range-thumb-active': active,
         'op-20': removable && deleting && active,
       },
-      disabled ? 'cursor-not-allowed' : removable ? 'cursor-move' : 'cursor-ew-resize',
-      `m-range-thumb-${thumbType}`,
-      `m-range-thumb-${thumbSize}`,
+      disabled ? 'cursor-not-allowed' : removable ? 'cursor-move' : vertical ? 'cursor-ns-resize' : 'cursor-ew-resize',
+      `m-range-${vertical ? 'v-' : ''}thumb-${thumbType}`,
+      `m-range-${vertical ? 'v-' : ''}thumb-${thumbSize}`,
     ]"
-    :style="{ left: `${position}%` }"
+    :style="vertical ? { top: `${position}%` } : { left: `${position}%` }"
     @pointerdown="onPointerDown"
     @mousedown.prevent="() => {}"
     @touchstart="(e) => { e.cancelable === true && e.preventDefault() }"
   >
     <Transition name="fade">
       <div v-if="!renderTopOnActive || active" class="m-range-transition-container">
-        <div class="m-range-thumb-top-container">
+        <div :class="vertical ? 'm-range-v-thumb-top-container' : 'm-range-thumb-top-container'">
           <Render v-if="renderTop" :render="() => renderTop?.((['data', 'dataList'].includes(modelType) ? data : data.value) as U)" />
           <slot v-else name="top" :data="(['data', 'dataList'].includes(modelType) ? data : data.value) as U" />
         </div>
@@ -122,7 +130,7 @@ function onPointerDown(e: PointerEvent) {
     </Transition>
     <Transition name="fade">
       <div v-if="!renderBottomOnActive || active" class="m-range-transition-container">
-        <div class="m-range-thumb-bottom-container">
+        <div :class="vertical ? 'm-range-v-thumb-bottom-container' : 'm-range-thumb-bottom-container'">
           <Render v-if="renderBottom" :render="() => renderBottom?.((['data', 'dataList'].includes(modelType) ? data : data.value) as U)" />
           <slot v-else name="bottom" :data="(['data', 'dataList'].includes(modelType) ? data : data.value) as U" />
         </div>
