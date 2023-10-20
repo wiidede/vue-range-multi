@@ -63,9 +63,7 @@ async function onPointerUp(e: PointerEvent) {
   window.removeEventListener('pointermove', onPointerMove)
   window.removeEventListener('pointerup', onPointerUp)
   window.removeEventListener('pointercancel', onPointerUp)
-  if (e.type === 'pointercancel')
-    return
-  if (!containerRef?.value || props.disabled) {
+  if (e.type === 'pointercancel' || !containerRef?.value || props.disabled) {
     emits('moveDone')
     return
   }
