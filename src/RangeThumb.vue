@@ -39,8 +39,18 @@ const trackRef = inject(RangeTrackRefKey)
 const containerRef = inject(RangeContainerRefKey)
 
 const removable = computed(() => props.addable && !props.unremovable)
+const cursor = computed(() => props.disabled ? 'cursor-not-allowed' : removable.value ? 'cursor-move' : props.vertical ? 'cursor-ns-resize' : 'cursor-ew-resize')
 
 const deleting = ref(false)
+
+function setTrackCursor(cursor: string | undefined) {
+  if (!trackRef?.value)
+    return
+  if (cursor)
+    trackRef.value.style.cursor = cursor.slice('cursor-'.length)
+  else
+    trackRef.value.style.removeProperty('cursor')
+}
 
 function shouldDelete(offset: number) {
   if (!containerRef?.value || !trackRef?.value)
@@ -80,6 +90,7 @@ async function onPointerUp(e: PointerEvent) {
   window.removeEventListener('pointerup', onPointerUp)
   window.removeEventListener('pointercancel', onPointerUp)
   if (e.type === 'pointercancel' || props.disabled) {
+    setTrackCursor('unset')
     emits('moveDone')
     return
   }
@@ -96,6 +107,7 @@ async function onPointerUp(e: PointerEvent) {
 function onPointerDown(e: PointerEvent) {
   e.preventDefault()
   e.stopPropagation()
+  setTrackCursor(cursor.value)
   window.addEventListener('pointermove', onPointerMove, { passive: false })
   window.addEventListener('pointerup', onPointerUp)
   window.addEventListener('pointercancel', onPointerUp)
@@ -111,7 +123,7 @@ function onPointerDown(e: PointerEvent) {
         'm-range-thumb-active': active,
         'op-20': removable && deleting && active,
       },
-      disabled ? 'cursor-not-allowed' : removable ? 'cursor-move' : vertical ? 'cursor-ns-resize' : 'cursor-ew-resize',
+      cursor,
       `m-range-${vertical ? 'v-' : ''}thumb-${thumbType}`,
       `m-range-${vertical ? 'v-' : ''}thumb-${thumbSize}`,
     ]"
