@@ -1,6 +1,6 @@
 <script lang="ts" setup generic="T = any, U = RangeValueType<T>">
 import { computed, inject, nextTick, ref } from 'vue'
-import { RangeContainerRefKey, RangeTrackRefKey } from './Range'
+import { RangeTrackRefKey } from './Range'
 import Render from './Render.vue'
 import type { RangeData, RangeRenderFn, RangeValueType } from './type'
 
@@ -36,7 +36,6 @@ defineSlots<{
 
 const thumbRef = ref<HTMLElement>()
 const trackRef = inject(RangeTrackRefKey)
-const containerRef = inject(RangeContainerRefKey)
 
 const removable = computed(() => props.addable && !props.unremovable)
 const cursor = computed(() => props.disabled ? 'cursor-not-allowed' : removable.value ? 'cursor-move' : props.vertical ? 'cursor-ns-resize' : 'cursor-ew-resize')
@@ -53,18 +52,17 @@ function setTrackCursor(cursor: string | undefined) {
 }
 
 function shouldDelete(offset: number) {
-  if (!containerRef?.value || !trackRef?.value)
+  if (!trackRef?.value)
     return false
-  const containerRect = containerRef.value.getBoundingClientRect()
   const trackRect = trackRef.value.getBoundingClientRect()
   if (props.vertical) {
-    const left = Math.min(containerRect.left, trackRect.left - 32)
-    const right = Math.max(containerRect.right, trackRect.right + 32)
+    const left = trackRect.left - 32
+    const right = trackRect.right + 32
     return offset < left || offset > right
   }
   else {
-    const top = Math.min(containerRect.top, trackRect.top - 32)
-    const bottom = Math.max(containerRect.bottom, trackRect.bottom + 32)
+    const top = trackRect.top - 32
+    const bottom = trackRect.bottom + 32
     return offset < top || offset > bottom
   }
 }

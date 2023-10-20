@@ -1,6 +1,6 @@
 <script lang="ts" setup generic="T = any, U = RangeValueType<T>">
 import { computed, nextTick, provide, ref, watch } from 'vue'
-import { RangeContainerRefKey, RangeTrackRefKey } from './Range'
+import { RangeTrackRefKey } from './Range'
 import RangeThumb from './RangeThumb.vue'
 import type { RangeData, RangeMarks, RangeRenderFn, RangeValue, RangeValueType } from './type'
 import { percentage2value, swap, value2percentage } from './utils'
@@ -126,7 +126,6 @@ watch(model, (val) => {
 })
 
 const trackRef = ref<HTMLElement>()
-const containerRef = ref<HTMLElement>()
 
 function getValue(percentage: number) {
   return percentage2value(percentage, props.min, props.max, props.step)
@@ -210,12 +209,10 @@ function addThumb(e: MouseEvent) {
 }
 
 provide(RangeTrackRefKey, trackRef)
-provide(RangeContainerRefKey, containerRef)
 </script>
 
 <template>
   <div
-    ref="containerRef"
     class="dark:m-range-theme-dark m-range-theme m-range"
     :class="[`m-range-${vertical ? 'v-' : ''}${size}`, `m-range-${vertical ? 'v-' : ''}thumb-${thumbSize}`]"
   >
