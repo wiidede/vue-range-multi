@@ -104,9 +104,14 @@ async function onPointerUp(e: PointerEvent) {
   emits('moveDone')
 }
 
-function onPointerDown(e: PointerEvent) {
+async function onPointerDown(e: PointerEvent) {
   e.preventDefault()
   e.stopPropagation()
+  if (e.target !== thumbRef.value) {
+    await nextTick()
+    emits('moveDone')
+    return
+  }
   setTrackCursor(cursor.value)
   window.addEventListener('pointermove', onPointerMove, { passive: false })
   window.addEventListener('pointerup', onPointerUp)
@@ -133,7 +138,7 @@ function onPointerDown(e: PointerEvent) {
     @touchstart="(e) => { e.cancelable === true && e.preventDefault() }"
   >
     <Transition name="fade">
-      <div v-if="!renderTopOnActive || active" class="m-range-transition-container">
+      <div v-if="!renderTopOnActive || active" class="cursor-default" :class="vertical ? 'm-range-v-transition-container' : 'm-range-transition-container'">
         <div :class="vertical ? 'm-range-v-thumb-top-container' : 'm-range-thumb-top-container'">
           <Render v-if="renderTop" :render="() => renderTop?.((['data', 'dataList'].includes(modelType) ? data : data.value) as U)" />
           <slot v-else name="top" :data="(['data', 'dataList'].includes(modelType) ? data : data.value) as U" />
@@ -141,7 +146,7 @@ function onPointerDown(e: PointerEvent) {
       </div>
     </Transition>
     <Transition name="fade">
-      <div v-if="!renderBottomOnActive || active" class="m-range-transition-container">
+      <div v-if="!renderBottomOnActive || active" class="cursor-default" :class="vertical ? 'm-range-v-transition-container' : 'm-range-transition-container'">
         <div :class="vertical ? 'm-range-v-thumb-bottom-container' : 'm-range-thumb-bottom-container'">
           <Render v-if="renderBottom" :render="() => renderBottom?.((['data', 'dataList'].includes(modelType) ? data : data.value) as U)" />
           <slot v-else name="bottom" :data="(['data', 'dataList'].includes(modelType) ? data : data.value) as U" />
