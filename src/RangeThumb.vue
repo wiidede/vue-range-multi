@@ -38,8 +38,18 @@ const containerRef = inject(RangeContainerRefKey)
 
 const deleting = ref(false)
 
+function shouldDelete(clientY: number) {
+  if (!containerRef?.value || !trackRef?.value)
+    return false
+  const containerRect = containerRef.value.getBoundingClientRect()
+  const trackRect = trackRef.value.getBoundingClientRect()
+  const top = Math.min(containerRect.top, trackRect.top - 32)
+  const bottom = Math.max(containerRect.bottom, trackRect.bottom + 32)
+  return clientY < top || clientY > bottom
+}
+
 function onPointerMove(e: PointerEvent) {
-  if (!thumbRef.value || !trackRef?.value || !containerRef?.value || props.disabled)
+  if (!thumbRef.value || !trackRef?.value || props.disabled)
     return
   const trackRect = trackRef.value.getBoundingClientRect()
   const offset = e.clientX - trackRect.left
@@ -50,26 +60,20 @@ function onPointerMove(e: PointerEvent) {
     emits('update', 100)
   else if (!Number.isNaN(percent))
     emits('update', percent)
-  if (props.addable) {
-    const containerRect = containerRef.value.getBoundingClientRect()
-    if (e.clientY - containerRect.top < 0 || e.clientY - containerRect.bottom > 0)
-      deleting.value = true
-    else
-      deleting.value = false
-  }
+  if (props.addable)
+    deleting.value = shouldDelete(e.clientY)
 }
 
 async function onPointerUp(e: PointerEvent) {
   window.removeEventListener('pointermove', onPointerMove)
   window.removeEventListener('pointerup', onPointerUp)
   window.removeEventListener('pointercancel', onPointerUp)
-  if (e.type === 'pointercancel' || !containerRef?.value || props.disabled) {
+  if (e.type === 'pointercancel' || props.disabled) {
     emits('moveDone')
     return
   }
-  const containerRect = containerRef.value.getBoundingClientRect()
   if (props.addable) {
-    if (e.clientY - containerRect.top < 0 || e.clientY - containerRect.bottom > 0) {
+    if (shouldDelete(e.clientY)) {
       deleting.value = false
       emits('delete')
     }
