@@ -8,10 +8,10 @@ const model = ref<RangeData<string>[]>([
   { data: 'unremovable', value: 6, unremovable: true },
 ])
 function handleAddData(value: number) {
-  model.value.push({
+  return {
     data: `random${Math.floor(Math.random() * 10)}`,
     value,
-  })
+  }
 }
 </script>
 
@@ -28,11 +28,11 @@ function handleAddData(value: number) {
       v-model="model"
       class="h-60 pl-80 pr8"
       :max="10"
-
-      addable vertical
+      addable
+      vertical
       thumb-size="large"
       :render-bottom="(data) => h('div', data.value)"
-      @add="handleAddData"
+      :add-data="handleAddData"
     >
       <template #top="{ data }">
         <div class="value px-2">

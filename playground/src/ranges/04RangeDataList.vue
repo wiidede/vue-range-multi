@@ -25,7 +25,7 @@ function handleAddData(value: number) {
       <span class="tag">addable</span>
       <span class="tag">limit:5</span>
       <span class="tag">thumb-type:rect</span>
-      <span class="tag">render-bottom-on-active</span>
+      <span class="tag">render-top-on-active</span>
     </div>
     <div class="flex items-baseline">
       <span class="label">modelValue</span>
@@ -38,10 +38,10 @@ function handleAddData(value: number) {
       :add-data="handleAddData"
       size="large"
       thumb-type="rect"
-      render-bottom-on-active
+      render-top-on-active
       :limit="5"
-      :render-top="(data) => h('div', data.data)"
-      :render-bottom="(data) => h('div', data.value)"
+      :render-top="(data) => h('div', data.value)"
+      :render-bottom="(data) => h('div', data.data)"
     />
   </div>
 </template>
