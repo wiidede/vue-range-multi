@@ -3,9 +3,9 @@ import { h, ref } from 'vue'
 import type { RangeData } from 'vue-range-multi'
 
 const model = ref<RangeData<string>[]>([
-  { data: 'disabled', value: 1, disabled: true },
-  { data: 'random1', value: 3 },
-  { data: 'unremovable', value: 6, unremovable: true },
+  { data: 'disabled', value: 2, disabled: true },
+  { data: 'random1', value: 4 },
+  { data: 'unremovable', value: 8, unremovable: true },
 ])
 function handleAddData(value: number) {
   return {
@@ -26,7 +26,7 @@ function handleAddData(value: number) {
     </div>
     <Range
       v-model="model"
-      class="h-60 pl-80 pr8"
+      class="h-60 pl-20 pr8"
       :max="10"
       addable
       vertical
