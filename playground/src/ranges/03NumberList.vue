@@ -1,11 +1,9 @@
 <script setup lang="ts">
 import { h, ref } from 'vue'
 import type { RangeMarks } from 'vue-range-multi'
+import Count from '../Count.vue'
 
-const modelNumberListAdd = ref<number[]>([10, 20, 30, 40, 50, 60, 70, 80, 90])
-function handleAddNumbers(value: number) {
-  modelNumberListAdd.value.push(value)
-}
+const model = ref<number[]>([10, 30, 50, 70, 90])
 const marks: RangeMarks = {
   15: '15%',
   25: { label: '25%', class: 'c-zinc-400' },
@@ -26,10 +24,10 @@ const marks: RangeMarks = {
     </div>
     <div class="flex items-baseline">
       <span class="label">modelValue</span>
-      <pre class="value">{{ JSON.stringify(modelNumberListAdd) }}</pre>
+      <pre class="value">{{ JSON.stringify(model) }}</pre>
     </div>
     <Range
-      v-model="modelNumberListAdd"
+      v-model="model"
       class="range-lime w-full pb1 pt8"
       :step="5"
       addable
@@ -39,8 +37,7 @@ const marks: RangeMarks = {
       thumb-type="square"
       thumb-size="large"
       :marks="marks"
-      :render-top="(data) => h('div', { class: 'c-primary' }, data)"
-      @add="handleAddNumbers"
+      :render-top="() => h(Count, { class: 'c-primary' })"
     />
   </div>
 </template>

@@ -15,8 +15,8 @@ export default defineConfig({
     // classes
     ['m-range', 'min-h-1 min-w-1 box-content'],
     // theme
-    ['m-range-theme', '[--c-primary:#409EFF] [--c-fill:#E4E7ED] [--c-fill-stop:#F5F5F5] [--c-fill-thumb:#fff]'],
-    ['m-range-theme-dark', '[--c-primary:#3070ED] [--c-fill:#444] [--c-fill-stop:#555] [--c-fill-thumb:#333]'],
+    ['m-range-theme', '[--c-primary:#409EFF] [--c-fill:#E4E7ED] [--c-fill-stop:#F5F5F5] [--c-fill-thumb:#fff] [--c-drop:var(--c-primary)]'],
+    ['m-range-theme-dark', '[--c-primary:#3070ED] [--c-fill:#444] [--c-fill-stop:#555] [--c-fill-thumb:#333] [--c-drop:var(--c-primary)]'],
     // track
     ['m-range-small', 'h2 [--m-range-h:0.5rem]'],
     ['m-range-medium', 'h4 [--m-range-h:1rem]'],
@@ -48,7 +48,7 @@ export default defineConfig({
     ['m-range-thumb-small', 'top--0 bottom--0 [--m-range-thumb-h:0rem]'],
     ['m-range-thumb-medium', 'top--1 bottom--1 [--m-range-thumb-h:0.25rem]'],
     ['m-range-thumb-large', 'top--2 bottom--2 [--m-range-thumb-h:0.5rem]'],
-    ['m-range-thumb-active', 'z-1  drop-shadow-[0.1rem_0.15rem_0.25rem_var(--c-primary)]'],
+    ['m-range-thumb-active', 'z-1  drop-shadow-[0.1rem_0.15rem_0.25rem_var(--c-drop)]'],
     ['m-range-transition-container', 'absolute h-full w0 left-50%'],
     ['m-range-thumb-top-container', 'absolute left-50% top-0 translate-x--50% translate-y-[calc(-100%_-_4px)]'],
     ['m-range-thumb-bottom-container', 'absolute left-50% bottom-0 translate-x--50% translate-y-[calc(100%_+_4px)]'],
@@ -70,6 +70,7 @@ export default defineConfig({
         stop: 'var(--c-fill-stop)',
         thumb: 'var(--c-fill-thumb)',
       },
+      drop: 'var(--c-drop)',
       primary: 'var(--c-primary)',
     },
   },

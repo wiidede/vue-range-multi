@@ -2,17 +2,17 @@
 import { h, ref } from 'vue'
 import type { RangeData } from 'vue-range-multi'
 
-const modelDataList = ref<RangeData<string>[]>([
+const model = ref<RangeData<string>[]>([
   { data: '00:00', value: 10, disabled: true },
   { data: '20:00', value: 40 },
   { data: '59:59', value: 90, unremovable: true },
 ])
 function handleAddData(value: number) {
   const date = new Date()
-  modelDataList.value.push({
+  return {
     data: `${date.getMinutes()}:${date.getSeconds()}`,
     value,
-  })
+  }
 }
 </script>
 
@@ -29,19 +29,19 @@ function handleAddData(value: number) {
     </div>
     <div class="flex items-baseline">
       <span class="label">modelValue</span>
-      <pre class="value">{{ JSON.stringify(modelDataList) }}</pre>
+      <pre class="value">{{ JSON.stringify(model) }}</pre>
     </div>
     <Range
-      v-model="modelDataList"
+      v-model="model"
       class="w-full py8"
       addable
+      :add-data="handleAddData"
       size="large"
       thumb-type="rect"
       render-bottom-on-active
       :limit="5"
       :render-top="(data) => h('div', data.data)"
       :render-bottom="(data) => h('div', data.value)"
-      @add="handleAddData"
     />
   </div>
 </template>

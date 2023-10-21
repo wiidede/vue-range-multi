@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 
-const modelNumberList = ref<number[]>([10, 20])
+const model = ref<number[]>([10, 20])
 </script>
 
 <template>
@@ -14,10 +14,10 @@ const modelNumberList = ref<number[]>([10, 20])
     </div>
     <div class="flex items-baseline">
       <span class="label">modelValue</span>
-      <pre class="value">{{ JSON.stringify(modelNumberList) }}</pre>
+      <pre class="value">{{ JSON.stringify(model) }}</pre>
     </div>
     <Range
-      v-model="modelNumberList"
+      v-model="model"
       class="w-full py1"
       range-highlight
       size="medium"

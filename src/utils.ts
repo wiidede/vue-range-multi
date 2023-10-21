@@ -1,4 +1,4 @@
-export function swap<T>(arr: T[], i: number, j: number): void {
+export function swap<T extends object>(arr: T, i: keyof T, j: keyof T): void {
   [arr[i], arr[j]] = [arr[j], arr[i]]
 }
 

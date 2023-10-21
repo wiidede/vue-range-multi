@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 
-const modelNumber = ref<number>(3)
+const model = ref<number>(3)
 </script>
 
 <template>
@@ -12,10 +12,10 @@ const modelNumber = ref<number>(3)
     <br>
     <div class="flex items-baseline">
       <span class="label">modelValue</span>
-      <pre class="value">{{ modelNumber }}</pre>
+      <pre class="value">{{ model }}</pre>
     </div>
     <Range
-      v-model="modelNumber"
+      v-model="model"
       class="w-full py1"
       :min="0"
       :max="10"

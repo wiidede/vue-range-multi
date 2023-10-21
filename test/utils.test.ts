@@ -7,6 +7,11 @@ describe('swap', () => {
     swap(arr, 0, 2)
     expect(arr).toEqual([3, 2, 1])
   })
+  it('should swap elements in an object', () => {
+    const obj = { a: 1, b: 2, c: 3 }
+    swap(obj, 'a', 'c')
+    expect(obj).toEqual({ a: 3, b: 2, c: 1 })
+  })
 })
 
 describe('value and percentage conversion', () => {

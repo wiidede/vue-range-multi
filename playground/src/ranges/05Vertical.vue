@@ -2,13 +2,13 @@
 import { h, ref } from 'vue'
 import type { RangeData } from 'vue-range-multi'
 
-const modelDataList = ref<RangeData<string>[]>([
+const model = ref<RangeData<string>[]>([
   { data: 'disabled', value: 1, disabled: true },
   { data: 'random1', value: 3 },
   { data: 'unremovable', value: 6, unremovable: true },
 ])
 function handleAddData(value: number) {
-  modelDataList.value.push({
+  model.value.push({
     data: `random${Math.floor(Math.random() * 10)}`,
     value,
   })
@@ -25,7 +25,7 @@ function handleAddData(value: number) {
       <span class="tag">slot</span>
     </div>
     <Range
-      v-model="modelDataList"
+      v-model="model"
       class="h-60 pl-80 pr8"
       :max="10"
 
@@ -44,4 +44,7 @@ function handleAddData(value: number) {
 </template>
 
 <style scoped>
+.m-range {
+  --c-drop: #80808080
+}
 </style>

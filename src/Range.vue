@@ -12,6 +12,7 @@ const props = withDefaults(defineProps<{
   step?: number
   vertical?: boolean
   addable?: boolean
+  addData?: (value: number) => RangeData<T, U>
   limit?: number
   smooth?: boolean
   deduplicate?: boolean
@@ -38,7 +39,6 @@ const props = withDefaults(defineProps<{
 
 const emits = defineEmits<{
   (e: 'update:modelValue', modelValue: typeof props.modelValue): void
-  (e: 'add', value: number): void
 }>()
 
 defineSlots<{
@@ -94,30 +94,41 @@ const stops = computed(() => {
     return -1
 })
 
-const indexMap = ref<number[]>([])
+const indexMap = ref<Record<number, number>>({})
+const indexMapReversed = computed(() => Object.fromEntries(Object.entries(indexMap.value).map(([k, v]) => [v, Number.parseInt(k)])))
 function sort(val: RangeData<T, U>[]) {
   let changed = false
   for (let i = val.length; i > 0; i--) {
     for (let j = 0; j < i - 1; j++) {
       if (val[j].value > val[j + 1].value) {
         swap(val, j, j + 1)
-        swap(indexMap.value, j, j + 1)
+        swap(indexMap.value, indexMapReversed.value[j], indexMapReversed.value[j + 1])
         changed = true
       }
     }
   }
   changed && nextTick(() => model.value = val)
 }
+function getAddableIndex(arr: number[]) {
+  [...arr].sort()
+  let i = 0
+  for (; i < arr.length; i++) {
+    if (i !== arr[i])
+      return i
+  }
+  return i
+}
 watch(model, (val) => {
-  if (val.length > indexMap.value.length) {
-    for (let i = indexMap.value.length; i < val.length; i++)
-      indexMap.value.push(i)
+  const length = Object.keys(indexMap.value).length
+  if (val.length > length) {
+    for (let i = length; i < val.length; i++)
+      indexMap.value[getAddableIndex(Object.keys(indexMap.value).map(key => Number.parseInt(key)))] = i
     sort(val)
   }
-  else if (val.length < indexMap.value.length) {
-    for (let i = indexMap.value.length - 1; i >= val.length; i--) {
-      const index = indexMap.value.indexOf(i)
-      index > -1 && indexMap.value.splice(index, 1)
+  else if (val.length < length) {
+    for (let i = length - 1; i >= val.length; i--) {
+      const index = indexMapReversed.value[i]
+      index > -1 && delete indexMap.value[index]
     }
     sort(val)
   }
@@ -144,11 +155,11 @@ function setCurrentPercentage(val: number) {
     currentPercentage.value = -1
   }, 300)
 }
-const position = computed(() => indexMap.value.map(
-  (index, idx) => (props.smooth && current.value === idx && currentPercentage.value > -1)
-    ? currentPercentage.value
-    : getPercentage(model.value[index].value),
-))
+const position = computed(() => Object.fromEntries(Object.entries(indexMap.value).map(
+  ([idx, index]) => (props.smooth && current.value === Number.parseInt(idx) && currentPercentage.value > -1)
+    ? [idx, currentPercentage.value]
+    : [idx, getPercentage(model.value[index].value)],
+)))
 
 function onUpdate(percentage: number) {
   setCurrentPercentage(percentage)
@@ -164,7 +175,7 @@ function onUpdate(percentage: number) {
       const prev = values[i - 1]
       if (value < prev) {
         swap(modelValue, i, i - 1)
-        swap(indexMap.value, indexMap.value.indexOf(i), indexMap.value.indexOf(i - 1))
+        swap(indexMap.value, indexMapReversed.value[i], indexMapReversed.value[i - 1])
         index -= 1
       }
     }
@@ -174,7 +185,7 @@ function onUpdate(percentage: number) {
       const next = values[i + 1]
       if (value > next) {
         swap(modelValue, i, i + 1)
-        swap(indexMap.value, indexMap.value.indexOf(i), indexMap.value.indexOf(i + 1))
+        swap(indexMap.value, indexMapReversed.value[i], indexMapReversed.value[i + 1])
         index += 1
       }
     }
@@ -188,8 +199,8 @@ function onDelete() {
   const modelValue = model.value
   modelValue.splice(valueIndex, 1)
   model.value = modelValue
-  indexMap.value.splice(current.value, 1)
-  indexMap.value = indexMap.value.map(idx => idx >= valueIndex ? idx - 1 : idx)
+  delete indexMap.value[current.value]
+  indexMap.value = Object.fromEntries(Object.entries(indexMap.value).map(([idx, index]) => index >= valueIndex ? [idx, index - 1] : [idx, index]))
 }
 
 let addTiming = false
@@ -205,7 +216,15 @@ function addThumb(e: MouseEvent) {
   const value = getValue(percent)
   if (model.value.some(item => item.value === value))
     return
-  emits('add', value)
+  const modelValue = model.value
+  if (modelType.value === 'numberList') {
+    modelValue.push({ value })
+    model.value = modelValue
+  }
+  else if (modelType.value === 'dataList') {
+    modelValue.push(props.addData ? props.addData(value) : { value })
+    model.value = modelValue
+  }
 }
 
 provide(RangeTrackRefKey, trackRef)
@@ -227,8 +246,8 @@ provide(RangeTrackRefKey, trackRef)
         <div
           :class="vertical ? 'm-range-v-highlight' : 'm-range-highlight'"
           :style="vertical
-            ? { top: `${Math.min(...position)}%`, bottom: `${100 - Math.max(...position)}%` }
-            : { left: `${Math.min(...position)}%`, right: `${100 - Math.max(...position)}%` }"
+            ? { top: `${Math.min(...Object.values(position))}%`, bottom: `${100 - Math.max(...Object.values(position))}%` }
+            : { left: `${Math.min(...Object.values(position))}%`, right: `${100 - Math.max(...Object.values(position))}%` }"
         />
       </div>
       <div v-if="stops > 0" class="m-range-points-area">

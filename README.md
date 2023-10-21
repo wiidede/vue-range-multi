@@ -98,7 +98,8 @@ generic="T = any, U = number | RangeData\<T>"
 | max | number | The maximum value allowed | 100 |
 | step | number | Step | 1 |
 | vertical | boolean | Determines if the range is vertical. Note that it will generate new classes like 'm-range-v-xxx' | false |
-| addable | boolean | Determines if new data can be added/deleted. This will emit event 'addThumb' | false |
+| addable | boolean | Determines if new data can be added/deleted. You can specific the data to be add by `addData` prop | false |
+| addData | (value: number) => RangeData<T, U> | Data to be added. This will only effect while modelValue is RangeData[]. It will return { value } by default | undefined |
 | limit | number | the limit can be add | undefined |
 | smooth | boolean | Determines if the thumb(s) should only be displayed on the stop points or not | false |
 | deduplicate | boolean | Determines if the thumb(s) can be duplicated | true |
@@ -112,12 +113,6 @@ generic="T = any, U = number | RangeData\<T>"
 | renderBottom | (data: U) => VNode | A render function for displaying content below the thumb | undefined |
 | renderBottomOnActive | boolean | Specifies whether to render only while the thumb is active | false |
 | marks | RangeMarks | Show marks under the track | undefined |
-
-## events
-
-| Name | Type| Description |
-| --- | --- | --- |
-| add | (value: number): void | add event while click the track |
 
 ## slots
 
