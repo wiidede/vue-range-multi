@@ -6,9 +6,7 @@ import dts from 'vite-plugin-dts'
 
 export default defineConfig({
   plugins: [
-    Vue({
-      include: [/\.vue$/],
-    }),
+    Vue(),
 
     Unocss(),
 
@@ -37,5 +35,12 @@ export default defineConfig({
         },
       },
     },
+  },
+  test: {
+    include: ['test/**/*.test.ts'],
+    environment: 'jsdom',
+    // deps: {
+    //   inline: ['@vue'],
+    // },
   },
 })
