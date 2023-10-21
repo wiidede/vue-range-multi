@@ -97,6 +97,7 @@ generic="T = any, U = number | RangeData\<T>"
 | min | number | The minimum value allowed | 0 |
 | max | number | The maximum value allowed | 100 |
 | step | number | Step | 1 |
+| vertical | boolean | Determines if the range is vertical. Note that it will generate new classes like 'm-range-v-xxx' | false |
 | addable | boolean | Determines if new data can be added/deleted. This will emit event 'addThumb' | false |
 | limit | number | the limit can be add | undefined |
 | smooth | boolean | Determines if the thumb(s) should only be displayed on the stop points or not | false |
