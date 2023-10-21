@@ -97,17 +97,14 @@ const stops = computed(() => {
 const indexMap = ref<Record<number, number>>({})
 const indexMapReversed = computed(() => Object.fromEntries(Object.entries(indexMap.value).map(([k, v]) => [v, Number.parseInt(k)])))
 function sort(val: RangeData<T, U>[]) {
-  let changed = false
-  for (let i = val.length; i > 0; i--) {
-    for (let j = 0; j < i - 1; j++) {
-      if (val[j].value > val[j + 1].value) {
-        swap(val, j, j + 1)
-        swap(indexMap.value, indexMapReversed.value[j], indexMapReversed.value[j + 1])
-        changed = true
-      }
-    }
-  }
-  changed && nextTick(() => model.value = val)
+  const valMap = val.map((v, i) => ({ v: v.value, i, raw: v }))
+  valMap.sort((a, b) => a.v - b.v)
+  const changed = valMap.some((v, i) => v.i !== i)
+  if (!changed)
+    return
+  const sortMap = Object.fromEntries(valMap.map((v, i) => [v.i, i]))
+  indexMap.value = Object.fromEntries(Object.entries(indexMap.value).map(([k, v]) => [k, sortMap[v]]))
+  nextTick(() => model.value = valMap.map(v => v.raw))
 }
 function getAddableIndex(arr: number[]) {
   [...arr].sort()
