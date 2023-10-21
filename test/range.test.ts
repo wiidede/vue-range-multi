@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { mount } from '@vue/test-utils'
-import { h, nextTick } from 'vue'
+import { h } from 'vue'
 import { Range } from '../src/index'
 
 describe('range', () => {
