@@ -54,8 +54,11 @@ const modelType = computed<'number' | 'data' | 'numberList' | 'dataList'>(() => 
     return 'dataList'
   else if (typeof value === 'number')
     return 'number'
-  else
+  else if (typeof value === 'object')
     return 'data'
+  else
+    console.warn('[vue-range-multi]: modelValue type not support', value)
+  return 'number'
 })
 const model = computed<RangeData<T, U>[]>({
   get: () => {
