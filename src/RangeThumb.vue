@@ -88,7 +88,7 @@ function onPointerUp(e: PointerEvent) {
   window.removeEventListener('pointerup', onPointerUp)
   window.removeEventListener('pointercancel', onPointerUp)
   if (e.type === 'pointercancel' || props.disabled) {
-    setTrackCursor('unset')
+    setTrackCursor(undefined)
     emits('moveDone')
     return
   }
@@ -98,6 +98,7 @@ function onPointerUp(e: PointerEvent) {
       emits('delete')
     }
   }
+  setTrackCursor(undefined)
   emits('moveDone')
 }
 
