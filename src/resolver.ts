@@ -2,7 +2,7 @@ import type { ComponentResolver } from 'unplugin-vue-components'
 
 export interface VueRangeMultiResolverOptions {
   /**
-   * The name of the component. It should be camelCase
+   * The name of the component. It should always CapitalCase
    *
    * @default 'MRange'
    */

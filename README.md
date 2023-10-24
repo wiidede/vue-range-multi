@@ -77,9 +77,10 @@ import { VueRangeMultiResolver } from 'vue-range-multi'
 ```
 
 ```ts
+// type of options
 interface VueRangeMultiResolverOptions {
   /**
-   * The name of the component. It should be camelCase
+   * The name of the component. It should always CapitalCase
    *
    * @default 'MRange'
    */
