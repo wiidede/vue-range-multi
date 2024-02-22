@@ -40,8 +40,8 @@
   ],
   "scripts": {
     "build": "vite build",
-    "dev": "vite playground",
-    "dev:pkg": "vite playground --mode pkg",
+    "dev": "vite playground --mode play",
+    "dev:pkg": "vite playground",
     "preview": "vite preview playground",
     "build:play": "vite build playground",
     "lint": "eslint .",
