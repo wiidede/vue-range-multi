@@ -6,7 +6,7 @@ import Inspect from 'vite-plugin-inspect'
 import Component from 'unplugin-vue-components/vite'
 import { VueRangeMultiResolver } from '../src/resolver'
 
-export default defineConfig(({ mode }) => ({
+export default defineConfig({
   plugins: [
     Vue(),
     Component({
@@ -17,17 +17,14 @@ export default defineConfig(({ mode }) => ({
     {
       name: 'blank',
       load(id) {
-        if (id === 'virtual:blank')
+        if (id.endsWith('vue-range-multi/style.css'))
           return ''
       },
     },
   ],
   resolve: {
-    alias: mode === 'pkg'
-      ? []
-      : [
-          { find: /^vue-range-multi$/, replacement: path.resolve(__dirname, '../src/index.ts') },
-          { find: /^vue-range-multi\/style.css$/, replacement: 'virtual:blank' },
-        ],
+    alias: [
+      { find: /^vue-range-multi$/, replacement: path.resolve(__dirname, '../src/index.ts') },
+    ],
   },
-}))
+})

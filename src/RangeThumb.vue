@@ -30,8 +30,8 @@ const emits = defineEmits<{
 }>()
 
 defineSlots<{
-  top(props: { data: U }): any
-  bottom(props: { data: U }): any
+  top: (props: { data: U }) => any
+  bottom: (props: { data: U }) => any
 }>()
 
 const thumbRef = ref<HTMLElement>()
