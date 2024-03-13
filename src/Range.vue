@@ -87,6 +87,7 @@ const allowAdd = computed(() =>
   && (!props.limit || model.value.length < props.limit)
   && !['data', 'number'].includes(modelType.value),
 )
+
 const stops = computed(() => {
   const stops = Math.floor((props.max - props.min) / props.step) + 1
   if (props.showStops === true)
@@ -97,8 +98,10 @@ const stops = computed(() => {
     return -1
 })
 
+// {idx: index} - idx is the real dom of thumb's index, index is the index in model
 const indexMap = ref<Record<number, number>>({})
 const indexMapReversed = computed(() => Object.fromEntries(Object.entries(indexMap.value).map(([k, v]) => [v, Number.parseInt(k)])))
+
 function sort(val: RangeData<T, U>[]) {
   const valMap = val.map((v, i) => ({ v: v.value, i, raw: v }))
   valMap.sort((a, b) => a.v - b.v)
@@ -277,7 +280,7 @@ provide(RangeTrackRefKey, trackRef)
         v-for="index, idx in indexMap"
         :key="idx"
         :position="position[idx] || 0"
-        :active="current === idx"
+        :active="current === Number(idx)"
         :disabled="model[index].disabled"
         :unremovable="model[index].unremovable"
         :data="model[index]"
@@ -293,7 +296,7 @@ provide(RangeTrackRefKey, trackRef)
         @move-done="current = -1"
         @update="onUpdate"
         @delete="onDelete"
-        @pointerdown="current = idx"
+        @pointerdown="current = Number(idx)"
       >
         <template #top="{ data }">
           <slot name="top" :data="data" />
