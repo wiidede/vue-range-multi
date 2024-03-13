@@ -28,3 +28,5 @@ export function value2percentage(value: number, min: number, max: number, step: 
   const percentageStep = step / (max - min)
   return Math.round(percentage / percentageStep) * percentageStep
 }
+
+export const PromiseTimeout = (ms: number) => new Promise(resolve => setTimeout(resolve, ms))

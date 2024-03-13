@@ -42,8 +42,8 @@ const emits = defineEmits<{
 }>()
 
 defineSlots<{
-  top: (props: { data: U }) => any
-  bottom: (props: { data: U }) => any
+  top?: (props: { data: U }) => any
+  bottom?: (props: { data: U }) => any
 }>()
 
 const modelType = computed<'number' | 'data' | 'numberList' | 'dataList'>(() => {
@@ -131,7 +131,7 @@ watch(model, (val) => {
   else if (val.length < length) {
     for (let i = length - 1; i >= val.length; i--) {
       const index = indexMapReversed.value[i]
-      index > -1 && delete indexMap.value[index]
+      delete indexMap.value[index]
     }
     sort(val)
   }
