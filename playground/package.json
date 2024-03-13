@@ -9,8 +9,8 @@
   },
   "dependencies": {
     "@unocss/reset": "^0.58.5",
-    "@vueuse/core": "^10.8.0",
-    "vue": "^3.4.19",
+    "@vueuse/core": "^10.9.0",
+    "vue": "^3.4.21",
     "vue-range-multi": "workspace:*"
   }
 }

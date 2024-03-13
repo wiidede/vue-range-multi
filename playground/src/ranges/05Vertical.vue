@@ -45,6 +45,6 @@ function handleAddData(value: number) {
 
 <style scoped>
 .m-range {
-  --c-drop: #80808080
+  --c-drop: #80808080;
 }
 </style>

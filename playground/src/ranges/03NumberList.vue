@@ -44,16 +44,16 @@ const marks: RangeMarks = {
 
 <style scoped>
 .range-lime {
-  --c-fill-stop: #F7FEE7;
-  --c-fill-thumb: #F7FEE7;
-  --c-fill: #DFF8A7;
-  --c-primary: #B1E457;
+  --c-fill-stop: #f7fee7;
+  --c-fill-thumb: #f7fee7;
+  --c-fill: #dff8a7;
+  --c-primary: #b1e457;
 }
 
 .dark .range-lime {
-  --c-fill-stop: #73A132;
-  --c-fill-thumb: #73A132;
-  --c-fill: #B1E457;
-  --c-primary: #94CA42;
+  --c-fill-stop: #73a132;
+  --c-fill-thumb: #73a132;
+  --c-fill: #b1e457;
+  --c-primary: #94ca42;
 }
 </style>

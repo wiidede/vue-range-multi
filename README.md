@@ -92,34 +92,34 @@ interface VueRangeMultiResolverOptions {
 
 generic="T = any, U = number | RangeData\<T>"
 
-| Name | Type | Description | Default |
-| --- | --- | --- | --- |
-| v-model:modelValue* | U | U[] | Model value. It will automatically detect the type of model and show the corresponding thumb(s) | [] |
-| min | number | The minimum value allowed | 0 |
-| max | number | The maximum value allowed | 100 |
-| step | number | Step | 1 |
-| vertical | boolean | Determines if the range is vertical. Note that it will generate new classes like 'm-range-v-xxx' | false |
-| addable | boolean | Determines if new data can be added/deleted. You can specific the data to be add by `addData` prop | false |
-| addData | (value: number) => RangeData<T, U> | Data to be added. This will only effect while modelValue is RangeData[]. It will return { value } by default | undefined |
-| limit | number | the limit can be add | undefined |
-| smooth | boolean | Determines if the thumb(s) should only be displayed on the stop points or not | false |
-| deduplicate | boolean | Determines if the thumb(s) can be duplicated | true |
-| rangeHighlight | boolean | Determines if the range between the minimum and maximum values should be highlighted. This only has an effect when the modelValue is an array with a length of 2 | false |
-| showStops | boolean \| number | Determines if dots should be displayed on the track. When set to a number, dots will only be displayed if the number of stops is less than the specified value | 12 |
-| size | 'small' \| 'medium' \| 'large' | Track size | 'small' |
-| thumbType | 'circle' \| 'square' \| 'rect' | Thumb type(default 'rect' while size is 'large', otherwise 'small') | 'circle' \| 'rect' |
-| thumbSize | 'small' \| 'medium' \| 'large' | Thumb size | 'medium' |
-| renderTop | (data: U) => VNode | A render function for displaying content above the thumb | undefined |
-| renderTopOnActive | boolean | Specifies whether to render only while the thumb is active | false |
-| renderBottom | (data: U) => VNode | A render function for displaying content below the thumb | undefined |
-| renderBottomOnActive | boolean | Specifies whether to render only while the thumb is active | false |
-| marks | RangeMarks | Show marks under the track | undefined |
+| Name                 | Type                               | Description                                                                                                                                                      | Default            |
+| -------------------- | ---------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------ |
+| v-model:modelValue\* | U \ U[]                            | Model value. It will automatically detect the type of model and show the corresponding thumb(s)                                                                  | []                 |
+| min                  | number                             | The minimum value allowed                                                                                                                                        | 0                  |
+| max                  | number                             | The maximum value allowed                                                                                                                                        | 100                |
+| step                 | number                             | Step                                                                                                                                                             | 1                  |
+| vertical             | boolean                            | Determines if the range is vertical. Note that it will generate new classes like 'm-range-v-xxx'                                                                 | false              |
+| addable              | boolean                            | Determines if new data can be added/deleted. You can specific the data to be add by `addData` prop                                                               | false              |
+| addData              | (value: number) => RangeData<T, U> | Data to be added. This will only effect while modelValue is RangeData[]. It will return { value } by default                                                     | undefined          |
+| limit                | number                             | the limit can be add                                                                                                                                             | undefined          |
+| smooth               | boolean                            | Determines if the thumb(s) should only be displayed on the stop points or not                                                                                    | false              |
+| deduplicate          | boolean                            | Determines if the thumb(s) can be duplicated                                                                                                                     | true               |
+| rangeHighlight       | boolean                            | Determines if the range between the minimum and maximum values should be highlighted. This only has an effect when the modelValue is an array with a length of 2 | false              |
+| showStops            | boolean \| number                  | Determines if dots should be displayed on the track. When set to a number, dots will only be displayed if the number of stops is less than the specified value   | 12                 |
+| size                 | 'small' \| 'medium' \| 'large'     | Track size                                                                                                                                                       | 'small'            |
+| thumbType            | 'circle' \| 'square' \| 'rect'     | Thumb type(default 'rect' while size is 'large', otherwise 'small')                                                                                              | 'circle' \| 'rect' |
+| thumbSize            | 'small' \| 'medium' \| 'large'     | Thumb size                                                                                                                                                       | 'medium'           |
+| renderTop            | (data: U) => VNode                 | A render function for displaying content above the thumb                                                                                                         | undefined          |
+| renderTopOnActive    | boolean                            | Specifies whether to render only while the thumb is active                                                                                                       | false              |
+| renderBottom         | (data: U) => VNode                 | A render function for displaying content below the thumb                                                                                                         | undefined          |
+| renderBottomOnActive | boolean                            | Specifies whether to render only while the thumb is active                                                                                                       | false              |
+| marks                | RangeMarks                         | Show marks under the track                                                                                                                                       | undefined          |
 
 ## slots
 
-| Name | Type | Description |
-| --- | --- | --- |
-| top | { data: U } | render above the thumb, only effect while renderTop is undefined |
+| Name   | Type        | Description                                                         |
+| ------ | ----------- | ------------------------------------------------------------------- |
+| top    | { data: U } | render above the thumb, only effect while renderTop is undefined    |
 | bottom | { data: U } | render below the thumb, only effect while renderBottom is undefined |
 
 ## types
@@ -149,10 +149,10 @@ If you want to customize the theme, just use css variables to override the defau
 
 ```css
 .m-range-theme {
-  --c-primary: #409EFF; /* primary color */
-  --c-fill: #E4E7ED; /* track's fill color */
-  --c-fill-stop: #F5F5F5; /* stop's fill color */
-  --c-fill-thumb: #fff;  /* thumb's fill color */
+  --c-primary: #409eff; /* primary color */
+  --c-fill: #e4e7ed; /* track's fill color */
+  --c-fill-stop: #f5f5f5; /* stop's fill color */
+  --c-fill-thumb: #fff; /* thumb's fill color */
 }
 ```
 

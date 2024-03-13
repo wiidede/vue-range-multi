@@ -32,6 +32,7 @@ const toggleDark = useToggle(isDark)
 
 <style scoped>
 a {
-  --at-apply: underline decoration-zinc-400/50 after:content-['↗'] after:text-0.8em after:op67;
+  --at-apply: underline decoration-zinc-400/50 after: content-[ '↗'] after: text-0.8em
+    after: op67;
 }
 </style>
