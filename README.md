@@ -6,9 +6,11 @@
 [![JSDocs][jsdocs-src]][jsdocs-href]
 [![License][license-src]][license-href]
 
-<a href="https://range.wiidede.space/" target="_blank" ><img src="./playground/public/favicon.svg" width="100px" height="100px"></div></a>
+<a href="https://range.wiidede.space/" target="_blank" >
+<img alt="Vue Range Multi Logo" src="./playground/public/favicon.svg" width="100px" height="100px">
+</a>
 
-A range vue component that support one or more thumb
+A Vue range(slider) component that supports one or more thumb
 
 - ✨ Support for one or more thumbs.
 - 🔄 Auto-detect the type of model and display the corresponding thumb(s).
@@ -100,7 +102,7 @@ generic="T = any, U = number | RangeData\<T>"
 | max                  | number                             | The maximum value allowed                                                                                                                                        | 100                |
 | step                 | number                             | Step                                                                                                                                                             | 1                  |
 | vertical             | boolean                            | Determines if the range is vertical. Note that it will generate new classes like 'm-range-v-xxx'                                                                 | false              |
-| addable              | boolean                            | Determines if new data can be added/deleted. You can specific the data to be add by `addData` prop                                                               | false              |
+| addable              | boolean                            | Determines if new data can be added/deleted. You can specify the data to be added by `addData` prop                                                              | false              |
 | addData              | (value: number) => RangeData<T, U> | Data to be added. This will only effect while modelValue is RangeData[]. It will return { value } by default                                                     | undefined          |
 | limit                | number                             | the limit can be add                                                                                                                                             | undefined          |
 | smooth               | boolean                            | Determines if the thumb(s) should only be displayed on the stop points or not                                                                                    | false              |
@@ -146,7 +148,7 @@ export type RangeMarks = Record<number, string | {
 
 ## theme
 
-If you want to customize the theme, just use css variables to override the default theme.
+If you want to customize the theme, just use CSS variables to override the default theme.
 
 ```css
 .m-range-theme {
