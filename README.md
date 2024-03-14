@@ -18,7 +18,8 @@ A range vue component that support one or more thumb
 - 🍡 Smooth movement or jump movement over the stops.
 - 🎨 Customizable style and theme.
 - 🌓 Supports dark mode.
-- 📍 Render content above or below the thumb.
+- 📍 Render content above or below the thumb(render function / slot).
+- 🏷 Support display marks under the track.
 
 ## Demo
 
