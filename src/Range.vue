@@ -129,7 +129,7 @@ watch(model, (val) => {
     sort(val)
   }
   else if (val.length < length) {
-    for (let i = length - 1; i >= val.length; i--) {
+    for (let i = length - 1; i >= val.length; i -= 1) {
       const index = indexMapReversed.value[i]
       delete indexMap.value[index]
     }
@@ -174,7 +174,7 @@ function onUpdate(percentage: number) {
   let index = indexMap.value[current.value]
   const oldValue = values[index]
   if (oldValue - value > 0 && index > 0) {
-    for (let i = index; i > 0; i--) {
+    for (let i = index; i > 0; i -= 1) {
       const prev = values[i - 1]
       if (value < prev) {
         swap(modelValue, i, i - 1)
