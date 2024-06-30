@@ -2,7 +2,7 @@
   "extends": "../tsconfig.json",
   "compilerOptions": {
     "paths": {
-      "vue-range-multi": ["src"]
+      "vue-range-multi": ["./src"]
     }
   }
 }
