@@ -3,7 +3,7 @@
   "type": "module",
   "version": "0.3.1",
   "packageManager": "pnpm@9.15.0",
-  "description": "A range vue component that support one or more thumb",
+  "description": "A Vue range / slider component that supports one or more thumb",
   "author": "wiidede <wiixdede@gmail.com>",
   "license": "MIT",
   "funding": "https://wiidede.space/sponsor",
@@ -13,7 +13,7 @@
     "url": "git+https://github.com/wiidede/vue-range-multi.git"
   },
   "bugs": "https://github.com/wiidede/vue-range-multi/issues",
-  "keywords": [],
+  "keywords": ["vue", "vue3", "range", "slider", "vue-range-multi", "multi thumb"],
   "sideEffects": false,
   "exports": {
     ".": {
