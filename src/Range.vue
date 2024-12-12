@@ -245,7 +245,7 @@ provide(RangeTrackRefKey, trackRef)
       @pointerleave="addTiming = false"
       @pointerup.prevent="addThumb"
     >
-      <div v-show="rangeHighlight && model.length === 2" class="m-range-highlight-container">
+      <div v-show="rangeHighlight && model.length >= 2" class="m-range-highlight-container">
         <div
           :class="vertical ? 'm-range-v-highlight' : 'm-range-highlight'"
           :style="vertical
