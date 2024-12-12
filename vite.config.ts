@@ -22,6 +22,7 @@ export default defineConfig({
       name: 'vue-range-multi',
       // the proper extensions will be added
       fileName: 'index',
+      cssFileName: 'style',
     },
     rollupOptions: {
       // make sure to externalize deps that shouldn't be bundled
