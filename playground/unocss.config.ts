@@ -1,3 +1,4 @@
+import { defu } from 'defu'
 import {
   defineConfig,
   presetAttributify,
@@ -7,7 +8,6 @@ import {
   transformerDirectives,
   transformerVariantGroup,
 } from 'unocss'
-import { defu } from 'defu'
 import rootConfig from '../unocss.config'
 
 export default defineConfig(defu({

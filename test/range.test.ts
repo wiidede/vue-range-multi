@@ -1,9 +1,9 @@
-import { describe, expect, it, vi } from 'vitest'
-import { mount } from '@vue/test-utils'
-import { h, nextTick, ref } from 'vue'
 import type { RangeData } from '../src/type'
-import { PromiseTimeout } from '../src/utils'
+import { mount } from '@vue/test-utils'
+import { describe, expect, it, vi } from 'vitest'
+import { h, nextTick, ref } from 'vue'
 import { Range } from '../src/index'
+import { PromiseTimeout } from '../src/utils'
 
 describe('range', () => {
   it('should created a range', () => {

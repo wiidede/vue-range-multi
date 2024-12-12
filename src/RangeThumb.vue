@@ -1,8 +1,8 @@
 <script lang="ts" setup generic="T = any, U = RangeValueType<T>">
+import type { RangeData, RangeRenderFn, RangeValueType } from './type'
 import { computed, inject, nextTick, ref } from 'vue'
 import { RangeTrackRefKey } from './Range'
 import Render from './Render.vue'
-import type { RangeData, RangeRenderFn, RangeValueType } from './type'
 
 const props = defineProps<{
   position: number

@@ -1,8 +1,8 @@
 <script lang="ts" setup generic="T = any, U = RangeValueType<T>">
+import type { RangeData, RangeMarks, RangeRenderFn, RangeValue, RangeValueType } from './type'
 import { computed, nextTick, provide, ref, watch } from 'vue'
 import { RangeTrackRefKey } from './Range'
 import RangeThumb from './RangeThumb.vue'
-import type { RangeData, RangeMarks, RangeRenderFn, RangeValue, RangeValueType } from './type'
 import { percentage2value, swap, value2percentage } from './utils'
 
 const props = withDefaults(defineProps<{

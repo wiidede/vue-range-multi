@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { h, ref } from 'vue'
 import type { RangeMarks } from 'vue-range-multi'
+import { h, ref } from 'vue'
 import Count from '../Count.vue'
 
 const model = ref<number[]>([10, 30, 50, 70, 90])

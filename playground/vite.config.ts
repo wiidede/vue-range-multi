@@ -1,9 +1,9 @@
 import path from 'node:path'
-import { defineConfig } from 'vite'
 import Vue from '@vitejs/plugin-vue'
 import Unocss from 'unocss/vite'
-import Inspect from 'vite-plugin-inspect'
 import Component from 'unplugin-vue-components/vite'
+import { defineConfig } from 'vite'
+import Inspect from 'vite-plugin-inspect'
 import { VueRangeMultiResolver } from '../src/resolver'
 
 export default defineConfig(({ mode }) => ({

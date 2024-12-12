@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { h, ref } from 'vue'
 import type { RangeData } from 'vue-range-multi'
+import { h, ref } from 'vue'
 
 const model = ref<RangeData<string>[]>([
   { data: '00:00', value: 10, disabled: true },
