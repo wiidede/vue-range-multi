@@ -263,14 +263,14 @@ provide(RangeTrackRefKey, trackRef)
           <div
             v-if="(typeof mark === 'string')"
             :class="vertical ? 'm-range-v-mark-item' : 'm-range-mark-item'"
-            :style="vertical ? { top: `${key}%` } : { left: `${key}%` }"
+            :style="vertical ? { top: `${getPercentage(key)}%` } : { left: `${getPercentage(key)}%` }"
           >
             {{ mark }}
           </div>
           <div
             v-else
             :class="[vertical ? 'm-range-v-mark-item' : 'm-range-mark-item', mark.class]"
-            :style="vertical ? { top: `${key}%` } : { left: `${key}%`, ...mark.style }"
+            :style="vertical ? { top: `${getPercentage(key)}%` } : { left: `${getPercentage(key)}%`, ...mark.style }"
           >
             {{ mark.label }}
           </div>
