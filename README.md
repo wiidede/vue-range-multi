@@ -119,6 +119,9 @@ generic="T = any, U = number | RangeData\<T>"
 | renderBottomOnActive | boolean                            | Specifies whether to render only while the thumb is active                                                                                                     | false              |
 | marks                | RangeMarks                         | Show marks under the track                                                                                                                                     | undefined          |
 
+> [!NOTE]
+> After v0.4, key means value rather than percentage
+
 ## slots
 
 | Name   | Type        | Description                                                         |
