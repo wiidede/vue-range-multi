@@ -23,6 +23,7 @@ function handleAddData(value: number) {
       </h2>
       <span class="tag">vertical</span>
       <span class="tag">slot</span>
+      <span class="tag">limit:5</span>
     </div>
     <Range
       v-model="model"
@@ -31,6 +32,7 @@ function handleAddData(value: number) {
       addable
       vertical
       thumb-size="large"
+      :limit="5"
       :render-bottom="(data) => h('div', data.value)"
       :add-data="handleAddData"
     >

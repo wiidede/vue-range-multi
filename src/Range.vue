@@ -1,5 +1,5 @@
 <script lang="ts" setup generic="T = any, U = RangeValueType<T>">
-import type { RangeData, RangeMarks, RangeRenderFn, RangeValue, RangeValueType } from './type'
+import type { RangeData, RangeMarks, RangeProgress, RangeRenderFn, RangeValue, RangeValueType } from './type'
 import { computed, nextTick, provide, ref, watch } from 'vue'
 import { RangeTrackRefKey } from './Range'
 import RangeThumb from './RangeThumb.vue'
@@ -17,6 +17,7 @@ const props = withDefaults(defineProps<{
   smooth?: boolean
   deduplicate?: boolean
   rangeHighlight?: boolean
+  progress?: RangeProgress
   showStops?: boolean | number
   size?: 'small' | 'medium' | 'large'
   thumbType?: 'circle' | 'square' | 'rect'
@@ -252,6 +253,24 @@ provide(RangeTrackRefKey, trackRef)
             ? { top: `${Math.min(...Object.values(position))}%`, bottom: `${100 - Math.max(...Object.values(position))}%` }
             : { left: `${Math.min(...Object.values(position))}%`, right: `${100 - Math.max(...Object.values(position))}%` }"
         />
+      </div>
+      <div v-if="progress?.length" class="m-range-progress-container">
+        <template v-for="bar, idx in progress" :key="idx">
+          <div
+            v-if="(Array.isArray(bar))"
+            :class="vertical ? 'm-range-v-progress' : 'm-range-progress'"
+            :style="vertical
+              ? { top: `${getPercentage(bar[0])}%`, bottom: `${100 - getPercentage(bar[1])}%` }
+              : { left: `${getPercentage(bar[0])}%`, right: `${100 - getPercentage(bar[1])}%` }"
+          />
+          <div
+            v-else
+            :class="[vertical ? 'm-range-v-progress' : 'm-range-progress', bar.class]"
+            :style="vertical
+              ? { top: `${getPercentage(bar.range[0])}%`, bottom: `${100 - getPercentage(bar.range[1])}%`, ...bar.style }
+              : { left: `${getPercentage(bar.range[0])}%`, right: `${100 - getPercentage(bar.range[1])}%`, ...bar.style }"
+          />
+        </template>
       </div>
       <div v-if="stops > 0" class="m-range-points-area">
         <div :class="vertical ? 'm-range-v-points-container' : 'm-range-points-container'">

@@ -1,12 +1,25 @@
 <script setup lang="ts">
-import type { RangeData } from 'vue-range-multi'
-import { h, ref } from 'vue'
+import type { RangeData, RangeProgress } from 'vue-range-multi'
+import { computed, h, ref } from 'vue'
 
 const model = ref<RangeData<string>[]>([
   { data: '00:00', value: 10, disabled: true },
-  { data: '20:00', value: 40 },
+  { data: '30:00', value: 40 },
+  { data: '50:00', value: 80 },
   { data: '59:59', value: 90, unremovable: true },
 ])
+
+const backgrounds = ['bg-cyan', 'bg-violet', 'bg-rose', 'bg-lime']
+const progress = computed(() => {
+  const p: RangeProgress = []
+  for (let i = 0; i < model.value.length - 1; i += 2) {
+    p.push({
+      range: [model.value[i].value, model.value[i + 1]?.value ?? 100],
+      class: backgrounds[(i / 2) % backgrounds.length],
+    })
+  }
+  return p
+})
 function handleAddData(value: number) {
   const date = new Date()
   return {
@@ -23,7 +36,7 @@ function handleAddData(value: number) {
         RangeData[]
       </h2>
       <span class="tag">addable</span>
-      <span class="tag">limit:5</span>
+      <span class="tag">progress</span>
       <span class="tag">thumb-type:rect</span>
       <span class="tag">render-top-on-active</span>
     </div>
@@ -35,11 +48,11 @@ function handleAddData(value: number) {
       v-model="model"
       class="w-full py8"
       addable
+      :progress="progress"
       :add-data="handleAddData"
       size="large"
       thumb-type="rect"
       render-top-on-active
-      :limit="5"
       :render-top="(data) => h('div', data.value)"
       :render-bottom="(data) => h('div', data.data)"
     />

@@ -30,6 +30,10 @@ export default defineConfig({
     ['m-range-highlight-container', 'absolute h-full w-full overflow-hidden'],
     ['m-range-highlight', 'h-full bg-primary absolute rd-1px'],
     ['m-range-v-highlight', 'w-full bg-primary absolute rd-1px'],
+    // progress
+    ['m-range-progress-container', 'absolute h-full w-full overflow-hidden'],
+    ['m-range-progress', 'h-full bg-primary absolute rd-1px'],
+    ['m-range-v-progress', 'w-full bg-primary absolute rd-1px'],
     // points
     ['m-range-points-area', 'absolute h-full w-full rd-inherit overflow-hidden'],
     ['m-range-points-container', 'absolute h-full left--3px right--3px flex justify-between items-center'],
