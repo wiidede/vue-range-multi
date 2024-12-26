@@ -93,6 +93,9 @@ interface VueRangeMultiResolverOptions {
 
 ## Props
 
+> [!NOTE]
+> After v0.4, `marks`'s key means value rather than percentage
+
 generic="T = any, U = number | RangeData\<T>"
 
 | Name                 | Type                               | Description                                                                                                                                                    | Default            |
@@ -118,9 +121,6 @@ generic="T = any, U = number | RangeData\<T>"
 | renderBottom         | (data: U) => VNode                 | A render function for displaying content below the thumb                                                                                                       | undefined          |
 | renderBottomOnActive | boolean                            | Specifies whether to render only while the thumb is active                                                                                                     | false              |
 | marks                | RangeMarks                         | Show marks under the track                                                                                                                                     | undefined          |
-
-> [!NOTE]
-> After v0.4, key means value rather than percentage
 
 ## slots
 
