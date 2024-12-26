@@ -108,6 +108,7 @@ generic="T = any, U = number | RangeData\<T>"
 | smooth               | boolean                            | Determines if the thumb(s) should only be displayed on the stop points or not                                                                                  | false              |
 | deduplicate          | boolean                            | Determines if the thumb(s) can be duplicated                                                                                                                   | true               |
 | rangeHighlight       | boolean                            | Determines if the range between the minimum and maximum values should be highlighted.                                                                          | false              |
+| progress             | RangeProgress                      | Custom track highlight segment                                                                                                                                 | undefined          |
 | showStops            | boolean \| number                  | Determines if dots should be displayed on the track. When set to a number, dots will only be displayed if the number of stops is less than the specified value | 12                 |
 | size                 | 'small' \| 'medium' \| 'large'     | Track size                                                                                                                                                     | 'small'            |
 | thumbType            | 'circle' \| 'square' \| 'rect'     | Thumb type(default 'rect' while size is 'large', otherwise 'small')                                                                                            | 'circle' \| 'rect' |
@@ -139,6 +140,11 @@ export interface RangeData<T, U = RangeValueType<T>> {
 }
 export type RangeRenderFn<T, U = RangeValueType<T>> = (data: U) => VNode
 export type RangeValue<T, U = RangeValueType<T>> = U | U[]
+export type RangeProgress = ([number, number] | {
+  range: [number, number]
+  style?: CSSProperties
+  class?: string
+})[]
 export type RangeMarks = Record<number, string | {
   label: string
   style?: CSSProperties
