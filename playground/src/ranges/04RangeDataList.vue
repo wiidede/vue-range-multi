@@ -9,7 +9,7 @@ const model = ref<RangeData<string>[]>([
   { data: '59:59', value: 90, unremovable: true },
 ])
 
-const backgrounds = ['bg-cyan', 'bg-violet', 'bg-rose', 'bg-lime']
+const backgrounds = ['!bg-cyan', '!bg-violet', '!bg-rose', '!bg-lime']
 const progress = computed(() => {
   const p: RangeProgress = []
   for (let i = 0; i < model.value.length - 1; i += 2) {
