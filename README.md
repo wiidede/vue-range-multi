@@ -122,6 +122,12 @@ generic="T = any, U = number | RangeData\<T>"
 | renderBottomOnActive | boolean                            | Specifies whether to render only while the thumb is active                                                                                                     | false              |
 | marks                | RangeMarks                         | Show marks under the track                                                                                                                                     | undefined          |
 
+## Events
+
+| Name   | Type                                                                 | Description                                                |
+| ------ | -------------------------------------------------------------------- | ---------------------------------------------------------- |
+| change | (value: RangeValue<T, U>, thumbValue: U, thumbIndex: number) => void | It will emit when thumb `pointerup` (after move the thumb) |
+
 ## slots
 
 | Name   | Type        | Description                                                         |

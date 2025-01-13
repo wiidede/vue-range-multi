@@ -40,6 +40,7 @@ const props = withDefaults(defineProps<{
 
 const emits = defineEmits<{
   (e: 'update:modelValue', modelValue: typeof props.modelValue): void
+  (e: 'change', value: RangeValue<T, U>, thumbValue: U, thumbIndex: number): void
 }>()
 
 defineSlots<{
@@ -316,6 +317,7 @@ provide(RangeTrackRefKey, trackRef)
         @update="onUpdate"
         @delete="onDelete"
         @pointerdown="current = Number(idx)"
+        @change="emits('change', props.modelValue, Array.isArray(props.modelValue) ? props.modelValue[index] : props.modelValue, index)"
       >
         <template #top="{ data }">
           <slot name="top" :data="data" />

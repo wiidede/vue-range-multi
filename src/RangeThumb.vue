@@ -27,6 +27,7 @@ const emits = defineEmits<{
   (e: 'deleting'): void
   (e: 'cancelDelete'): void
   (e: 'moveDone'): void
+  (e: 'change'): void
 }>()
 
 defineSlots<{
@@ -41,6 +42,8 @@ const removable = computed(() => props.addable && !props.unremovable)
 const cursor = computed(() => props.disabled ? 'cursor-not-allowed' : removable.value ? 'cursor-move' : props.vertical ? 'cursor-ns-resize' : 'cursor-ew-resize')
 
 const deleting = ref(false)
+
+let moved = false
 
 function setTrackCursor(cursor: string | undefined) {
   if (!trackRef?.value)
@@ -70,6 +73,7 @@ function shouldDelete(offset: number) {
 function onPointerMove(e: PointerEvent) {
   if (!thumbRef.value || !trackRef?.value || props.disabled)
     return
+  moved = true
   const trackRect = trackRef.value.getBoundingClientRect()
   const offset = props.vertical ? e.clientY - trackRect.top : e.clientX - trackRect.left
   const percent = offset / (props.vertical ? trackRect.height : trackRect.width) * 100
@@ -87,6 +91,10 @@ function onPointerUp(e: PointerEvent) {
   window.removeEventListener('pointermove', onPointerMove)
   window.removeEventListener('pointerup', onPointerUp)
   window.removeEventListener('pointercancel', onPointerUp)
+  if (moved) {
+    emits('change')
+    moved = false
+  }
   if (e.type === 'pointercancel' || props.disabled) {
     setTrackCursor(undefined)
     emits('moveDone')
@@ -111,6 +119,7 @@ async function onPointerDown(e: PointerEvent) {
     return
   }
   setTrackCursor(cursor.value)
+  moved = false
   window.addEventListener('pointermove', onPointerMove, { passive: false })
   window.addEventListener('pointerup', onPointerUp)
   window.addEventListener('pointercancel', onPointerUp)
