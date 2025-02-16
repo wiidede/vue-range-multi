@@ -27,13 +27,13 @@ export default defineConfig({
     ['m-range-v-large', 'w8 [--m-range-w:2rem]'],
     ['m-range-v-track', 'relative w-full h-full bg-fill select-none rd-full'],
     // highlight
-    ['m-range-highlight-container', 'absolute h-full w-full overflow-hidden'],
-    ['m-range-highlight', 'h-full bg-primary absolute rd-1px'],
-    ['m-range-v-highlight', 'w-full bg-primary absolute rd-1px'],
+    ['m-range-highlight-container', 'absolute h-full w-full overflow-hidden rd-inherit'],
+    ['m-range-highlight', 'h-full bg-primary absolute'],
+    ['m-range-v-highlight', 'w-full bg-primary absolute'],
     // progress
-    ['m-range-progress-container', 'absolute h-full w-full overflow-hidden'],
-    ['m-range-progress', 'h-full bg-primary absolute rd-1px'],
-    ['m-range-v-progress', 'w-full bg-primary absolute rd-1px'],
+    ['m-range-progress-container', 'absolute h-full w-full overflow-hidden rd-inherit'],
+    ['m-range-progress', 'h-full bg-primary absolute'],
+    ['m-range-v-progress', 'w-full bg-primary absolute'],
     // points
     ['m-range-points-area', 'absolute h-full w-full rd-inherit overflow-hidden'],
     ['m-range-points-container', 'absolute h-full left--3px right--3px flex justify-between items-center'],
