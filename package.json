@@ -1,7 +1,7 @@
 {
   "name": "vue-range-multi",
   "type": "module",
-  "version": "0.4.3",
+  "version": "0.4.4",
   "packageManager": "pnpm@10.4.0",
   "description": "A Vue range / slider component that supports one or more thumb",
   "author": "wiidede <wiixdede@gmail.com>",
