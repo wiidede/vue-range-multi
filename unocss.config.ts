@@ -45,7 +45,7 @@ export default defineConfig({
     ['m-range-v-marks', 'absolute h-full w-full left-0 top-0 translate-x-[calc(var(--m-range-w)_+_var(--m-range-thumb-w))]'],
     ['m-range-v-mark-item', 'absolute left-0 translate-y--50%'],
     // thumb
-    ['m-range-thumb', 'm-range-border absolute bg-fill-thumb translate-x--50% transform-origin-center transition transition-property-[opacity,transform]'],
+    ['m-range-thumb', 'm-range-border touch-none absolute bg-fill-thumb translate-x--50% transform-origin-center transition transition-property-[opacity,transform]'],
     ['m-range-thumb-circle', 'w-[calc(var(--m-range-h)_+_var(--m-range-thumb-h)_*_2)] rd-full'],
     ['m-range-thumb-square', 'w-[calc(var(--m-range-h)_+_var(--m-range-thumb-h)_*_2)]'],
     ['m-range-thumb-rect', 'w3 rd-full'],
@@ -56,7 +56,7 @@ export default defineConfig({
     ['m-range-transition-container', 'absolute h-full w0 left-50%'],
     ['m-range-thumb-top-container', 'absolute left-50% top-0 translate-x--50% translate-y-[calc(-100%_-_4px)]'],
     ['m-range-thumb-bottom-container', 'absolute left-50% bottom-0 translate-x--50% translate-y-[calc(100%_+_4px)]'],
-    ['m-range-v-thumb', 'm-range-border absolute bg-fill-thumb translate-y--50% transform-origin-center transition transition-property-[opacity,transform]'],
+    ['m-range-v-thumb', 'm-range-border touch-none absolute bg-fill-thumb translate-y--50% transform-origin-center transition transition-property-[opacity,transform]'],
     ['m-range-v-thumb-circle', 'h-[calc(var(--m-range-w)_+_var(--m-range-thumb-w)_*_2)] rd-full'],
     ['m-range-v-thumb-square', 'h-[calc(var(--m-range-w)_+_var(--m-range-thumb-w)_*_2)]'],
     ['m-range-v-thumb-rect', 'h3 rd-full'],

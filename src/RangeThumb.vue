@@ -141,8 +141,6 @@ async function onPointerDown(e: PointerEvent) {
     ]"
     :style="vertical ? { top: `${position}%` } : { left: `${position}%` }"
     @pointerdown="onPointerDown"
-    @mousedown.prevent="() => {}"
-    @touchstart="(e) => { e.cancelable === true && e.preventDefault() }"
   >
     <Transition name="fade">
       <div v-if="!renderTopOnActive || active" class="cursor-default" :class="vertical ? 'm-range-v-transition-container' : 'm-range-transition-container'">
