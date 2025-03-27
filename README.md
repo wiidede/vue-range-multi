@@ -108,6 +108,7 @@ generic="T = any, U = number | RangeData\<T>"
 | addable              | boolean                            | Determines if new data can be added/deleted. You can specify the data to be added by `addData` prop                                                            | false              |
 | addData              | (value: number) => RangeData<T, U> | Data to be added. This will only effect while modelValue is RangeData[]. It will return { value } by default                                                   | undefined          |
 | limit                | number                             | the limit can be add                                                                                                                                           | undefined          |
+| thumbLimits          | [number, number]                   | Global limit for all thumbs' movement range. Individual thumb can override this with its own limits property                                                   | undefined          |
 | smooth               | boolean                            | Determines if the thumb(s) should only be displayed on the stop points or not                                                                                  | false              |
 | deduplicate          | boolean                            | Determines if the thumb(s) can be duplicated                                                                                                                   | true               |
 | rangeHighlight       | boolean                            | Determines if the range between the minimum and maximum values should be highlighted.                                                                          | false              |
@@ -144,6 +145,7 @@ export interface RangeData<T, U = RangeValueType<T>> {
   data?: T
   disabled?: boolean
   unremovable?: boolean
+  limits?: [number, number] // Min and max limits for this specific thumb
   renderTop?: RangeRenderFn<T, U>
   renderBottom?: RangeRenderFn<T, U>
 }

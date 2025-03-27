@@ -6,6 +6,7 @@ export interface RangeData<T, U = RangeValueType<T>> {
   data?: T
   disabled?: boolean
   unremovable?: boolean
+  limits?: [number, number]
   renderTop?: RangeRenderFn<T, U>
   renderBottom?: RangeRenderFn<T, U>
 }

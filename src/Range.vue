@@ -6,11 +6,13 @@ import RangeThumb from './RangeThumb.vue'
 import { percentage2value, swap, value2percentage } from './utils'
 
 const props = withDefaults(defineProps<{
+  // eslint-disable-next-line vue/no-required-prop-with-default
   modelValue: RangeValue<T, U>
   min?: number
   max?: number
   step?: number
   vertical?: boolean
+  thumbLimits?: [number, number]
   addable?: boolean
   addData?: (value: number) => RangeData<T, U>
   limit?: number
@@ -175,6 +177,23 @@ function onUpdate(percentage: number) {
     return
   let index = indexMap.value[current.value]
   const oldValue = values[index]
+
+  // Apply limits if they exist
+  const thumbData = modelValue[index]
+
+  // Check individual thumb limits first, then global limits
+  const individualLimits = thumbData.limits
+  const globalLimits = props.thumbLimits
+
+  if (individualLimits) {
+    if (value < individualLimits[0] || value > individualLimits[1])
+      return
+  }
+  else if (globalLimits) {
+    if (value < globalLimits[0] || value > globalLimits[1])
+      return
+  }
+
   if (oldValue - value > 0 && index > 0) {
     for (let i = index; i > 0; i -= 1) {
       const prev = values[i - 1]
@@ -311,6 +330,7 @@ provide(RangeTrackRefKey, trackRef)
         :render-bottom-on-active="renderBottomOnActive"
         :vertical="vertical"
         :addable="addable"
+        :thumb-limits="thumbLimits"
         :thumb-type="thumbType || (size === 'large' ? 'rect' : 'circle')"
         :thumb-size="thumbSize"
         @move-done="current = -1"

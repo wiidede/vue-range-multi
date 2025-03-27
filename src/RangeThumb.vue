@@ -13,6 +13,7 @@ const props = defineProps<{
   unremovable?: boolean
   vertical?: boolean
   addable?: boolean
+  thumbLimits?: [number, number]
   thumbType?: 'circle' | 'square' | 'rect'
   thumbSize?: 'small' | 'medium' | 'large'
   renderTop?: RangeRenderFn<T, U>

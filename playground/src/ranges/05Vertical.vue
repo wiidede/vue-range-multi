@@ -4,7 +4,7 @@ import { h, ref } from 'vue'
 
 const model = ref<RangeData<string>[]>([
   { data: 'disabled', value: 2, disabled: true },
-  { data: 'random1', value: 4 },
+  { data: 'random1', value: 4, limits: [2, 10] },
   { data: 'unremovable', value: 8, unremovable: true },
 ])
 function handleAddData(value: number) {
@@ -24,6 +24,7 @@ function handleAddData(value: number) {
       <span class="tag">vertical</span>
       <span class="tag">slot</span>
       <span class="tag">limit:5</span>
+      <span class="tag">thumb-limits:[1,9]</span>
     </div>
     <Range
       v-model="model"
@@ -33,6 +34,7 @@ function handleAddData(value: number) {
       vertical
       thumb-size="large"
       :limit="5"
+      :thumb-limits="[1, 9]"
       :render-bottom="(data) => h('div', data.value)"
       :add-data="handleAddData"
     >
