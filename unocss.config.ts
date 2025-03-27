@@ -3,7 +3,7 @@ import {
   presetAttributify,
   presetIcons,
   presetTypography,
-  presetUno,
+  presetWind3,
   transformerDirectives,
   transformerVariantGroup,
 } from 'unocss'
@@ -84,7 +84,7 @@ export default defineConfig({
     ...['small', 'medium', 'large'].flatMap(size => [`m-range-thumb-${size}`, `m-range-v-thumb-${size}`]),
   ],
   presets: [
-    presetUno(),
+    presetWind3(),
     presetAttributify(),
     presetIcons({
       scale: 1.2,

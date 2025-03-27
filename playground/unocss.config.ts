@@ -4,7 +4,7 @@ import {
   presetAttributify,
   presetIcons,
   presetTypography,
-  presetUno,
+  presetWind3,
   transformerDirectives,
   transformerVariantGroup,
 } from 'unocss'
@@ -18,7 +18,7 @@ export default defineConfig(defu({
     ['value', 'text-sm inline-block m0 p0 ws-pre-wrap text-zinc-700 dark:text-zinc-400 b b-solid b-zinc-300 bg-zinc-50 dark:bg-zinc-900 dark:b-zinc-700 rd'],
   ],
   presets: [
-    presetUno(),
+    presetWind3(),
     presetAttributify(),
     presetIcons({
       scale: 1.2,
